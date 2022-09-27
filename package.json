@@ -1,0 +1,22 @@
+{
+  "name": "turismoreal-admin-app",
+  "version": "1.0.0",
+  "description": "Aplicacion de administracion para la plataforma turismo real",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cebollitas-Duoc/Aplicacion-de-escritorio.git"
+  },
+  "author": "Cebollitas LTDA",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cebollitas-Duoc/Aplicacion-de-escritorio/issues"
+  },
+  "homepage": "https://github.com/Cebollitas-Duoc/Aplicacion-de-escritorio#readme",
+  "devDependencies": {
+    "electron": "^21.0.0"
+  }
+}
