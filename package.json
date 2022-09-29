@@ -2,7 +2,7 @@
   "name": "turismoreal-admin-app",
   "version": "1.0.0",
   "description": "Aplicacion de administracion para la plataforma turismo real",
-  "main": "main.js",
+  "main": "Main.js",
   "scripts": {
     "start": "electron ."
   },
