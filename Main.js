@@ -1,14 +1,14 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
 const path = require("path")
 const nunjucks = require('nunjucks')
-const fs = require('fs-extra');
+const fs = require('fs');
 
 const paths = {
 	icon: path.join(__dirname, "static/img/Logo_v1.png"),
 	preload: path.join(__dirname, "Preload.js"),
 }
 
-const createWindow = () => {
+const createWindow = async () => {
 	win = new BrowserWindow({
 		width: 1100,
 		height: 600,
@@ -20,7 +20,8 @@ const createWindow = () => {
 		}
 	})
 
-	render('templates/Login.html')
+	await new Promise(r => setTimeout(r, 1000));
+
 	if (!app.isPackaged) win.webContents.openDevTools()
 }
 
@@ -41,14 +42,24 @@ app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
 })
 
-function render(htmlPath, context = {}){
-	const universalContext = {
+async function render(htmlPath, context = {}){
+	function writeCache(s){
+		cacheFile = "templates/Cache.html"
+		fs.readFile(cacheFile, 'utf8', function (err,data) {
+			fs.writeFile(cacheFile, s, 'utf8', function (err) {
+			   if (err) return console.log(err);
+			});
+		});
 	}
 
-	var myData = "foo\nbar\nfoo\nbaz";
-
+	const universalContext = {
+	}
 	const html = nunjucks.render(htmlPath, context + universalContext);
-	win.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html));
+	
+	writeCache(html)
+	await win.loadFile(cacheFile);
+	writeCache(" ")
+	
 }
 
 ipcMain.on("test", (event, args) => {
