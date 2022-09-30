@@ -1,19 +1,17 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
 const path = require("path")
+const nunjucks = require('nunjucks')
 const fs = require('fs-extra');
 
 const paths = {
-	modsSource: path.join(__dirname, "minecraftFiles/mods"),
 	icon: path.join(__dirname, "static/img/Logo_v1.png"),
 	preload: path.join(__dirname, "Preload.js"),
-	versionSource: path.join(__dirname, "minecraftFiles/version"),
-	profileSource: path.join(__dirname, "minecraftFiles/profile.json"),
 }
 
 const createWindow = () => {
-	const win = new BrowserWindow({
-		width: 480,
-		height: 270,
+	win = new BrowserWindow({
+		width: 1100,
+		height: 600,
 		resizable: true,
 		icon: paths.icon,
 		//frame: false,
@@ -22,7 +20,7 @@ const createWindow = () => {
 		}
 	})
 
-	win.loadFile('templates/Login.html')
+	render('templates/Login.html')
 	if (!app.isPackaged) win.webContents.openDevTools()
 }
 
@@ -41,4 +39,18 @@ app.on("window-all-closed", () => {
 
 app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
+})
+
+function render(htmlPath, context = {}){
+	const universalContext = {
+	}
+
+	var myData = "foo\nbar\nfoo\nbaz";
+
+	const html = nunjucks.render(htmlPath, context + universalContext);
+	win.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html));
+}
+
+ipcMain.on("test", (event, args) => {
+	console.log(`test` )
 })

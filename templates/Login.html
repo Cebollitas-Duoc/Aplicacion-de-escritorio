@@ -1,15 +1,39 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-  </body>
-</html>
+{% extends 'templates/BaseTemplate.html' %}
+
+{% block css %}
+<link href="static/css/Form.css" rel="stylesheet">
+{% endblock css %}
+
+{% block js %}
+<script src="../static/js/Form.js"></script>
+<script src="../static/js/Login.js"></script>
+{% endblock js %}
+
+{% block wrapper %}
+<main class="form-signin w-100 m-auto text-center">
+    <form>
+        <img class="mb-4 m-auto" src="static/img/logo.png" alt="" width="100">
+        <h1 class="h3 mb-3 fw-normal">Inicio de sesion</h1>
+        <p>{{ request.build_absolute_uri }}</p>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+    
+        <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me" id="checkRememberMe"> Recuerdame
+        </label>
+        </div>
+        <button id="LoginButton" class="w-100 btn btn-lg btn-primary" type="button">Iniciar sesion</button>
+
+    </form>
+
+    {% include 'templates/FormErrorMessage.html' %}
+
+</main>
+{% endblock wrapper %}
