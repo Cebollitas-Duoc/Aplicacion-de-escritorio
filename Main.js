@@ -8,7 +8,7 @@ const paths = {
 	preload: path.join(__dirname, "Preload.js"),
 }
 
-const createWindow = async () => {
+const createWindow = () => {
 	win = new BrowserWindow({
 		width: 1100,
 		height: 600,
@@ -20,15 +20,13 @@ const createWindow = async () => {
 		}
 	})
 
-	await new Promise(r => setTimeout(r, 1000));
-
 	if (!app.isPackaged) win.webContents.openDevTools()
 }
 
 
 app.whenReady().then(() => {
 	createWindow()
-
+	render("Login.html")
 	app.on("activate", () => {
 		if (BrowserWindow.getAllWindows().lenght === 0) createWindow()
 	})
@@ -42,7 +40,7 @@ app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
 })
 
-async function render(htmlPath, context = {}){
+async function render(template, context = {}){
 	function writeCache(s){
 		cacheFile = "templates/Cache.html"
 		fs.readFile(cacheFile, 'utf8', function (err,data) {
@@ -54,7 +52,7 @@ async function render(htmlPath, context = {}){
 
 	const universalContext = {
 	}
-	const html = nunjucks.render(htmlPath, context + universalContext);
+	const html = nunjucks.render("templates/"+template, context + universalContext);
 	
 	writeCache(html)
 	await win.loadFile(cacheFile);
