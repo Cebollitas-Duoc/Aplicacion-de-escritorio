@@ -1,0 +1,45 @@
+#miniProfile{
+    text-align: right;
+    div{
+        float: left;
+        margin-right: 1rem;
+    }
+    .name{
+        color: #cfd8dc;
+        float: down;
+        margin-bottom: 0;
+    }
+    .logout{
+        width: 100%;
+        text-align: right;
+        a{
+            text-decoration: none;
+            color: #46545a;
+            &:hover{
+                color: #bdbdbd;
+            }
+        }
+    }
+    img{
+        width: 50px;
+        border-radius: 50px;
+        border: 2px solid #cfd8dc;
+    }
+}
+
+#FormErrorMessage{
+    background-color: rgba(255, 0, 0, 0.322);
+    width: 100%;
+    &:hover{
+        cursor: pointer;
+    }
+    span{
+        font-weight: bold;
+        color: black;    
+    }
+}
+
+#ingreso a{
+    color: #cfd8dc;
+    text-decoration: none;
+}

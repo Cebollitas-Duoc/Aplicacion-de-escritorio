@@ -1,0 +1,54 @@
+#miniProfile {
+  text-align: right;
+}
+
+#miniProfile div {
+  float: left;
+  margin-right: 1rem;
+}
+
+#miniProfile .name {
+  color: #cfd8dc;
+  float: down;
+  margin-bottom: 0;
+}
+
+#miniProfile .logout {
+  width: 100%;
+  text-align: right;
+}
+
+#miniProfile .logout a {
+  text-decoration: none;
+  color: #46545a;
+}
+
+#miniProfile .logout a:hover {
+  color: #bdbdbd;
+}
+
+#miniProfile img {
+  width: 50px;
+  border-radius: 50px;
+  border: 2px solid #cfd8dc;
+}
+
+#FormErrorMessage {
+  background-color: rgba(255, 0, 0, 0.322);
+  width: 100%;
+}
+
+#FormErrorMessage:hover {
+  cursor: pointer;
+}
+
+#FormErrorMessage span {
+  font-weight: bold;
+  color: black;
+}
+
+#ingreso a {
+  color: #cfd8dc;
+  text-decoration: none;
+}
+/*# sourceMappingURL=baseTemplate.css.map */
