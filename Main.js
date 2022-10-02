@@ -1,8 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
 const path = require("path")
-const nunjucks = require('nunjucks')
-const fs = require('fs-extra');
 const ProfileManager = require('./ProfileManager');
+const Renderer = require('./Renderer');
 require('./ipcManager');
 
 const paths = {
@@ -21,7 +20,7 @@ const createWindow = () => {
 			partition: 'persist:infragistics'
 		}
 	})
-
+	Renderer.win = win;
 	if (!app.isPackaged) win.webContents.openDevTools()
 }
 
@@ -29,9 +28,9 @@ app.whenReady().then(() => {
 	createWindow()
 
 	if (ProfileManager.load("LogedIn"))
-		render("UserSpace.html")
+		Renderer.render("UserSpace.html")
 	else
-		render("Login.html")
+		Renderer.render("Login.html")
 		
 	app.on("activate", () => {
 		if (BrowserWindow.getAllWindows().lenght === 0) createWindow()
@@ -48,23 +47,3 @@ app.on("window-all-closed", () => {
 app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
 })
-
-async function render(template, context = {}){
-	const cacheFile = "templates/Cache.html"
-	function writeCache(s){
-		fs.readFile(cacheFile, 'utf8', function (err,data) {
-			fs.writeFileSync(cacheFile, s, 'utf8', function (err) {
-			   if (err) return console.log(err);
-			});
-		});
-	}
-
-	const universalContext = {}
-	const html = nunjucks.render("templates/"+template, context + universalContext);
-	
-	writeCache(html)
-	//await win.loadFile(cacheFile);
-	await win.loadURL(`file://${__dirname}/${cacheFile}`)
-	writeCache(" ")
-	
-}

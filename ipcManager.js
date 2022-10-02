@@ -1,6 +1,6 @@
 const { app, ipcMain, session} = require('electron')
 const ProfileManager = require('./ProfileManager');
-const {render} = require("./Main")
+const Renderer = require('./Renderer');
 
 ipcMain.handle("apiDomain", async (event, args) => {
 	if (app.isPackaged)
@@ -17,5 +17,5 @@ ipcMain.handle("getData", async (event, args) => {
 })
 
 ipcMain.handle("redirect", async (event, template) => {
-	render(template)
+	Renderer.render(template)
 })
