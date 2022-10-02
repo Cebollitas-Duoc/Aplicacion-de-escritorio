@@ -9,10 +9,8 @@ class Renderer {
         console.log(template)
         const cacheFile = "templates/Cache.html"
         function writeCache(s){
-            fs.readFile(cacheFile, 'utf8', function (err,data) {
-                fs.writeFileSync(cacheFile, s, 'utf8', function (err) {
-                   if (err) return console.log(err);
-                });
+            fs.writeFileSync(cacheFile, s, 'utf8', function (err) {
+               if (err) return console.log(err);
             });
         }
     
@@ -20,10 +18,8 @@ class Renderer {
         const html = nunjucks.render("templates/"+template, context + universalContext);
         
         writeCache(html)
-        //await win.loadFile(cacheFile);
-        await this.win.loadURL(`file://${__dirname}/${cacheFile}`)
+        await this.win.loadFile(cacheFile);
         writeCache(" ")
-        
     }
 }
 
