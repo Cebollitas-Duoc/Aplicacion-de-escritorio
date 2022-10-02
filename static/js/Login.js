@@ -13,7 +13,7 @@ button_login.addEventListener("click", async ()=>{
         console.log("Valid user")
         saveSessionData(response)
         alert("Logeado correctamente")
-        //TODO: go to home page
+        window.api.redirect("UserSpace.html")
     }
     else{
         console.log("Invalid credentials")

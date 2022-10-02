@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require("path")
 const ProfileManager = require('./ProfileManager');
 const Renderer = require('./Renderer');
