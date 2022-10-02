@@ -6,11 +6,16 @@
 
 {% block js %}
 <script defer src="../static/js/Form.js"></script>
+<script defer src="../static/js/Tabs.js"></script>
 {% endblock js %}
 
 {% block wrapper %}
 <main class="d-flex flex-nowrap">
   {% include 'templates/Navbar.html' %}
-
-</main>
+  <div id="tabContainer">
+    {% include 'templates/tabs/Inicio.html' %}
+    {% include 'templates/tabs/UserManager.html' %}
+    {% include 'templates/tabs/DepartmentManager.html' %}
+  </div>
+  </main>
 {% endblock wrapper %}

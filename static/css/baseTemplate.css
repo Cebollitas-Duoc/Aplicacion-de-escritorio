@@ -1,5 +1,11 @@
 #sideBar {
   height: 100vh;
+  width: 200px;
+  position: fixed;
+}
+
+#tabContainer {
+  padding-left: 200px;
 }
 
 #miniProfile {
