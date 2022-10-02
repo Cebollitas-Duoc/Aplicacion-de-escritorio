@@ -11,6 +11,6 @@ ipcMain.handle("setData", async (event, key, value) => {
 	ProfileManager.save(key, value)
 })
 
-ipcMain.handle("getData", async (event, key) => {
-	ProfileManager.load(key)
+ipcMain.handle("getData", async (event, args) => {
+	return ProfileManager.load(key)
 })

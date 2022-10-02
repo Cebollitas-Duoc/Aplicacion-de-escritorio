@@ -35,6 +35,9 @@ app.whenReady().then(() => {
 
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") app.quit()
+	
+	if (! ProfileManager.load("Remember"))
+		ProfileManager.delete();
 })
 
 app.on("browser-window-created", (e, win) => {

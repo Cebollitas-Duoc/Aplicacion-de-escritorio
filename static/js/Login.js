@@ -62,6 +62,7 @@ function validateInputs(){
 }
 
 function saveSessionData(sessionData){
+    window.api.setData("Remember", check_rememberMe.checked)
     window.api.setData("SessionKey", sessionData["SessionKey"])
     window.api.setData("UsrName", sessionData["Nombre"])
     window.api.setData("UsrImg", sessionData["Foto"])

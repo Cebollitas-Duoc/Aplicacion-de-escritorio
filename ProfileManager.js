@@ -1,26 +1,27 @@
 const fs = require('fs-extra');
 
 class ProfileManager {
+    static profilePath = 'profile.json'
     static save(key, value){
-        const profilePath = 'profile.json'
-
-        if (fs.existsSync(profilePath)){
-            var profile = fs.readJsonSync(profilePath)
+        if (fs.existsSync(this.profilePath)){
+            var profile = fs.readJsonSync(this.profilePath)
         }else{
             var profile = {}
         }
         profile[key] = value;
-        fs.writeJSONSync(profilePath, profile);
+        fs.writeJSONSync(this.profilePath, profile);
     }
 
     static load(key){
-        const profilePath = 'profile.json'
-        
-        if (fs.existsSync(profilePath)){
-            const packageObj = fs.readJsonSync(profilePath)
+        if (fs.existsSync(this.profilePath)){
+            const packageObj = fs.readJsonSync(this.profilePath)
             return packageObj[key];
         }
     }
+
+    static delete(){
+        fs.removeSync(this.profilePath)
+    }   
 }
 
 module.exports = ProfileManager;
