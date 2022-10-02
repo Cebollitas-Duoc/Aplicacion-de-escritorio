@@ -2,8 +2,8 @@ const { app, contextBridge, ipcRenderer } = require('electron')
 
 const WINDOW_API = {
         apiDomain: () => ipcRenderer.invoke('apiDomain'),
-        setCookie: (cname, cvalue, exdays, remember) => ipcRenderer.invoke('setCookie', cname, cvalue, exdays, remember),
-        getCookie: (cname) => ipcRenderer.invoke('getCookie', cname),
+        setData: (cname, cvalue) => ipcRenderer.invoke('setData', cname, cvalue),
+        getData: (cname) => ipcRenderer.invoke('getData', cname),
 }
 
 contextBridge.exposeInMainWorld('api', WINDOW_API)

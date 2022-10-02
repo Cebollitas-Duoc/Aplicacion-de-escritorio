@@ -11,15 +11,18 @@ button_login.addEventListener("click", async ()=>{
 
     if ("SessionKey" in response){
         console.log("Valid user")
-        setSessionCookies(response)
+        saveSessionData(response)
         alert("Logeado correctamente")
         //TODO: go to home page
     }
     else{
         console.log("Invalid credentials")
-        setCookie("LogedIn", false, 7)
-        deleteCookie("SessionKey")
-        printErrorMessage("Credenciales invalidas")
+        window.api.setData("LogedIn", false)
+        window.api.setData("SessionKey", "")
+        if ("Error" in response)
+            printErrorMessage(response["Error"])
+        else
+            printErrorMessage("Credenciales invalidas")
     }
 })
 
@@ -36,7 +39,7 @@ async function login(email, password){
         redirect: 'follow'
     };
 
-    await fetch(`${apiDomain}/auth/Login/`, requestOptions)
+    await fetch(`${apiDomain}/auth/AdminLogin/`, requestOptions)
     .then(response => response.text())
     .then(result => r=result)
     .catch(error => console.log('error', error));
@@ -58,10 +61,9 @@ function validateInputs(){
     return true
 }
 
-function setSessionCookies(sessionData){
-    rememberMe = check_rememberMe.checked
-    setCookie("SessionKey", sessionData["SessionKey"], 7, rememberMe)
-    setCookie("UsrName", sessionData["Nombre"], 7, rememberMe)
-    setCookie("UsrImg", sessionData["Foto"], 7, rememberMe)
-    setCookie("LogedIn", true, 7, rememberMe)
+function saveSessionData(sessionData){
+    window.api.setData("SessionKey", sessionData["SessionKey"])
+    window.api.setData("UsrName", sessionData["Nombre"])
+    window.api.setData("UsrImg", sessionData["Foto"])
+    window.api.setData("LogedIn", true)
 }

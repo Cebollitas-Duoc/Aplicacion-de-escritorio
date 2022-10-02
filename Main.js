@@ -45,7 +45,7 @@ async function render(template, context = {}){
 	const cacheFile = "templates/Cache.html"
 	function writeCache(s){
 		fs.readFile(cacheFile, 'utf8', function (err,data) {
-			fs.writeFile(cacheFile, s, 'utf8', function (err) {
+			fs.writeFileSync(cacheFile, s, 'utf8', function (err) {
 			   if (err) return console.log(err);
 			});
 		});
