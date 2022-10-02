@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
 const path = require("path")
 const nunjucks = require('nunjucks')
 const fs = require('fs');
+require('./ipcManager');
 
 const paths = {
 	icon: path.join(__dirname, "static/img/Logo_v1.png"),
@@ -14,15 +15,14 @@ const createWindow = () => {
 		height: 600,
 		resizable: true,
 		icon: paths.icon,
-		//frame: false,
 		webPreferences: {
-			preload: paths.preload
+			preload: paths.preload,
+			partition: 'persist:infragistics'
 		}
 	})
 
 	if (!app.isPackaged) win.webContents.openDevTools()
 }
-
 
 app.whenReady().then(() => {
 	createWindow()
@@ -41,8 +41,8 @@ app.on("browser-window-created", (e, win) => {
 })
 
 async function render(template, context = {}){
+	const cacheFile = "templates/Cache.html"
 	function writeCache(s){
-		cacheFile = "templates/Cache.html"
 		fs.readFile(cacheFile, 'utf8', function (err,data) {
 			fs.writeFile(cacheFile, s, 'utf8', function (err) {
 			   if (err) return console.log(err);
@@ -50,16 +50,59 @@ async function render(template, context = {}){
 		});
 	}
 
-	const universalContext = {
-	}
+	const universalContext = {}
 	const html = nunjucks.render("templates/"+template, context + universalContext);
 	
 	writeCache(html)
-	await win.loadFile(cacheFile);
+	//await win.loadFile(cacheFile);
+	await win.loadURL(`file://${__dirname}/${cacheFile}`)
 	writeCache(" ")
 	
 }
 
-ipcMain.on("test", (event, args) => {
-	console.log(`test` )
+ipcMain.handle("setCookie", async (event, cname, cvalue, exdays, remember) => {
+	session = win.webContents.session
+    var expires;
+    if (remember){
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        expires = d.toUTCString();
+    }
+    else{
+        expires = "Session";
+    }
+
+    const cookie = {
+        url: "http://www.mrmeme.cl",
+        name: cname, 
+        value: cvalue,
+        expirationDate: expires,
+        //domain: ".mrmeme.cl",
+    }
+
+    session.cookies.set(cookie).then(() => {
+        console.log("cookie saved")
+    }, (error) => {
+        console.error(error)
+    })
+
+	session.cookies.get({}).then((cookies) => {
+        console.log(cookies)
+      }).catch((error) => {
+        console.log(error)
+      })
+
+})
+
+ipcMain.handle("getCookie", async (event, cname) => {
+	session = win.webContents.session
+    
+	const cookie = {name: cname}
+
+    session.cookies.get(cookie).then((cookies) => {
+        return cookies;
+      }).catch((error) => {
+        console.log(error)
+      })
+
 })

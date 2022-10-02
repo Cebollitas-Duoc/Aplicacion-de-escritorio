@@ -2,4 +2,6 @@ function getValue(element){
     return element.value.trim()
 }
 
-var asd = 1;
+document.addEventListener('DOMContentLoaded', async () =>{
+    apiDomain = await window.api.apiDomain()
+})

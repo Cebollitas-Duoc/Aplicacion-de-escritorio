@@ -5,8 +5,8 @@
 {% endblock css %}
 
 {% block js %}
-<script src="../static/js/Form.js"></script>
-<script src="../static/js/Login.js"></script>
+<script defer src="../static/js/Form.js"></script>
+<script defer src="../static/js/Login.js"></script>
 {% endblock js %}
 
 {% block wrapper %}
@@ -16,11 +16,11 @@
         <h1 class="h3 mb-3 fw-normal">Inicio de sesion</h1>
         <p>{{ request.build_absolute_uri }}</p>
         <div class="form-floating">
-            <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+            <input type="email" class="form-control" id="inputEmail" value="jose@mrmeme.cl">
             <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            <input type="password" class="form-control" id="inputPassword" value="memecuatico">
             <label for="floatingPassword">Password</label>
         </div>
     
