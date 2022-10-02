@@ -27,7 +27,12 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
 	createWindow()
-	render("Login.html")
+
+	if (ProfileManager.load("LogedIn"))
+		render("UserSpace.html")
+	else
+		render("Login.html")
+		
 	app.on("activate", () => {
 		if (BrowserWindow.getAllWindows().lenght === 0) createWindow()
 	})
@@ -63,4 +68,3 @@ async function render(template, context = {}){
 	writeCache(" ")
 	
 }
-
