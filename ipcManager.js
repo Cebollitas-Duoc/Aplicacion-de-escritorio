@@ -19,3 +19,8 @@ ipcMain.handle("getData", async (event, args) => {
 ipcMain.handle("redirect", async (event, template) => {
 	Renderer.render(template)
 })
+
+ipcMain.handle("logout", async (event, args) => {
+	ProfileManager.delete()
+	Renderer.render("Login.html")
+})

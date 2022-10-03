@@ -27,10 +27,10 @@ const createWindow = () => {
 	
 }
 
-app.whenReady().then(() => {
+app.whenReady().then( async () => {
 	createWindow()
 
-	if (ProfileManager.load("LogedIn"))
+	if ((await API.isSessionValid())["Valid"])
 		Renderer.render("UserSpace.html")
 	else
 		Renderer.render("Login.html")
@@ -49,9 +49,4 @@ app.on("window-all-closed", () => {
 
 app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
-});
-
-(async()=>{
-	console.log(await API.isSessionValid())
-
-})();
+})
