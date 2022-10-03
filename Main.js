@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require("path")
 const ProfileManager = require('./ProfileManager');
 const Renderer = require('./Renderer');
+const API = require('./API');
 require('./ipcManager');
 
 const paths = {
@@ -22,6 +23,8 @@ const createWindow = () => {
 	})
 	Renderer.win = win;
 	if (!app.isPackaged) win.webContents.openDevTools()
+
+	
 }
 
 app.whenReady().then(() => {
@@ -46,4 +49,9 @@ app.on("window-all-closed", () => {
 
 app.on("browser-window-created", (e, win) => {
 	win.removeMenu()
-})
+});
+
+(async()=>{
+	console.log(await API.isSessionValid())
+
+})();
