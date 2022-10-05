@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', async () =>{
     tabs = await document.querySelectorAll("#sideBar a.nav-link");
     tabs.forEach(element => {
         element.addEventListener("click", async () => {
-            //element.innerHTML = element.getAttribute("tab")
             currentTab = await document.querySelector("#sideBar a.active");
             currentTab.classList.remove("active");
             element.classList.add("active");

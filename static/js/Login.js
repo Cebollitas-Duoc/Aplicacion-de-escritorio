@@ -12,7 +12,6 @@ button_login.addEventListener("click", async ()=>{
     if ("SessionKey" in response){
         console.log("Valid user")
         saveSessionData(response)
-        alert("Logeado correctamente")
         window.api.redirect("UserSpace.html")
     }
     else{
@@ -31,8 +30,6 @@ async function login(email, password){
     var r
     formdata.append("Email", email);
     formdata.append("Password", password);
-    console.log(email)
-    console.log(password)
     var requestOptions = {
         method: 'POST',
         body: formdata,

@@ -10,22 +10,25 @@ async function getMiniProfileData(){
     profileData = await API.getSessionProfile()
 
     if (profileData["ValidSession"]){
-
         username = profileData["Name"]
         lastName = profileData["LastName"]
         data = {
             "isLogged": true,
             "usrName": `${username} ${lastName}`,
-            "usrImg": `${webDomain}${profileData["Picture"]}`,
         }
+        if (profileData["Picture"] != null)
+            data["usrImg"] = `${webDomain}${profileData["Picture"]}`;
+        else
+            data["usrImg"] = `${webDomain}/static/img/profiles/default.png`;
     }
     else{
         data = {
             "isLogged": false,
             "usrName": "",
-            "usrImg": `${webDomain}/img/profiles/default.png}`,
+            "usrImg": "",
         }
     }
+    
     return data
 }
 
@@ -41,7 +44,6 @@ class Renderer {
         }
         
         const universalContext = await getMiniProfileData()
-        console.log(Object.assign({}, context, universalContext))
         const html = nunjucks.render("templates/"+template, Object.assign({}, context, universalContext));
         
         writeCache(html)
