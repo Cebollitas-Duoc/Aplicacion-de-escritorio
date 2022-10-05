@@ -1,11 +1,37 @@
 $sidebar-width: 200px;
+
 #sideBar{
     height: 100vh;
     width: $sidebar-width;
     position: fixed;
 }
+
 #tabContainer{
-    padding-left: $sidebar-width;
+    margin-left: $sidebar-width;
+    padding: 0.5rem;
+
+    div.userRow{
+        margin-bottom: 0.5rem;
+        .card-body{
+            padding: 2px;
+            .row div{
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+            .usrIcon img{
+                $usrRowImg-width: 50px;
+                width: $usrRowImg-width;
+                border-radius: $usrRowImg-width;
+                border: 2px solid #cfd8dc;
+            }
+            .editIcon img{
+                width: 25px;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 
 #miniProfile{

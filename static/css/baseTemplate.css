@@ -5,7 +5,35 @@
 }
 
 #tabContainer {
-  padding-left: 200px;
+  margin-left: 200px;
+  padding: 0.5rem;
+}
+
+#tabContainer div.userRow {
+  margin-bottom: 0.5rem;
+}
+
+#tabContainer div.userRow .card-body {
+  padding: 2px;
+}
+
+#tabContainer div.userRow .card-body .row div {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#tabContainer div.userRow .card-body .usrIcon img {
+  width: 50px;
+  border-radius: 50px;
+  border: 2px solid #cfd8dc;
+}
+
+#tabContainer div.userRow .card-body .editIcon img {
+  width: 25px;
+}
+
+#tabContainer div.userRow .card-body .editIcon img:hover {
+  cursor: pointer;
 }
 
 #miniProfile {
