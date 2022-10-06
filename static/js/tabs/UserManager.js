@@ -25,7 +25,7 @@ const cardTemplate = `
 `
 
 document.addEventListener('DOMContentLoaded', async () =>{
-    cadsContainer = document.getElementById("tab-userManager")
+    cadsContainer = document.querySelector("#tab-userManager .cardContainer")
 
     users = await refreshUserCards()
 
