@@ -17,3 +17,7 @@ async function showTab(tabid){
     tab.classList.remove("d-none");
     console.log(tabid)
 }
+
+function appendStringElement(parent, element){
+    parent.innerHTML = parent.innerHTML + element
+}

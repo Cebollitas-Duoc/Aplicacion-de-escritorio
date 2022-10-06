@@ -7,6 +7,7 @@
 #tabContainer {
   margin-left: 200px;
   padding: 0.5rem;
+  width: 100%;
 }
 
 #tabContainer div.userRow {

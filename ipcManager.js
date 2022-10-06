@@ -8,11 +8,17 @@ ipcMain.handle("apiDomain", async (event, args) => {
 	return "http://localhost:8081";
 })
 
+ipcMain.handle("webDomain", async (event, args) => {
+	if (app.isPackaged)
+        return "http://www.mrmeme.cl";
+    return "http://localhost:8080";
+})
+
 ipcMain.handle("setData", async (event, key, value) => {
 	ProfileManager.save(key, value)
 })
 
-ipcMain.handle("getData", async (event, args) => {
+ipcMain.handle("getData", async (event, key) => {
 	return ProfileManager.load(key)
 })
 
