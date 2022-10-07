@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', async () =>{
             showTab(element.getAttribute("tab"))
         });
     });
+
+    popupContainers = await document.querySelectorAll(".popup-container");
+    popupContainers.forEach(element => {
+        element.addEventListener("click", async (e) => {
+            if (e.target == element)
+                element.classList.add("d-none");
+        });
+    });
 })
 
 async function showTab(tabid){
@@ -20,4 +28,8 @@ async function showTab(tabid){
 
 function appendStringElement(parent, element){
     parent.innerHTML = parent.innerHTML + element
+}
+
+function clickOutsidePopup(element){
+    console.log(element.target)
 }

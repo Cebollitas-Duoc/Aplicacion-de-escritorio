@@ -15,7 +15,7 @@ const cardTemplate = `
                 <div class="col-2">
                     Estado: <<estado>>
                 </div>
-                <div class="col-1 editIcon">
+                <div class="col-1 editIcon" onclick="showEditUserMenu(<<userId>>)">
                     <img src="../static/img/edit.png" alt="">
                 </div>
             </div>
@@ -26,6 +26,7 @@ const cardTemplate = `
 
 document.addEventListener('DOMContentLoaded', async () =>{
     cadsContainer = document.querySelector("#tab-userManager .cardContainer")
+    editMenu      = document.querySelector("#tab-userManager .popup-container")
 
     users = await refreshUserCards()
 
@@ -63,8 +64,31 @@ async function createUserCard(user){
     card = card.replace("<<nombre>>",  getUserName(user))
     card = card.replace("<<permiso>>", getPermission(user))
     card = card.replace("<<estado>>",  getStatus(user))
+    card = card.replace("<<userId>>",  user.Id_usuario)
 
     return card.toString()
+}
+
+function showEditUserMenu(userId){
+    user = findUser(userId)
+    if (user == undefined) return;
+
+    console.log(user)
+
+    var nombres   = document.getElementById("updateUser-Nombres")
+    var apellidos = document.getElementById("updateUser-Apellidos")
+    var email     = document.getElementById("updateUser-Email")
+    var direccion = document.getElementById("updateUser-Direccion")
+    var telefono  = document.getElementById("updateUser-Telefono")
+
+    //TODO: agregar id del usuario en campo escondido para luego poder ser tomado al usar la api
+    nombres.value   = `${user.Primernombre} ${user.Segundonombre}`
+    apellidos.value = `${user.Primerapellido} ${user.Segundoapellido}`
+    email.value     = user.Email
+    direccion.value = user.Direccion
+    telefono.value  = user.Telefono
+
+    editMenu.classList.remove("d-none");
 }
 
 function getUserName(user){
@@ -100,4 +124,12 @@ function getStatus(user){
         default:
             return user.Id_estadousuario
     }
+}
+
+function findUser(userId){
+    user = users.filter(function (u){
+        return u.Id_usuario==userId;
+    });
+
+    return user[0]
 }

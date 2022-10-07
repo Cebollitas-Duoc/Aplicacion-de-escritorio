@@ -1,32 +1,32 @@
 <div id="tab-userManager" class="tab d-none">
-    <div class="popup-container w-100 m-auto text-center"">
+    <div class="popup-container w-100 m-auto text-center d-none">
         <div class="card">
             <form>
                 <img id="profilePicture" class="mb-4 m-auto" src="" alt="" width="100">
-                <h1 class="h3 mb-3 fw-normal">Mi perfil</h1>
+                <h1 class="h3 mb-3 fw-normal">Editar Usuario</h1>
                 <!-- datos usuario -->
                 <div class="form-floating">
-                    <input type="nombres" class="form-control" id="floatingNombres" value="{{ profile.names }}">
+                    <input type="nombres" class="form-control" id="updateUser-Nombres">
                     <label for="floatingInput">Nombres</label>
                 </div>
                 
                 <div class="form-floating">
-                    <input type="apellidos" class="form-control" id="floatingApellidos" value="{{ profile.lastnames }}">
+                    <input type="apellidos" class="form-control" id="updateUser-Apellidos">
                     <label for="floatingInput">Apellidos</label>
                 </div>
                 
                 <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingEmail" value="{{ profile.email }}">
+                    <input type="email" class="form-control" id="updateUser-Email">
                     <label for="floatingInput">Email address</label>
                 </div>
                 
                 <div class="form-floating">
-                    <input type="direccion" class="form-control" id="floatingDireccion" value="{{ profile.address }}">
+                    <input type="direccion" class="form-control" id="updateUser-Direccion">
                     <label for="floatingInput">Direccion</label>
                 </div>
                 
                 <div class="form-floating">
-                    <input type="telefono" class="form-control" id="floatingTelefono"value="{{ profile.phone }}">
+                    <input type="telefono" class="form-control" id="updateUser-Telefono">
                     <label for="floatingInput">Telefono</label>
                 </div>
             
