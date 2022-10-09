@@ -17,7 +17,7 @@ async function getMiniProfileData(){
             "usrName": `${username} ${lastName}`,
         }
         if (profileData["Picture"] != null)
-            data["usrImg"] = `${webDomain}${profileData["Picture"]}`;
+            data["usrImg"] = `${webDomain}/static${profileData["Picture"]}`;
         else
             data["usrImg"] = `${webDomain}/static/img/profiles/default.png`;
     }

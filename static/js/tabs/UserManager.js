@@ -25,18 +25,29 @@ const cardTemplate = `
 `
 
 document.addEventListener('DOMContentLoaded', async () =>{
-    cadsContainer = document.querySelector("#tab-userManager .cardContainer")
-    editMenu      = document.querySelector("#tab-userManager .popup-container")
+    usermanager_cardsContainer = document.querySelector("#tab-userManager .cardContainer");
+    usermanager_editMenu       = document.querySelector("#tab-userManager .popup-container");
 
-    users = await refreshUserCards()
+    updateUserList();
 
-    users.forEach(async (user) => {
-        var card = await createUserCard(user)
-        appendStringElement(cadsContainer, card)
-    });
+    document.getElementById("updateUser-button-UpdateUser").addEventListener('click', async () =>{
+        r = await updateUser();
+        await updateUserList()
+        console.log(r)
+    })
 })
 
-async function refreshUserCards(){
+async function updateUserList(){
+    users = await getUsers()
+
+    usermanager_cardsContainer.innerHTML = ""
+    users.forEach(async (user) => {
+        var card = await createUserCard(user)
+        appendStringElement(usermanager_cardsContainer, card)
+    });
+}
+
+async function getUsers(){
     var formdata = new FormData();
     var r
     formdata.append("SessionKey", await window.api.getData("SessionKey"));
@@ -75,6 +86,7 @@ function showEditUserMenu(userId){
 
     console.log(user)
 
+    var userId    = document.getElementById("updateUser-UserId")
     var nombres   = document.getElementById("updateUser-Nombres")
     var apellidos = document.getElementById("updateUser-Apellidos")
     var email     = document.getElementById("updateUser-Email")
@@ -83,7 +95,7 @@ function showEditUserMenu(userId){
     var permiso   = document.getElementById("updateUser-Permiso")
     var estado    = document.getElementById("updateUser-Estado")
 
-    //TODO: agregar id del usuario en campo escondido para luego poder ser tomado al usar la api
+    userId.value    = user.Id_usuario
     nombres.value   = `${user.Primernombre} ${user.Segundonombre}`
     apellidos.value = `${user.Primerapellido} ${user.Segundoapellido}`
     email.value     = user.Email
@@ -92,7 +104,7 @@ function showEditUserMenu(userId){
     permiso.value   = user.Id_permiso
     estado.value    = user.Id_estadousuario
 
-    editMenu.classList.remove("d-none");
+    usermanager_editMenu.classList.remove("d-none");
 }
 
 function getUserName(user){
@@ -136,4 +148,53 @@ function findUser(userId){
     });
 
     return user[0]
+}
+
+async function updateUser(){
+
+    var formdata = new FormData();
+    const SessionKey = await window.api.getData("SessionKey")
+    const userId     = document.getElementById("updateUser-UserId").value
+    const nombres    = document.getElementById("updateUser-Nombres").value
+    const apellidos  = document.getElementById("updateUser-Apellidos").value
+    const email      = document.getElementById("updateUser-Email").value
+    const direccion  = document.getElementById("updateUser-Direccion").value
+    const telefono   = document.getElementById("updateUser-Telefono").value
+    const permiso    = document.getElementById("updateUser-Permiso").value
+    const estado     = document.getElementById("updateUser-Estado").value
+
+    nombre    = nombres.split(/[ ]+/)[0]
+    nombre2   = nombres.split(/[ ]+/)[1]
+    apellido  = apellidos.split(/[ ]+/)[0]
+    apellido2 = apellidos.split(/[ ]+/)[1]
+
+    if (nombre2 == undefined) nombre2 = " ";
+    if (apellido2 == undefined) apellido2 = " ";
+
+    var r
+
+    formdata.append("SessionKey",       SessionKey)
+    formdata.append("IdUsuario",        userId)
+    formdata.append("IdPermiso",        permiso)
+    formdata.append("IdEstado",         estado)
+    formdata.append("Email",            email)
+    formdata.append("PrimerNombre",     nombre)
+    formdata.append("SegundoNombre",    nombre2)
+    formdata.append("PrimerApellido",   apellido)
+    formdata.append("SegundoApellido",  apellido2)
+    formdata.append("Direccion",        direccion)
+    formdata.append("Telefono",         telefono)
+
+    var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    await fetch(`${apiDomain}/admin/edituser/`, requestOptions)
+    .then(response => response.text())
+    .then(result => r=result)
+    .catch(error => console.log('error', error));
+
+    return r
 }
