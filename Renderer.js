@@ -4,9 +4,9 @@ const nunjucks = require('nunjucks')
 const API = require('./API');
 
 async function getMiniProfileData(){
-    if (app.isPackaged)
-        var webDomain = "http://www.mrmeme.cl";
     var webDomain = "http://localhost:8080";
+    if (app.isPackaged)
+        webDomain = "http://www.mrmeme.cl";
     profileData = await API.getSessionProfile()
 
     if (profileData["ValidSession"]){

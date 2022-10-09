@@ -80,6 +80,8 @@ function showEditUserMenu(userId){
     var email     = document.getElementById("updateUser-Email")
     var direccion = document.getElementById("updateUser-Direccion")
     var telefono  = document.getElementById("updateUser-Telefono")
+    var permiso   = document.getElementById("updateUser-Permiso")
+    var estado    = document.getElementById("updateUser-Estado")
 
     //TODO: agregar id del usuario en campo escondido para luego poder ser tomado al usar la api
     nombres.value   = `${user.Primernombre} ${user.Segundonombre}`
@@ -87,6 +89,8 @@ function showEditUserMenu(userId){
     email.value     = user.Email
     direccion.value = user.Direccion
     telefono.value  = user.Telefono
+    permiso.value   = user.Id_permiso
+    estado.value    = user.Id_estadousuario
 
     editMenu.classList.remove("d-none");
 }

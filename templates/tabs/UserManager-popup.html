@@ -1,0 +1,59 @@
+<div class="popup-container w-100 m-auto text-center d-none">
+    <div class="card">
+        <form>
+            <img id="profilePicture" class="mb-4 m-auto" src="" alt="" width="100">
+            <h1 class="h3 mb-3 fw-normal">Editar Usuario</h1>
+            <!-- datos usuario -->
+            <div class="form-floating">
+                <input type="nombres" class="form-control" id="updateUser-Nombres">
+                <label for="floatingInput">Nombres</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="apellidos" class="form-control" id="updateUser-Apellidos">
+                <label for="floatingInput">Apellidos</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="email" class="form-control" id="updateUser-Email">
+                <label for="floatingInput">Email address</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="direccion" class="form-control" id="updateUser-Direccion">
+                <label for="floatingInput">Direccion</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="telefono" class="form-control" id="updateUser-Telefono">
+                <label for="floatingInput">Telefono</label>
+            </div>
+            <div class="form-floating row">
+                <div class="col-6">
+                    
+                    <label for="updateUser-Permiso">Permiso</label>
+                    <select id="updateUser-Permiso" class="form-select" aria-label="Default select example">
+                        <option value="0">Usuario</option>
+                        <option value="1">Empleado</option>
+                        <option value="2">Administrador</option>
+                    </select>
+                </div>
+                
+                <div class="col-6">
+                    <label for="updateUser-Estado">Estado</label>
+                    <select id="updateUser-Estado" class="form-select" aria-label="Default select example">
+                        <option value="0">Por validar</option>
+                        <option value="1">Validado</option>
+                        <option value="2">Bloquedo</option>
+                    </select>
+                </div>
+
+            </div>
+                
+            <div class="checkbox mb-3">
+    
+            </div>
+            <button id="UpdateProfileButton" class="w-100 btn btn-lg btn-primary" type="button">Actualizar perfil</button>
+        </form>
+    </div>
+</div>
