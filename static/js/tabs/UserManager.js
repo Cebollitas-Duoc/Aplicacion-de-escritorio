@@ -31,20 +31,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
     updateUserList();
 
     document.getElementById("updateUser-button-UpdateUser").addEventListener('click', async () =>{
-        updateResponse = await updateUser();
-        console.log(updateResponse)
-
-        if ("PerfilEditado" in updateResponse && updateResponse["PerfilEditado"]){
-            printGlobalSuccessMessage("Usuario Editado correctamente")
-            await updateUserList()
-            hideAllPopUps()
-        }
-        else if ("Error" in updateResponse) 
-        printGlobalErrorMessage(updateResponse["Error"])
-        else
-        printGlobalErrorMessage("Error desconocido")
-        
-        
+        updateUser();
     })
 })
 
@@ -81,11 +68,12 @@ async function getUsers(){
 async function createUserCard(user){
     var card = cardTemplate
     var webdomain = await window.api.webDomain()
-    
+    user = getUserFormattedData(user)
+
     card = card.replace("<<imagen>>",  `${webdomain}/static/${user.Rutafotoperfil}`)
-    card = card.replace("<<nombre>>",  getUserName(user))
-    card = card.replace("<<permiso>>", getPermission(user))
-    card = card.replace("<<estado>>",  getStatus(user))
+    card = card.replace("<<nombre>>",  user.FullName)
+    card = card.replace("<<permiso>>", user.Permission)
+    card = card.replace("<<estado>>",  user.Status)
     card = card.replace("<<userId>>",  user.Id_usuario)
 
     return card.toString()
@@ -94,8 +82,6 @@ async function createUserCard(user){
 function showEditUserMenu(userId){
     user = findUser(userId)
     if (user == undefined) return;
-
-    console.log(user)
 
     var userId    = document.getElementById("updateUser-UserId")
     var nombres   = document.getElementById("updateUser-Nombres")
@@ -107,8 +93,8 @@ function showEditUserMenu(userId){
     var estado    = document.getElementById("updateUser-Estado")
 
     userId.value    = user.Id_usuario
-    nombres.value   = `${user.Primernombre} ${user.Segundonombre}`
-    apellidos.value = `${user.Primerapellido} ${user.Segundoapellido}`
+    nombres.value   = user.Names
+    apellidos.value = user.Lastnames
     email.value     = user.Email
     direccion.value = user.Direccion
     telefono.value  = user.Telefono
@@ -118,50 +104,29 @@ function showEditUserMenu(userId){
     usermanager_editMenu.classList.remove("d-none");
 }
 
-function getUserName(user){
-    username = "" 
-    if (user.Primernombre != undefined) username = `${username} ${user.Primernombre}`
-    if (user.Segundonombre != undefined) username = `${username} ${user.Segundonombre}`
-    if (user.Primerapellido != undefined) username = `${username} ${user.Primerapellido}`
-    if (user.Segundoapellido != undefined) username = `${username} ${user.Segundoapellido}`
-    return username
-}
-
-function getPermission(user){
-    switch (user.Id_permiso) {
-        case 0:
-            return "Usuario"
-        case 1:
-            return "Empleado"
-        case 2:
-            return "Administrador"
-        default:
-            return user.Id_permiso
-    }
-}
-
-function getStatus(user){
-    switch (user.Id_estadousuario) {
-        case 0:
-            return "Por validar"
-        case 1:
-            return "Validado"
-        case 2:
-            return "Bloqueado"
-        default:
-            return user.Id_estadousuario
-    }
-}
-
 function findUser(userId){
     user = users.filter(function (u){
         return u.Id_usuario==userId;
     });
 
-    return user[0]
+    return getUserFormattedData(user[0])
 }
 
 async function updateUser(){
+    updateResponse = await updateUserRequest();
+
+    if ("PerfilEditado" in updateResponse && updateResponse["PerfilEditado"]){
+        printGlobalSuccessMessage("Usuario Editado correctamente")
+        await updateUserList()
+        hideAllPopUps()
+    }
+    else if ("Error" in updateResponse) 
+        printGlobalErrorMessage(updateResponse["Error"])
+    else
+        printGlobalErrorMessage("Error desconocido")
+}
+
+async function updateUserRequest(){
 
     var formdata = new FormData();
     const SessionKey = await window.api.getData("SessionKey")
@@ -208,4 +173,52 @@ async function updateUser(){
     
     var r
     return JSON.parse(r)
+}
+
+function getUserFormattedData(user){
+    function getUserFullName(user){
+        username = "" 
+        if (user.Primernombre != undefined) username = `${username} ${user.Primernombre}`
+        if (user.Segundonombre != undefined) username = `${username} ${user.Segundonombre}`
+        if (user.Primerapellido != undefined) username = `${username} ${user.Primerapellido}`
+        if (user.Segundoapellido != undefined) username = `${username} ${user.Segundoapellido}`
+        return username
+    }
+    function getStatus(user){
+        switch (user.Id_estadousuario) {
+            case 0:
+                return "Por validar"
+            case 1:
+                return "Validado"
+            case 2:
+                return "Bloqueado"
+            default:
+                return user.Id_estadousuario
+        }
+    }
+    function getPermission(user){
+        switch (user.Id_permiso) {
+            case 0:
+                return "Usuario"
+            case 1:
+                return "Empleado"
+            case 2:
+                return "Administrador"
+            default:
+                return user.Id_permiso
+        }
+    }
+    function removeNulls(user){
+        user.Segundonombre = user.Segundonombre == null ? "" : user.Segundonombre;
+        user.Segundoapellido = user.Segundonombre == null ? "" : user.Segundonombre;
+    }
+    
+    removeNulls(user)
+    user.FullName  = getUserFullName(user)
+    user.Status    = getStatus(user)
+    user.Permission = getPermission(user)
+    user.Names     = `${user.Primernombre} ${user.Segundonombre}`
+    user.Lastnames = `${user.Primerapellido} ${user.Segundoapellido}`
+
+    return user
 }
