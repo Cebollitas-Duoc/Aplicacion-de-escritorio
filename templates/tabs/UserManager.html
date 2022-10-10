@@ -1,4 +1,12 @@
 <div id="tab-userManager" class="tab d-none">
-    {% include 'templates/tabs/UserManager-popup.html' %}
-    <div class="cardContainer"></div>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Administracion de usuarios</a>
+        <form class="form-inline">
+            <button class="btn-update btn btn-outline-success my-2 my-sm-0" type="button">Actualizar</button>
+        </form>
+    </nav>
+    <div class="tabItemContainer">
+        {% include 'templates/tabs/UserManager-popup.html' %}
+        <div class="cardContainer"></div>
+    </div>
 </div>

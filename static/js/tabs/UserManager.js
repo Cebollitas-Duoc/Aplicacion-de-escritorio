@@ -27,11 +27,16 @@ const cardTemplate = `
 document.addEventListener('DOMContentLoaded', async () =>{
     usermanager_cardsContainer = document.querySelector("#tab-userManager .cardContainer");
     usermanager_editMenu       = document.querySelector("#tab-userManager .popup-container");
+    button_updateList          = document.querySelector("#tab-userManager .btn-update");
 
     updateUserList();
 
     document.getElementById("updateUser-button-UpdateUser").addEventListener('click', async () =>{
         updateUser();
+    })
+
+    button_updateList.addEventListener('click', async () =>{
+        updateUserList();
     })
 })
 

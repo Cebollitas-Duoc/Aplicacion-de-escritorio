@@ -6,8 +6,15 @@
 
 #tabContainer {
   margin-left: 200px;
-  padding: 0.5rem;
   width: 100%;
+}
+
+#tabContainer .navbar {
+  padding: 0.5rem;
+}
+
+#tabContainer .tabItemContainer {
+  padding: 0.5rem;
 }
 
 #tabContainer div.userRow {
