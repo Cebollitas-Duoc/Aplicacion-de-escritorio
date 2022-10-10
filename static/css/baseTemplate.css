@@ -110,4 +110,23 @@
   color: #cfd8dc;
   text-decoration: none;
 }
+
+#GlobalMessage {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  padding: 0.5rem;
+  width: 25rem;
+  z-index: 2;
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
+}
+
+#GlobalMessage.error {
+  background-color: #fb9b9bc9;
+}
+
+#GlobalMessage.success {
+  background-color: #a1fb9bc9;
+}
 /*# sourceMappingURL=baseTemplate.css.map */

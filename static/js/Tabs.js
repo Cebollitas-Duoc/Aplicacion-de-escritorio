@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', async () =>{
     popupContainers.forEach(element => {
         element.addEventListener("click", async (e) => {
             if (e.target == element)
-                element.classList.add("d-none");
+                
+                hideAllPopUps();
         });
     });
 })
@@ -30,6 +31,11 @@ function appendStringElement(parent, element){
     parent.innerHTML = parent.innerHTML + element
 }
 
-function clickOutsidePopup(element){
-    console.log(element.target)
+async function hideAllPopUps(element){
+    popupContainers = await document.querySelectorAll(".popup-container");
+    popupContainers.forEach (popup => {
+        popup.classList.add("d-none");
+    });
+
+
 }

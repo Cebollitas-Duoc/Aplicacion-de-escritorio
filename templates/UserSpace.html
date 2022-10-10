@@ -6,6 +6,7 @@
 
 {% block js %}
 <script defer src="../static/js/Form.js"></script>
+<script defer src="../static/js/GlobalError.js"></script>
 <script defer src="../static/js/Tabs.js"></script>
 
 <script defer src="../static/js/tabs/UserManager.js"></script>
@@ -13,6 +14,8 @@
 
 {% block wrapper %}
 <main class="d-flex flex-nowrap">
+
+  {% include 'templates/GlobalMessage.html' %}
   {% include 'templates/Navbar.html' %}
   <div id="tabContainer">
     {% include 'templates/tabs/Inicio.html' %}

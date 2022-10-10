@@ -99,3 +99,20 @@ $sidebar-width: 200px;
     color: #cfd8dc;
     text-decoration: none;
 }
+
+#GlobalMessage{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    padding: 0.5rem;
+    width: 25rem;
+    z-index: 2;
+    backdrop-filter: blur(1px);
+    
+    &.error{
+        background-color: #fb9b9bc9;
+    }
+    &.success{
+        background-color: #a1fb9bc9;
+    }
+}

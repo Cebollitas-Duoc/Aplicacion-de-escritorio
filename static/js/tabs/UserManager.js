@@ -31,9 +31,20 @@ document.addEventListener('DOMContentLoaded', async () =>{
     updateUserList();
 
     document.getElementById("updateUser-button-UpdateUser").addEventListener('click', async () =>{
-        r = await updateUser();
-        await updateUserList()
-        console.log(r)
+        updateResponse = await updateUser();
+        console.log(updateResponse)
+
+        if ("PerfilEditado" in updateResponse && updateResponse["PerfilEditado"]){
+            printGlobalSuccessMessage("Usuario Editado correctamente")
+            await updateUserList()
+            hideAllPopUps()
+        }
+        else if ("Error" in updateResponse) 
+        printGlobalErrorMessage(updateResponse["Error"])
+        else
+        printGlobalErrorMessage("Error desconocido")
+        
+        
     })
 })
 
@@ -171,30 +182,30 @@ async function updateUser(){
     if (nombre2 == undefined) nombre2 = " ";
     if (apellido2 == undefined) apellido2 = " ";
 
-    var r
-
-    formdata.append("SessionKey",       SessionKey)
-    formdata.append("IdUsuario",        userId)
-    formdata.append("IdPermiso",        permiso)
-    formdata.append("IdEstado",         estado)
-    formdata.append("Email",            email)
-    formdata.append("PrimerNombre",     nombre)
-    formdata.append("SegundoNombre",    nombre2)
-    formdata.append("PrimerApellido",   apellido)
-    formdata.append("SegundoApellido",  apellido2)
-    formdata.append("Direccion",        direccion)
-    formdata.append("Telefono",         telefono)
-
+    
+    formdata.append("SessionKey",      SessionKey)
+    formdata.append("IdUsuario",       userId)
+    formdata.append("IdPermiso",       permiso)
+    formdata.append("IdEstado",        estado)
+    formdata.append("Email",           email)
+    formdata.append("PrimerNombre",    nombre)
+    formdata.append("SegundoNombre",   nombre2)
+    formdata.append("PrimerApellido",  apellido)
+    formdata.append("SegundoApellido", apellido2)
+    formdata.append("Direccion",       direccion)
+    formdata.append("Telefono",        telefono)
+    
     var requestOptions = {
         method: 'POST',
         body: formdata,
         redirect: 'follow'
     };
-
+    
     await fetch(`${apiDomain}/admin/edituser/`, requestOptions)
     .then(response => response.text())
     .then(result => r=result)
     .catch(error => console.log('error', error));
-
-    return r
+    
+    var r
+    return JSON.parse(r)
 }
