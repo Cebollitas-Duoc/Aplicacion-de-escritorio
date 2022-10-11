@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () =>{
-    usermanager_cardsContainer = document.querySelector("#tab-userManager .cardContainer");
-    usermanager_editMenu       = document.querySelector("#tab-userManager .popup-container");
-    button_updateList          = document.querySelector("#tab-userManager .btn-update");
+    usermanager_cardsContainer      = document.querySelector("#tab-userManager .cardContainer");
+    usermanager_editMenu            = document.querySelector("#tab-userManager .popup-container");
+    usermanager_button_updateList   = document.querySelector("#tab-userManager .btn-update");
+    
 
     UserManager.updateUserList();
 
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
         UserManager.updateUser();
     })
 
-    button_updateList.addEventListener('click', async () =>{
+    usermanager_button_updateList.addEventListener('click', async () =>{
         UserManager.updateUserList();
     })
 })
@@ -22,7 +23,7 @@ class UserManager{
         <div class="card-body">
             <div class="container text-center align-middle">
                 <div class="row">
-                    <div class="col-1 usrIcon">
+                    <div class="col-1 mainIcon">
                         <img src="<<imagen>>" alt="" class=" rounded-circle me-2">
                     </div>
                     <div class="col-4">
@@ -34,7 +35,7 @@ class UserManager{
                     <div class="col-2">
                         Estado: <<estado>>
                     </div>
-                    <div class="col-1 editIcon" onclick="UserManager.showEditUserMenu(<<userId>>)">
+                    <div class="col-1 editIcon" onclick="UserManager.showEditUserMenu(<<id>>)">
                         <img src="../static/img/edit.png" alt="">
                     </div>
                 </div>
@@ -82,7 +83,7 @@ class UserManager{
         card = card.replace("<<nombre>>",  user.FullName)
         card = card.replace("<<permiso>>", user.Permission)
         card = card.replace("<<estado>>",  user.Status)
-        card = card.replace("<<userId>>",  user.Id_usuario)
+        card = card.replace("<<id>>",  user.Id_usuario)
 
         return card.toString()
     }
