@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', async () =>{
         DepartmentManager.updateDptoList()
     })
     departmentManager_button_addDpto.addEventListener('click', async () =>{
-        DepartmentManager.showAddDptoMenu()
+        DepartmentAdder.showAddDptoMenu()
     })
 
     departmentManager_popup_addButton.addEventListener('click', async () =>{
-        
+        DepartmentAdder.addDpto();
     })
 
     departmentManager_popup_updateButton.addEventListener('click', async () =>{
@@ -134,20 +134,6 @@ class DepartmentManager{
         return dpto
     }
 
-    static showAddDptoMenu(){
-        this.input_address.value   = ""
-        this.input_latitud.value   = ""
-        this.input_longitud.value  = ""
-        this.input_rooms.value     = ""
-        this.input_bathrooms.value = ""
-        this.input_Value.value     = ""
-        this.input_status.value    = ""
-
-        departmentManager_popup_addButton.classList.remove("d-none");   
-        departmentManager_popup_updateButton.classList.add("d-none"); 
-        departmentManager_editMenu.classList.remove("d-none");
-    }
-
     static findDpto(dptoId){
         const dpto = this.dptos.filter(function (d){
             return d.Id_Dpto==dptoId;
@@ -155,6 +141,77 @@ class DepartmentManager{
 
         return dpto[0]
     }
+}
+
+class DepartmentAdder{
+    static showAddDptoMenu(){
+        DepartmentManager.input_id.value        = ""
+        DepartmentManager.input_address.value   = ""
+        DepartmentManager.input_latitud.value   = ""
+        DepartmentManager.input_longitud.value  = ""
+        DepartmentManager.input_rooms.value     = ""
+        DepartmentManager.input_bathrooms.value = ""
+        DepartmentManager.input_Value.value     = ""
+        DepartmentManager.input_status.value    = ""
+
+        departmentManager_popup_addButton.classList.remove("d-none");   
+        departmentManager_popup_updateButton.classList.add("d-none"); 
+        departmentManager_editMenu.classList.remove("d-none");
+    }
+
+    static async addDpto(){
+        const updateResponse = await this.addDptoRequest();
+
+        if ("Departamento agregado" in updateResponse && updateResponse["Departamento agregado"]){
+            printGlobalSuccessMessage("Departamento agregado correctamente")
+            await DepartmentManager.updateDptoList()
+            hideAllPopUps()
+        }
+        else if ("Error" in updateResponse) 
+            printGlobalErrorMessage(updateResponse["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al agregar departamento")
+    }
+
+    static async addDptoRequest(){
+
+        var formdata = new FormData();
+        const SessionKey = await window.api.getData("SessionKey")
+        const address    = DepartmentManager.input_address.value
+        const latitud    = DepartmentManager.input_latitud.value
+        const longitud   = DepartmentManager.input_longitud.value
+        const rooms      = DepartmentManager.input_rooms.value
+        const bathrooms  = DepartmentManager.input_bathrooms.value
+        const size       = DepartmentManager.input_size.value
+        const Value      = DepartmentManager.input_Value.value
+        const status     = DepartmentManager.input_status.value
+
+        
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("Address",    address)
+        formdata.append("Latitud",    latitud)
+        formdata.append("Longitud",   longitud)
+        formdata.append("Rooms",      rooms)
+        formdata.append("Bathrooms",  bathrooms)
+        formdata.append("Size",       size)
+        formdata.append("Value",      Value)
+        formdata.append("IdState",    status)
+        
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        
+        await fetch(`${apiDomain}/admin/createdpto/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+        
+        var r
+        return JSON.parse(r)
+    }
+
 }
 
 class DepartmentUpdater{
@@ -181,7 +238,7 @@ class DepartmentUpdater{
         const updateResponse = await this.updateDptoRequest();
 
         if ("DepartamentoEditado" in updateResponse && updateResponse["DepartamentoEditado"]){
-            printGlobalSuccessMessage("Departamento Editado correctamente")
+            printGlobalSuccessMessage("Departamento editado correctamente")
             await DepartmentManager.updateDptoList()
             hideAllPopUps()
         }
