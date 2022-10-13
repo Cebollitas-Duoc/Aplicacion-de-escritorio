@@ -39,7 +39,7 @@ $sidebar-width: 200px;
         }
     }
 
-    .popup-container{
+    .popup{
         position: fixed;
         left: $sidebar-width;
         top: 0;
@@ -55,6 +55,10 @@ $sidebar-width: 200px;
             margin: auto;
             margin-top: 2rem;
             padding: 1rem;
+
+            .btn{
+                margin-top: 0.5rem;
+            }
         }
     }
 }

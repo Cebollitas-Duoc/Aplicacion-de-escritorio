@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
         });
     });
 
-    popupContainers = await document.querySelectorAll(".popup-container");
+    popupContainers = await document.querySelectorAll(".popup");
     popupContainers.forEach(element => {
         element.addEventListener("click", async (e) => {
             if (e.target == element)
@@ -32,7 +32,7 @@ function appendStringElement(parent, element){
 }
 
 async function hideAllPopUps(element){
-    popupContainers = await document.querySelectorAll(".popup-container");
+    popupContainers = await document.querySelectorAll(".popup");
     popupContainers.forEach (popup => {
         popup.classList.add("d-none");
     });

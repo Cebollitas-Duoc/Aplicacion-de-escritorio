@@ -44,7 +44,7 @@
   cursor: pointer;
 }
 
-#tabContainer .popup-container {
+#tabContainer .popup {
   position: fixed;
   left: 200px;
   top: 0;
@@ -56,12 +56,16 @@
   z-index: 1;
 }
 
-#tabContainer .popup-container div.card {
+#tabContainer .popup div.card {
   z-index: 2;
   width: 20rem;
   margin: auto;
   margin-top: 2rem;
   padding: 1rem;
+}
+
+#tabContainer .popup div.card .btn {
+  margin-top: 0.5rem;
 }
 
 #miniProfile {

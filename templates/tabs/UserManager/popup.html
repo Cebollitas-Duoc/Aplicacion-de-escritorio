@@ -1,39 +1,38 @@
-<div class="popup-container w-100 m-auto text-center d-none">
+<div class="popup w-100 m-auto text-center d-none">
     <div class="card">
         <form>
             <img id="profilePicture" class="mb-4 m-auto" src="" alt="" width="100">
-            <h1 class="h3 mb-3 fw-normal">Editar Usuario</h1>
+            <h1 class="h3 mb-3 fw-normal">Editar usuario</h1>
             <!-- datos usuario -->
-            <input type="" class="form-control d-none" id="updateUser-UserId">
+            <input type="" class="form-control d-none UserId">
             <div class="form-floating">
-                <input type="nombres" class="form-control" id="updateUser-Nombres">
+                <input type="nombres" class="form-control Nombres">
                 <label for="floatingInput">Nombres</label>
             </div>
             
             <div class="form-floating">
-                <input type="apellidos" class="form-control" id="updateUser-Apellidos">
+                <input type="apellidos" class="form-control Apellidos">
                 <label for="floatingInput">Apellidos</label>
             </div>
             
             <div class="form-floating">
-                <input type="email" class="form-control" id="updateUser-Email">
+                <input type="email" class="form-control Email">
                 <label for="floatingInput">Email address</label>
             </div>
             
             <div class="form-floating">
-                <input type="direccion" class="form-control" id="updateUser-Direccion">
+                <input type="direccion" class="form-control Direccion">
                 <label for="floatingInput">Direccion</label>
             </div>
             
             <div class="form-floating">
-                <input type="telefono" class="form-control" id="updateUser-Telefono">
+                <input type="telefono" class="form-control Telefono">
                 <label for="floatingInput">Telefono</label>
             </div>
             <div class="form-floating row">
                 <div class="col-6">
-                    
-                    <label for="updateUser-Permiso">Permiso</label>
-                    <select id="updateUser-Permiso" class="form-select" aria-label="Default select example">
+                    <label for="floatingInput">Permiso</label>
+                    <select class="form-select Permiso" aria-label="Default select example">
                         <option value="0">Usuario</option>
                         <option value="1">Empleado</option>
                         <option value="2">Administrador</option>
@@ -41,8 +40,8 @@
                 </div>
                 
                 <div class="col-6">
-                    <label for="updateUser-Estado">Estado</label>
-                    <select id="updateUser-Estado" class="form-select" aria-label="Default select example">
+                    <label for="floatingInput">Estado</label>
+                    <select class="form-select Estado" aria-label="Default select example">
                         <option value="0">Por validar</option>
                         <option value="1">Validado</option>
                         <option value="2">Bloquedo</option>
@@ -50,11 +49,8 @@
                 </div>
 
             </div>
-                
-            <div class="checkbox mb-3">
     
-            </div>
-            <button id="updateUser-button-UpdateUser" class="w-100 btn btn-lg btn-primary" type="button">Actualizar perfil</button>
+            <button class="w-100 btn btn-lg btn-primary" type="button">Actualizar perfil</button>
         </form>
     </div>
 </div>

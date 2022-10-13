@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     usermanager_cardsContainer      = document.querySelector("#tab-userManager .cardContainer");
-    usermanager_editMenu            = document.querySelector("#tab-userManager .popup-container");
-    usermanager_button_updateList   = document.querySelector("#tab-userManager .btn-update");
+    usermanager_editMenu            = document.querySelector("#tab-userManager .popup");
+    usermanager_button_updateList   = document.querySelector("#tab-userManager nav .btn-update");
     
 
+
+    UserManager.setPopUpInputs();
     UserManager.updateUserList();
 
-    document.getElementById("updateUser-button-UpdateUser").addEventListener('click', async () =>{
+    document.querySelector("#tab-userManager .popup form .btn").addEventListener('click', async () =>{
         UserManager.updateUser();
     })
 
@@ -17,6 +19,14 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
 class UserManager{
     static users = {}
+    static input_userId
+    static input_nombres
+    static input_apellidos
+    static input_email
+    static input_direccion
+    static input_telefono
+    static input_permiso
+    static input_estado
 
     static cardTemplate = `
     <div class="card userRow">
@@ -43,6 +53,17 @@ class UserManager{
         </div>
     </div>
     `
+
+    static setPopUpInputs(){
+        this.input_userId     = document.querySelector("#tab-userManager .popup .UserId")
+        this.input_nombres    = document.querySelector("#tab-userManager .popup .Nombres")
+        this.input_apellidos  = document.querySelector("#tab-userManager .popup .Apellidos")
+        this.input_email      = document.querySelector("#tab-userManager .popup .Email")
+        this.input_direccion  = document.querySelector("#tab-userManager .popup .Direccion")
+        this.input_telefono   = document.querySelector("#tab-userManager .popup .Telefono")
+        this.input_permiso    = document.querySelector("#tab-userManager .popup .Permiso")
+        this.input_estado     = document.querySelector("#tab-userManager .popup .Estado")
+    }
 
     static async updateUserList(){
         this.users = await this.getUsers()
@@ -92,23 +113,14 @@ class UserManager{
         var user = this.findUser(userId)
         if (user == undefined) return;
 
-        var userId    = document.getElementById("updateUser-UserId")
-        var nombres   = document.getElementById("updateUser-Nombres")
-        var apellidos = document.getElementById("updateUser-Apellidos")
-        var email     = document.getElementById("updateUser-Email")
-        var direccion = document.getElementById("updateUser-Direccion")
-        var telefono  = document.getElementById("updateUser-Telefono")
-        var permiso   = document.getElementById("updateUser-Permiso")
-        var estado    = document.getElementById("updateUser-Estado")
-
-        userId.value    = user.Id_usuario
-        nombres.value   = user.Names
-        apellidos.value = user.Lastnames
-        email.value     = user.Email
-        direccion.value = user.Direccion
-        telefono.value  = user.Telefono
-        permiso.value   = user.Id_permiso
-        estado.value    = user.Id_estadousuario
+        this.input_userId.value    = user.Id_usuario
+        this.input_nombres.value   = user.Names
+        this.input_apellidos.value = user.Lastnames
+        this.input_email.value     = user.Email
+        this.input_direccion.value = user.Direccion
+        this.input_telefono.value  = user.Telefono
+        this.input_permiso.value   = user.Id_permiso
+        this.input_estado.value    = user.Id_estadousuario
 
         usermanager_editMenu.classList.remove("d-none");
     }
@@ -139,19 +151,19 @@ class UserManager{
 
         var formdata = new FormData();
         const SessionKey = await window.api.getData("SessionKey")
-        const userId     = document.getElementById("updateUser-UserId").value
-        const nombres    = document.getElementById("updateUser-Nombres").value
-        const apellidos  = document.getElementById("updateUser-Apellidos").value
-        const email      = document.getElementById("updateUser-Email").value
-        const direccion  = document.getElementById("updateUser-Direccion").value
-        const telefono   = document.getElementById("updateUser-Telefono").value
-        const permiso    = document.getElementById("updateUser-Permiso").value
-        const estado     = document.getElementById("updateUser-Estado").value
+        const userId     = this.input_userId.value    
+        const nombres    = this.input_nombres.value   
+        const apellidos  = this.input_apellidos.value 
+        const email      = this.input_email.value     
+        const direccion  = this.input_direccion.value 
+        const telefono   = this.input_telefono.value  
+        const permiso    = this.input_permiso.value   
+        const estado     = this.input_estado.value    
 
-        const nombre    = nombres.split(/[ ]+/)[0]
-        const nombre2   = nombres.split(/[ ]+/)[1]
-        const apellido  = apellidos.split(/[ ]+/)[0]
-        const apellido2 = apellidos.split(/[ ]+/)[1]
+        var nombre    = nombres.split(/[ ]+/)[0]
+        var nombre2   = nombres.split(/[ ]+/)[1]
+        var apellido  = apellidos.split(/[ ]+/)[0]
+        var apellido2 = apellidos.split(/[ ]+/)[1]
 
         if (nombre2 == undefined) nombre2 = " ";
         if (apellido2 == undefined) apellido2 = " ";
@@ -219,7 +231,7 @@ class UserManager{
         }
         function removeNulls(user){
             user.Segundonombre = user.Segundonombre == null ? "" : user.Segundonombre;
-            user.Segundoapellido = user.Segundonombre == null ? "" : user.Segundonombre;
+            user.Segundoapellido = user.Segundoapellido == null ? "" : user.Segundoapellido;
         }
         
         removeNulls(user)

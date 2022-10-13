@@ -1,17 +1,54 @@
 document.addEventListener('DOMContentLoaded', async () =>{
-    departmentManager_cardsContainer    = document.querySelector("#tab-departmentManager .cardContainer");
-    departmentManager_editMenu          = document.querySelector("#tab-departmentManager .popup-container");
-    departmentManager_button_updateList = document.querySelector("#tab-departmentManager .btn-update");
-    departmentManager_button_addDpto    = document.querySelector("#tab-userManager .btn-add");
+    departmentManager_cardsContainer     = document.querySelector("#tab-departmentManager .cardContainer");
+    departmentManager_editMenu           = document.querySelector("#tab-departmentManager .popup");
+    departmentManager_button_updateList  = document.querySelector("#tab-departmentManager nav .btn-update");
+    departmentManager_button_addDpto     = document.querySelector("#tab-departmentManager nav .btn-add");
+    departmentManager_popup_addButton    = document.querySelector("#tab-departmentManager .popup form .btn.add")
+    departmentManager_popup_updateButton = document.querySelector("#tab-departmentManager .popup form .btn.update")
+
+    DepartmentManager.setPopUpInputs()
 
     DepartmentManager.updateDptoList()
     departmentManager_button_updateList.addEventListener('click', async () =>{
         DepartmentManager.updateDptoList()
     })
+    departmentManager_button_addDpto.addEventListener('click', async () =>{
+        DepartmentManager.showAddDptoMenu()
+    })
+
+    departmentManager_popup_addButton.addEventListener('click', async () =>{
+        
+    })
+
+    departmentManager_popup_updateButton.addEventListener('click', async () =>{
+        DepartmentUpdater.updateDpto();
+    })
 })
 
 class DepartmentManager{
+    static input_id
+    static input_address
+    static input_latitud
+    static input_longitud
+    static input_rooms
+    static input_bathrooms
+    static input_size
+    static input_Value
+    static input_status
     static dptos = {}
+
+    static setPopUpInputs(){
+
+        this.input_id        = document.querySelector("#tab-departmentManager .popup .dptoId")
+        this.input_address   = document.querySelector("#tab-departmentManager .popup .address")
+        this.input_latitud   = document.querySelector("#tab-departmentManager .popup .latitud")
+        this.input_longitud  = document.querySelector("#tab-departmentManager .popup .longitud")
+        this.input_rooms     = document.querySelector("#tab-departmentManager .popup .rooms")
+        this.input_bathrooms = document.querySelector("#tab-departmentManager .popup .bathrooms")
+        this.input_size      = document.querySelector("#tab-departmentManager .popup .size")
+        this.input_Value     = document.querySelector("#tab-departmentManager .popup .value")
+        this.input_status    = document.querySelector("#tab-departmentManager .popup .status")
+    }
 
     static cardTemplate = `
     <div class="card userRow">
@@ -30,7 +67,7 @@ class DepartmentManager{
                     <div class="col-2">
                         Valor: <<valor>>
                     </div>
-                    <div class="col-1 editIcon" onclick="UserManager.showEditUserMenu(<<id>>)">
+                    <div class="col-1 editIcon" onclick="DepartmentUpdater.showEditDptoMenu(<<id>>)">
                         <img src="../static/img/edit.png" alt="">
                     </div>
                 </div>
@@ -95,5 +132,103 @@ class DepartmentManager{
         dpto.Status  = getStatus(dpto)
 
         return dpto
+    }
+
+    static showAddDptoMenu(){
+        this.input_address.value   = ""
+        this.input_latitud.value   = ""
+        this.input_longitud.value  = ""
+        this.input_rooms.value     = ""
+        this.input_bathrooms.value = ""
+        this.input_Value.value     = ""
+        this.input_status.value    = ""
+
+        departmentManager_popup_addButton.classList.remove("d-none");   
+        departmentManager_popup_updateButton.classList.add("d-none"); 
+        departmentManager_editMenu.classList.remove("d-none");
+    }
+
+    static findDpto(dptoId){
+        const dpto = this.dptos.filter(function (d){
+            return d.Id_Dpto==dptoId;
+        });
+
+        return dpto[0]
+    }
+}
+
+class DepartmentUpdater{
+    static showEditDptoMenu(dptoId){
+        var dpto = DepartmentManager.findDpto(dptoId)
+        if (dpto == undefined) return;
+
+        DepartmentManager.input_id.value        = dpto.Id_Dpto
+        DepartmentManager.input_address.value   = dpto.Address
+        DepartmentManager.input_latitud.value   = dpto.Latitud
+        DepartmentManager.input_longitud.value  = dpto.Longitud
+        DepartmentManager.input_rooms.value     = dpto.Rooms
+        DepartmentManager.input_bathrooms.value = dpto.Bathrooms
+        DepartmentManager.input_size.value      = dpto.Size
+        DepartmentManager.input_Value.value     = dpto.Value
+        DepartmentManager.input_status.value    = dpto.Id_State
+
+        departmentManager_popup_addButton.classList.add("d-none");   
+        departmentManager_popup_updateButton.classList.remove("d-none"); 
+        departmentManager_editMenu.classList.remove("d-none");
+    }
+
+    static async updateDpto(){
+        const updateResponse = await this.updateDptoRequest();
+
+        if ("DepartamentoEditado" in updateResponse && updateResponse["DepartamentoEditado"]){
+            printGlobalSuccessMessage("Departamento Editado correctamente")
+            await DepartmentManager.updateDptoList()
+            hideAllPopUps()
+        }
+        else if ("Error" in updateResponse) 
+            printGlobalErrorMessage(updateResponse["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al editar departamento")
+    }
+
+    static async updateDptoRequest(){
+
+        var formdata = new FormData();
+        const SessionKey = await window.api.getData("SessionKey")
+        const id         = DepartmentManager.input_id.value
+        const address    = DepartmentManager.input_address.value
+        const latitud    = DepartmentManager.input_latitud.value
+        const longitud   = DepartmentManager.input_longitud.value
+        const rooms      = DepartmentManager.input_rooms.value
+        const bathrooms  = DepartmentManager.input_bathrooms.value
+        const size       = DepartmentManager.input_size.value
+        const Value      = DepartmentManager.input_Value.value
+        const status     = DepartmentManager.input_status.value
+
+        
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdDpto",     id)
+        formdata.append("Address",    address)
+        formdata.append("Latitud",    latitud)
+        formdata.append("Longitud",   longitud)
+        formdata.append("Rooms",      rooms)
+        formdata.append("Bathrooms",  bathrooms)
+        formdata.append("Size",       size)
+        formdata.append("Value",      Value)
+        formdata.append("IdState",    status)
+        
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        
+        await fetch(`${apiDomain}/admin/editdptos/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+        
+        var r
+        return JSON.parse(r)
     }
 }

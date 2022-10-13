@@ -1,0 +1,58 @@
+<div class="popup w-100 m-auto text-center d-none">
+    <div class="card">
+        <form>
+            <img id="profilePicture" class="mb-4 m-auto" src="" alt="" width="100">
+            <h1 class="h3 mb-3 fw-normal">Editar Departamento</h1>
+            <!-- datos usuario -->
+            <input type="" class="form-control d-none dptoId">
+            <div class="form-floating">
+                <input type="nombres" class="form-control address">
+                <label for="floatingInput">Direccion</label>
+            </div>
+            <div class="row">
+                <div class="form-floating col-6">
+                    <input type="nombres" class="form-control latitud">
+                    <label for="floatingInput">Latitud</label>
+                </div>
+                
+                <div class="form-floating col-6">
+                    <input type="nombres" class="form-control longitud">
+                    <label for="floatingInput">Longitud</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-4">
+                    <input type="number" class="form-control rooms">
+                    <label for="floatingInput">Cuartos</label>
+                </div>
+                
+                <div class="form-floating col-3">
+                    <input type="number" class="form-control bathrooms">
+                    <label for="floatingInput">baños</label>
+                </div>
+
+                <div class="form-floating col-5">
+                    <input type="number" class="form-control size">
+                    <label for="floatingInput">Tamaño m<sup>2</sup></label>
+                </div>
+            </div>
+            
+            <div class="form-floating">
+                <input type="direccion" class="form-control value">
+                <label for="floatingInput">Valor</label>
+            </div>
+
+            <div class="form-floating">
+                <select class="form-select status" aria-label="Default select example">
+                    <option value="0">Activa</option>
+                    <option value="1">Inactiva</option>
+                </select>
+                <label for="updateDpto-Permiso">Estado</label>
+            </div>
+    
+            <button class="w-100 btn btn-lg btn-primary add" type="button">Agregar departamento</button>
+            <button class="w-100 btn btn-lg btn-primary update" type="button">Actualizar departamento</button>
+        </form>
+    </div>
+</div>
