@@ -152,6 +152,7 @@ class DepartmentAdder{
         DepartmentManager.input_rooms.value     = ""
         DepartmentManager.input_bathrooms.value = ""
         DepartmentManager.input_Value.value     = ""
+        DepartmentManager.input_size.value      = ""
         DepartmentManager.input_status.value    = ""
 
         departmentManager_popup_addButton.classList.remove("d-none");   
