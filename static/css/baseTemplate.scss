@@ -27,6 +27,7 @@ $sidebar-width: 200px;
             .mainIcon img{
                 $usrRowImg-width: 50px;
                 width: $usrRowImg-width;
+                height: $usrRowImg-width;
                 border-radius: $usrRowImg-width;
                 border: 2px solid #cfd8dc;
             }

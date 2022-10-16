@@ -7,12 +7,20 @@ input.form-control {
   margin-bottom: 10px;
 }
 
-#btn-crearUsuario:hover {
-  color: #251f80;
-  font-weight: bold;
-}
-
 .btn-primary {
   margin-bottom: 1rem;
+}
+
+form img {
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+  border: 2px solid #cfd8dc;
+  cursor: pointer;
+}
+
+form img:hover {
+  -webkit-filter: grayscale(50%);
+          filter: grayscale(50%);
 }
 /*# sourceMappingURL=Form.css.map */

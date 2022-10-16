@@ -4,9 +4,9 @@ const axios = require('axios');
 
 class API {
     static async isSessionValid(){
-        if (app.isPackaged)
-            var apiDomain = "http://api.mrmeme.cl";
         var apiDomain = "http://localhost:8081";
+        if (app.isPackaged)
+            apiDomain = "http://api.mrmeme.cl";
 
         var config = {
             method: 'get',

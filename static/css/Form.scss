@@ -7,13 +7,18 @@ input.form-control{
     margin-bottom: 10px;
 }
 
-#btn-crearUsuario{
-    &:hover{
-        color: rgb(37, 31, 128);
-        font-weight: bold;
-    }
-}
-
 .btn-primary{
     margin-bottom: 1rem;
+}
+
+form img{
+    $picture-size: 150px;
+    width: $picture-size;
+    height: $picture-size;
+    border-radius: $picture-size;
+    border: 2px solid #cfd8dc;
+    cursor: pointer;
+    &:hover{
+        filter: grayscale(50%);
+    }
 }

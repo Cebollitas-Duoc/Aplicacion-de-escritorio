@@ -27,6 +27,8 @@ class UserManager{
     static input_telefono
     static input_permiso
     static input_estado
+    static input_imagen
+    static imagen
 
     static cardTemplate = `
     <div class="card userRow">
@@ -63,6 +65,19 @@ class UserManager{
         this.input_telefono   = document.querySelector("#tab-userManager .popup .Telefono")
         this.input_permiso    = document.querySelector("#tab-userManager .popup .Permiso")
         this.input_estado     = document.querySelector("#tab-userManager .popup .Estado")
+        this.input_imagen     = document.querySelector("#tab-userManager .popup .ImagenInput")
+        this.imagen           = document.querySelector("#tab-userManager .popup .Imagen")
+
+        this.input_imagen.addEventListener('change', async () =>{
+            const file = this.input_imagen.files[0]
+            if (file) {
+                this.imagen.src = URL.createObjectURL(file)
+            }
+        })
+
+        this.imagen.addEventListener('click', async () =>{
+            this.input_imagen.click()
+        })
     }
 
     static async updateUserList(){
@@ -79,7 +94,6 @@ class UserManager{
         var formdata = new FormData();
         var r
         formdata.append("SessionKey", await window.api.getData("SessionKey"));
-        var apidomain = await window.api.apiDomain()
 
         var requestOptions = {
             method: 'POST',
@@ -97,10 +111,9 @@ class UserManager{
 
     static async createUserCard(user){
         var card = this.cardTemplate
-        var webdomain = await window.api.webDomain()
         user = this.getUserFormattedData(user)
 
-        card = card.replace("<<imagen>>",  `${webdomain}/static/${user.Rutafotoperfil}`)
+        card = card.replace("<<imagen>>",  user.ImgUrl)
         card = card.replace("<<nombre>>",  user.FullName)
         card = card.replace("<<permiso>>", user.Permission)
         card = card.replace("<<estado>>",  user.Status)
@@ -113,14 +126,15 @@ class UserManager{
         var user = this.findUser(userId)
         if (user == undefined) return;
 
-        this.input_userId.value    = user.Id_usuario
-        this.input_nombres.value   = user.Names
-        this.input_apellidos.value = user.Lastnames
-        this.input_email.value     = user.Email
-        this.input_direccion.value = user.Direccion
-        this.input_telefono.value  = user.Telefono
-        this.input_permiso.value   = user.Id_permiso
-        this.input_estado.value    = user.Id_estadousuario
+        this.input_userId.value    = user.Id_usuario;
+        this.input_nombres.value   = user.Names;
+        this.input_apellidos.value = user.Lastnames;
+        this.input_email.value     = user.Email;
+        this.input_direccion.value = user.Direccion;
+        this.input_telefono.value  = user.Telefono;
+        this.input_permiso.value   = user.Id_permiso;
+        this.input_estado.value    = user.Id_estadousuario;
+        this.imagen.src            = user.ImgUrl;
 
         usermanager_editMenu.classList.remove("d-none");
     }
@@ -159,6 +173,7 @@ class UserManager{
         const telefono   = this.input_telefono.value  
         const permiso    = this.input_permiso.value   
         const estado     = this.input_estado.value    
+        const imagen     = this.input_imagen.files[0]
 
         var nombre    = nombres.split(/[ ]+/)[0]
         var nombre2   = nombres.split(/[ ]+/)[1]
@@ -180,6 +195,7 @@ class UserManager{
         formdata.append("SegundoApellido", apellido2)
         formdata.append("Direccion",       direccion)
         formdata.append("Telefono",        telefono)
+        formdata.append("Imagen",          imagen)
         
         var requestOptions = {
             method: 'POST',
@@ -233,13 +249,22 @@ class UserManager{
             user.Segundonombre = user.Segundonombre == null ? "" : user.Segundonombre;
             user.Segundoapellido = user.Segundoapellido == null ? "" : user.Segundoapellido;
         }
+        function getImgUrl(usr){
+            if (user.Rutafotoperfil){
+                return `${apidomain}/files/getimage/${user.Rutafotoperfil}`
+            }
+            else{
+                return "../static/img/defaultProfileImg.png"
+            }
+        }
         
         removeNulls(user)
-        user.FullName  = getUserFullName(user)
-        user.Status    = getStatus(user)
+        user.FullName   = getUserFullName(user)
+        user.Status     = getStatus(user)
         user.Permission = getPermission(user)
-        user.Names     = `${user.Primernombre} ${user.Segundonombre}`
-        user.Lastnames = `${user.Primerapellido} ${user.Segundoapellido}`
+        user.ImgUrl     = getImgUrl(user)
+        user.Names      = `${user.Primernombre} ${user.Segundonombre}`
+        user.Lastnames  = `${user.Primerapellido} ${user.Segundoapellido}`
 
         return user
     }

@@ -12,8 +12,8 @@ const paths = {
 
 const createWindow = () => {
 	win = new BrowserWindow({
-		width: 1100,
-		height: 600,
+		width: 1200,
+		height: 720,
 		resizable: true,
 		icon: paths.icon,
 		webPreferences: {
