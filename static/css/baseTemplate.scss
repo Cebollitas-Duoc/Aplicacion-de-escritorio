@@ -50,13 +50,40 @@ $sidebar-width: 200px;
         height: 100%;
         z-index: 1;
 
+        
         div.card{
+            
             z-index: 2;
             width: 20rem;
             margin: auto;
             margin-top: 2rem;
             padding: 1rem;
+            &.images{
+                z-index: 2;
+                width: 50rem;
+                margin: 100px;
+                display: flex;
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                .dpto-image{
+                    width: 250px;
+                    border: solid #3e65b5;
+                    border-width: 3px;
+                    border-radius: 10px;
+                    padding: 0;
+                    margin: 0;
+                    &.main{
+                        border-color: #ffb233;
+                    }
+                    
+                    &.selected{
+                        border-color: #0eb41c;
+                    }
+                }
 
+            }
+            
             .btn{
                 margin-top: 0.5rem;
             }
