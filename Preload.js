@@ -5,6 +5,8 @@ const WINDOW_API = {
         webDomain: () => ipcRenderer.invoke('webDomain'),
         setData: (cname, cvalue) => ipcRenderer.invoke('setData', cname, cvalue),
         getData: (cname) => ipcRenderer.invoke('getData', cname),
+        setSettingsData: (cname, cvalue) => ipcRenderer.invoke('setSettingsData', cname, cvalue),
+        getSettingsData: (cname) => ipcRenderer.invoke('getSettingsData', cname),
         redirect: (template) => ipcRenderer.invoke('redirect', template),
         logout: () => ipcRenderer.invoke('logout'),
 }

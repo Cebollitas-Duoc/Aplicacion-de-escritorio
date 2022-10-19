@@ -1,12 +1,11 @@
 const ProfileManager = require('./ProfileManager');
+const SettingsManager = require('./SettingsManager');
 const { app, ipcMain, session} = require('electron')
 const axios = require('axios');
 
 class API {
     static async isSessionValid(){
-        var apiDomain = "http://localhost:8081";
-        if (app.isPackaged)
-            apiDomain = "http://api.mrmeme.cl";
+        var apiDomain = SettingsManager.getApiDomain()
 
         var config = {
             method: 'get',
@@ -21,9 +20,7 @@ class API {
     }
 
     static async getSessionProfile(){
-        if (app.isPackaged)
-            var apiDomain = "http://api.mrmeme.cl";
-        var apiDomain = "http://localhost:8081";
+        var apiDomain = SettingsManager.getApiDomain()
 
         var config = {
             method: 'get',

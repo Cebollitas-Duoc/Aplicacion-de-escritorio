@@ -17,6 +17,7 @@ class ProfileManager {
             const packageObj = fs.readJsonSync(this.profilePath)
             return packageObj[key];
         }
+        return undefined
     }
 
     static delete(){

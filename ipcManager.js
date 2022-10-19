@@ -1,17 +1,14 @@
 const { app, ipcMain, session} = require('electron')
 const ProfileManager = require('./ProfileManager');
+const SettingsManager = require('./SettingsManager');
 const Renderer = require('./Renderer');
 
 ipcMain.handle("apiDomain", async (event, args) => {
-	if (app.isPackaged)
-        return "http://api.mrmeme.cl";
-	return "http://localhost:8081";
+	return SettingsManager.getApiDomain();
 })
 
 ipcMain.handle("webDomain", async (event, args) => {
-	if (app.isPackaged)
-        return "http://www.mrmeme.cl";
-    return "http://localhost:8080";
+    return SettingsManager.getWebDomain();
 })
 
 ipcMain.handle("setData", async (event, key, value) => {
@@ -20,6 +17,14 @@ ipcMain.handle("setData", async (event, key, value) => {
 
 ipcMain.handle("getData", async (event, key) => {
 	return ProfileManager.load(key)
+})
+
+ipcMain.handle("setSettingsData", async (event, key, value) => {
+	SettingsManager.save(key, value)
+})
+
+ipcMain.handle("getSettingsData", async (event, key) => {
+	return SettingsManager.load(key)
 })
 
 ipcMain.handle("redirect", async (event, template) => {
