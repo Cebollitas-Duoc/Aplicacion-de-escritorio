@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     departmentManager_cardsContainer     = document.querySelector("#tab-departmentManager .cardContainer");
-    departmentManager_editMenu           = document.querySelector("#tab-departmentManager .popup");
+    departmentManager_editMenu           = document.querySelector("#tab-departmentManager .popup.dpto");
     departmentManager_button_updateList  = document.querySelector("#tab-departmentManager nav .btn-update");
     departmentManager_button_addDpto     = document.querySelector("#tab-departmentManager nav .btn-add");
     departmentManager_popup_addButton    = document.querySelector("#tab-departmentManager .popup form .btn.add")
@@ -98,7 +98,7 @@ class DepartmentManager{
             redirect: 'follow'
         };
 
-        await fetch(`${apidomain}/admin/viewdptos/`, requestOptions)
+        await fetch(`${apidomain}/departamentos/viewdptos/`, requestOptions)
         .then(response => response.text())
         .then(result => r=result)
         .catch(error => console.log('error', error));

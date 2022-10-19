@@ -58,30 +58,33 @@ $sidebar-width: 200px;
             margin: auto;
             margin-top: 2rem;
             padding: 1rem;
-            &.images{
+            &.bigcard{
                 z-index: 2;
                 width: 50rem;
                 margin: 100px;
-                display: flex;
-                flex-direction: row !important;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                .dpto-image{
-                    width: 250px;
-                    border: solid #3e65b5;
-                    border-width: 3px;
-                    border-radius: 10px;
-                    padding: 0;
-                    margin: 0;
-                    &.main{
-                        border-color: #ffb233;
-                    }
-                    
-                    &.selected{
-                        border-color: #0eb41c;
+                .image-container{
+                    display: flex;
+                    flex-direction: row !important;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    .dpto-image{
+                        width: 250px;
+                        border: solid #3e65b5;
+                        border-width: 3px;
+                        border-radius: 10px;
+                        padding: 0;
+                        margin: 0;
+                        margin-bottom: 1rem;
+                        &.main{
+                            border-color: #ffb233;
+                        }
+                        
+                        &.selected{
+                            border-color: #0eb41c;
+                        }
                     }
                 }
-
+                    
             }
             
             .btn{
