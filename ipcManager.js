@@ -27,6 +27,11 @@ ipcMain.handle("getSettingsData", async (event, key) => {
 	return SettingsManager.load(key)
 })
 
+ipcMain.handle("deleteSettingsData", async (event, args) => {
+	SettingsManager.delete()
+	app.quit()
+})
+
 ipcMain.handle("redirect", async (event, template) => {
 	Renderer.render(template)
 })

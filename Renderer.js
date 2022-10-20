@@ -2,11 +2,10 @@ const { app } = require('electron')
 const fs = require('fs-extra');
 const nunjucks = require('nunjucks')
 const API = require('./API');
+const SettingsManager = require('./SettingsManager');
 
 async function getMiniProfileData(){
-    var webDomain = "http://localhost:8080";
-    if (app.isPackaged)
-        webDomain = "http://www.mrmeme.cl";
+    var apiDomain = SettingsManager.getApiDomain()
     profileData = await API.getSessionProfile()
 
     if (profileData["ValidSession"]){
@@ -16,10 +15,10 @@ async function getMiniProfileData(){
             "isLogged": true,
             "usrName": `${username} ${lastName}`,
         }
-        if (profileData["Picture"] != null)
-            data["usrImg"] = `${webDomain}/static${profileData["Picture"]}`;
+        if (profileData["Picture"] != "")
+            data["usrImg"] = `${apiDomain}/files/getimage/${profileData["Picture"]}`;
         else
-            data["usrImg"] = `${webDomain}/static/img/profiles/default.png`;
+            data["usrImg"] = `../static/img/defaultProfileImg.png`;
     }
     else{
         data = {

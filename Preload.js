@@ -7,6 +7,7 @@ const WINDOW_API = {
         getData: (cname) => ipcRenderer.invoke('getData', cname),
         setSettingsData: (cname, cvalue) => ipcRenderer.invoke('setSettingsData', cname, cvalue),
         getSettingsData: (cname) => ipcRenderer.invoke('getSettingsData', cname),
+        deleteSettingsData: () => ipcRenderer.invoke('deleteSettingsData'),
         redirect: (template) => ipcRenderer.invoke('redirect', template),
         logout: () => ipcRenderer.invoke('logout'),
 }

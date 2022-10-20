@@ -29,7 +29,8 @@ const createWindow = () => {
 
 app.whenReady().then( async () => {
 	createWindow()
-
+	await win.loadFile("templates/Loading.html");
+	
 	if ((await API.isSessionValid())["Valid"])
 		Renderer.render("UserSpace.html")
 	else
