@@ -108,17 +108,18 @@ class DepartmentManager{
     
     static async createDptoCard(dpto){
         var card = this.cardTemplate
-        dpto = this.getDptoFormattedData(dpto)
-        card = card.replace("<<imagen>>",   "https://www.hogares.cl/wp-content/uploads/2018/05/losleones-render.jpg")
-        card = card.replace("<<address>>",  dpto.Address)
-        card = card.replace("<<estado>>",   dpto.Status)
-        card = card.replace("<<valor>>",    dpto.Value)
-        card = card.replace("<<id>>",       dpto.Id_Dpto)
+        dpto = await this.getDptoFormattedData(dpto)
+        card = card.replace("<<imagen>>",  dpto.ImageUrl)
+        card = card.replace("<<address>>", dpto.Address)
+        card = card.replace("<<estado>>",  dpto.Status)
+        card = card.replace("<<valor>>",   dpto.Value)
+        card = card.replace("<<id>>",      dpto.Id_Dpto)
 
         return card.toString()
     }
 
-    static getDptoFormattedData(dpto){
+    static async getDptoFormattedData(dpto){
+        apiDomain = await window.api.apiDomain()
         function getStatus(dpto){
             switch (dpto.Id_State) {
                 case 0:
@@ -128,8 +129,14 @@ class DepartmentManager{
                 default:
                     return user.Id_State
             }
+        }
+        function getImg(dpto){
+            if (dpto.Imagen != undefined)
+                return `${apiDomain}/files/getimage/${dpto.Imagen }`
+            return "../static/img/defaultDptoImg.jpg"
         } 
-        dpto.Status  = getStatus(dpto)
+        dpto.Status   = getStatus(dpto)
+        dpto.ImageUrl = getImg(dpto)
 
         return dpto
     }

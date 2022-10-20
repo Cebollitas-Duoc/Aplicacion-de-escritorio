@@ -8,7 +8,6 @@ class Settings{
     static button_save;
 
     static initiate(){
-        console.log("asdasd")
         this.input_apidomain = document.querySelector("#tab-settings input.dominio-api");
         this.input_webdomain = document.querySelector("#tab-settings input.dominio-web");
         this.button_save = document.querySelector("#tab-settings button.save");
