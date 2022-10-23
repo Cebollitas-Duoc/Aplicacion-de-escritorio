@@ -22,6 +22,7 @@ class UserManager{
     static input_userId
     static input_nombres
     static input_apellidos
+    static input_rut
     static input_email
     static input_direccion
     static input_telefono
@@ -60,6 +61,7 @@ class UserManager{
         this.input_userId     = document.querySelector("#tab-userManager .popup .UserId")
         this.input_nombres    = document.querySelector("#tab-userManager .popup .Nombres")
         this.input_apellidos  = document.querySelector("#tab-userManager .popup .Apellidos")
+        this.input_rut        = document.querySelector("#tab-userManager .popup .Rut")
         this.input_email      = document.querySelector("#tab-userManager .popup .Email")
         this.input_direccion  = document.querySelector("#tab-userManager .popup .Direccion")
         this.input_telefono   = document.querySelector("#tab-userManager .popup .Telefono")
@@ -129,6 +131,7 @@ class UserManager{
         this.input_userId.value    = user.Id_usuario;
         this.input_nombres.value   = user.Names;
         this.input_apellidos.value = user.Lastnames;
+        this.input_rut.value       = user.Rut;
         this.input_email.value     = user.Email;
         this.input_direccion.value = user.Direccion;
         this.input_telefono.value  = user.Telefono;
@@ -168,6 +171,7 @@ class UserManager{
         const userId     = this.input_userId.value    
         const nombres    = this.input_nombres.value   
         const apellidos  = this.input_apellidos.value 
+        const rut        = this.input_rut.value 
         const email      = this.input_email.value     
         const direccion  = this.input_direccion.value 
         const telefono   = this.input_telefono.value  
@@ -193,6 +197,7 @@ class UserManager{
         formdata.append("SegundoNombre",   nombre2)
         formdata.append("PrimerApellido",  apellido)
         formdata.append("SegundoApellido", apellido2)
+        formdata.append("Rut",             rut)
         formdata.append("Direccion",       direccion)
         formdata.append("Telefono",        telefono)
         formdata.append("Imagen",          imagen)
