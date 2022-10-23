@@ -137,6 +137,7 @@ class UserManager{
         this.input_telefono.value  = user.Telefono;
         this.input_permiso.value   = user.Id_permiso;
         this.input_estado.value    = user.Id_estadousuario;
+        this.input_imagen.value    = ""
         this.imagen.src            = user.ImgUrl;
 
         usermanager_editMenu.classList.remove("d-none");

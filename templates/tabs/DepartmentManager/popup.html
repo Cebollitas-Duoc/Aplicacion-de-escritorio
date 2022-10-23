@@ -1,7 +1,8 @@
 <div class="popup dpto w-100 m-auto text-center d-none">
     <div class="card">
         <form>
-            <h1 class="h3 mb-3 fw-normal">Editar Departamento</h1>
+            <h1 class="h3 mb-3 fw-normal add-ui">Agregar Departamento</h1>
+            <h1 class="h3 mb-3 fw-normal update-ui">Editar Departamento</h1>
             <!-- datos usuario -->
             <input type="" class="form-control d-none dptoId">
             <div class="form-floating">
@@ -49,10 +50,10 @@
                 </select>
                 <label for="updateDpto-Permiso">Estado</label>
             </div>
-            <a class="btn admin-img" type="button" onclick="DptoImgManager.showDptoImgPopup()">Administrar imagenes</a>
+            <a class="btn admin-img update-ui" type="button" onclick="DptoImgManager.showDptoImgPopup()">Administrar imagenes</a>
     
-            <button class="w-100 btn btn-lg btn-primary add" type="button">Agregar departamento</button>
-            <button class="w-100 btn btn-lg btn-primary update" type="button">Actualizar departamento</button>
+            <button class="w-100 btn btn-lg btn-primary add add-ui" type="button">Agregar departamento</button>
+            <button class="w-100 btn btn-lg btn-primary update update-ui" type="button">Actualizar departamento</button>
         </form>
     </div>
 </div>

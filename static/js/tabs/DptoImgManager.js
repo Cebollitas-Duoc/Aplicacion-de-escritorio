@@ -88,6 +88,8 @@ class DptoImgManager{
             printGlobalErrorMessage(response.Error)
         else if ("ImagenAgregada" in response && response.ImagenAgregada){
             printGlobalSuccessMessage("Imagen agregada")
+            this.input_imagen.value = ""
+            DepartmentManager.updateDptoList()
             this.fillImages();
         }
         else
@@ -102,6 +104,7 @@ class DptoImgManager{
         else if ("ImagenModificada" in response && response["ImagenModificada"]){
             printGlobalSuccessMessage("Imagen modificada")
             this.fillImages();
+            DepartmentManager.updateDptoList()
         }
         else
             printGlobalErrorMessage("Error desconocido")
@@ -115,6 +118,7 @@ class DptoImgManager{
         else if ("Imagen borrada" in response && response["Imagen borrada"]){
             printGlobalSuccessMessage("Imagen borrada")
             this.fillImages();
+            DepartmentManager.updateDptoList()
         }
         else
             printGlobalErrorMessage("Error desconocido")

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     departmentManager_cardsContainer     = document.querySelector("#tab-departmentManager .cardContainer");
-    departmentManager_editMenu           = document.querySelector("#tab-departmentManager .popup.dpto");
+    departmentManager_popup           = document.querySelector("#tab-departmentManager .popup.dpto");
     departmentManager_button_updateList  = document.querySelector("#tab-departmentManager nav .btn-update");
     departmentManager_button_addDpto     = document.querySelector("#tab-departmentManager nav .btn-add");
     departmentManager_popup_addButton    = document.querySelector("#tab-departmentManager .popup form .btn.add")
@@ -162,9 +162,10 @@ class DepartmentAdder{
         DepartmentManager.input_size.value      = ""
         DepartmentManager.input_status.value    = ""
 
-        departmentManager_popup_addButton.classList.remove("d-none");   
-        departmentManager_popup_updateButton.classList.add("d-none"); 
-        departmentManager_editMenu.classList.remove("d-none");
+        hideAllElements("#tab-departmentManager .popup .update-ui")
+        showAllElements("#tab-departmentManager .popup .add-ui")
+
+        departmentManager_popup.classList.remove("d-none");
     }
 
     static async addDpto(){
@@ -237,9 +238,9 @@ class DepartmentUpdater{
         DepartmentManager.input_Value.value     = dpto.Value
         DepartmentManager.input_status.value    = dpto.Id_State
 
-        departmentManager_popup_addButton.classList.add("d-none");   
-        departmentManager_popup_updateButton.classList.remove("d-none"); 
-        departmentManager_editMenu.classList.remove("d-none");
+        hideAllElements("#tab-departmentManager .popup .add-ui")
+        showAllElements("#tab-departmentManager .popup .update-ui") 
+        departmentManager_popup.classList.remove("d-none");
     }
 
     static async updateDpto(){
