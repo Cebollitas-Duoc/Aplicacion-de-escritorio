@@ -35,19 +35,21 @@ class DepartmentManager{
     static input_size
     static input_Value
     static input_status
+    static input_description
     static dptos = {}
 
     static setPopUpInputs(){
 
-        this.input_id        = document.querySelector("#tab-departmentManager .popup .dptoId")
-        this.input_address   = document.querySelector("#tab-departmentManager .popup .address")
-        this.input_latitud   = document.querySelector("#tab-departmentManager .popup .latitud")
-        this.input_longitud  = document.querySelector("#tab-departmentManager .popup .longitud")
-        this.input_rooms     = document.querySelector("#tab-departmentManager .popup .rooms")
-        this.input_bathrooms = document.querySelector("#tab-departmentManager .popup .bathrooms")
-        this.input_size      = document.querySelector("#tab-departmentManager .popup .size")
-        this.input_Value     = document.querySelector("#tab-departmentManager .popup .value")
-        this.input_status    = document.querySelector("#tab-departmentManager .popup .status")
+        this.input_id          = document.querySelector("#tab-departmentManager .popup .dptoId")
+        this.input_address     = document.querySelector("#tab-departmentManager .popup .address")
+        this.input_latitud     = document.querySelector("#tab-departmentManager .popup .latitud")
+        this.input_longitud    = document.querySelector("#tab-departmentManager .popup .longitud")
+        this.input_rooms       = document.querySelector("#tab-departmentManager .popup .rooms")
+        this.input_bathrooms   = document.querySelector("#tab-departmentManager .popup .bathrooms")
+        this.input_size        = document.querySelector("#tab-departmentManager .popup .size")
+        this.input_Value       = document.querySelector("#tab-departmentManager .popup .value")
+        this.input_status      = document.querySelector("#tab-departmentManager .popup .status")
+        this.input_description = document.querySelector("#tab-departmentManager .popup .description")
     }
 
     static cardTemplate = `
@@ -152,15 +154,16 @@ class DepartmentManager{
 
 class DepartmentAdder{
     static showAddDptoMenu(){
-        DepartmentManager.input_id.value        = ""
-        DepartmentManager.input_address.value   = ""
-        DepartmentManager.input_latitud.value   = ""
-        DepartmentManager.input_longitud.value  = ""
-        DepartmentManager.input_rooms.value     = ""
-        DepartmentManager.input_bathrooms.value = ""
-        DepartmentManager.input_Value.value     = ""
-        DepartmentManager.input_size.value      = ""
-        DepartmentManager.input_status.value    = ""
+        DepartmentManager.input_id.value          = ""
+        DepartmentManager.input_address.value     = ""
+        DepartmentManager.input_latitud.value     = ""
+        DepartmentManager.input_longitud.value    = ""
+        DepartmentManager.input_rooms.value       = ""
+        DepartmentManager.input_bathrooms.value   = ""
+        DepartmentManager.input_Value.value       = ""
+        DepartmentManager.input_size.value        = ""
+        DepartmentManager.input_status.value      = 0
+        DepartmentManager.input_description.value = ""
 
         hideAllElements("#tab-departmentManager .popup .update-ui")
         showAllElements("#tab-departmentManager .popup .add-ui")
@@ -185,26 +188,28 @@ class DepartmentAdder{
     static async addDptoRequest(){
 
         var formdata = new FormData();
-        const SessionKey = await window.api.getData("SessionKey")
-        const address    = DepartmentManager.input_address.value
-        const latitud    = DepartmentManager.input_latitud.value
-        const longitud   = DepartmentManager.input_longitud.value
-        const rooms      = DepartmentManager.input_rooms.value
-        const bathrooms  = DepartmentManager.input_bathrooms.value
-        const size       = DepartmentManager.input_size.value
-        const Value      = DepartmentManager.input_Value.value
-        const status     = DepartmentManager.input_status.value
+        const SessionKey  = await window.api.getData("SessionKey")
+        const address     = DepartmentManager.input_address.value
+        const latitud     = DepartmentManager.input_latitud.value
+        const longitud    = DepartmentManager.input_longitud.value
+        const rooms       = DepartmentManager.input_rooms.value
+        const bathrooms   = DepartmentManager.input_bathrooms.value
+        const size        = DepartmentManager.input_size.value
+        const Value       = DepartmentManager.input_Value.value
+        const status      = DepartmentManager.input_status.value
+        const description = DepartmentManager.input_description.value
 
         
-        formdata.append("SessionKey", SessionKey)
-        formdata.append("Address",    address)
-        formdata.append("Latitud",    latitud)
-        formdata.append("Longitud",   longitud)
-        formdata.append("Rooms",      rooms)
-        formdata.append("Bathrooms",  bathrooms)
-        formdata.append("Size",       size)
-        formdata.append("Value",      Value)
-        formdata.append("IdState",    status)
+        formdata.append("SessionKey",  SessionKey)
+        formdata.append("Address",     address)
+        formdata.append("Latitud",     latitud)
+        formdata.append("Longitud",    longitud)
+        formdata.append("Rooms",       rooms)
+        formdata.append("Bathrooms",   bathrooms)
+        formdata.append("Size",        size)
+        formdata.append("Value",       Value)
+        formdata.append("IdState",     status)
+        formdata.append("Description", description)
         
         var requestOptions = {
             method: 'POST',
@@ -228,15 +233,16 @@ class DepartmentUpdater{
         var dpto = DepartmentManager.findDpto(dptoId)
         if (dpto == undefined) return;
 
-        DepartmentManager.input_id.value        = dpto.Id_Dpto
-        DepartmentManager.input_address.value   = dpto.Address
-        DepartmentManager.input_latitud.value   = dpto.Latitud
-        DepartmentManager.input_longitud.value  = dpto.Longitud
-        DepartmentManager.input_rooms.value     = dpto.Rooms
-        DepartmentManager.input_bathrooms.value = dpto.Bathrooms
-        DepartmentManager.input_size.value      = dpto.Size
-        DepartmentManager.input_Value.value     = dpto.Value
-        DepartmentManager.input_status.value    = dpto.Id_State
+        DepartmentManager.input_id.value          = dpto.Id_Dpto
+        DepartmentManager.input_address.value     = dpto.Address
+        DepartmentManager.input_latitud.value     = dpto.Latitud
+        DepartmentManager.input_longitud.value    = dpto.Longitud
+        DepartmentManager.input_rooms.value       = dpto.Rooms
+        DepartmentManager.input_bathrooms.value   = dpto.Bathrooms
+        DepartmentManager.input_size.value        = dpto.Size
+        DepartmentManager.input_Value.value       = dpto.Value
+        DepartmentManager.input_status.value      = dpto.Id_State
+        DepartmentManager.input_description.value = dpto.Description
 
         hideAllElements("#tab-departmentManager .popup .add-ui")
         showAllElements("#tab-departmentManager .popup .update-ui") 
@@ -260,28 +266,30 @@ class DepartmentUpdater{
     static async updateDptoRequest(){
 
         var formdata = new FormData();
-        const SessionKey = await window.api.getData("SessionKey")
-        const id         = DepartmentManager.input_id.value
-        const address    = DepartmentManager.input_address.value
-        const latitud    = DepartmentManager.input_latitud.value
-        const longitud   = DepartmentManager.input_longitud.value
-        const rooms      = DepartmentManager.input_rooms.value
-        const bathrooms  = DepartmentManager.input_bathrooms.value
-        const size       = DepartmentManager.input_size.value
-        const Value      = DepartmentManager.input_Value.value
-        const status     = DepartmentManager.input_status.value
+        const SessionKey  = await window.api.getData("SessionKey")
+        const id          = DepartmentManager.input_id.value
+        const address     = DepartmentManager.input_address.value
+        const latitud     = DepartmentManager.input_latitud.value
+        const longitud    = DepartmentManager.input_longitud.value
+        const rooms       = DepartmentManager.input_rooms.value
+        const bathrooms   = DepartmentManager.input_bathrooms.value
+        const size        = DepartmentManager.input_size.value
+        const Value       = DepartmentManager.input_Value.value
+        const status      = DepartmentManager.input_status.value
+        const description = DepartmentManager.input_description.value
 
         
-        formdata.append("SessionKey", SessionKey)
-        formdata.append("IdDpto",     id)
-        formdata.append("Address",    address)
-        formdata.append("Latitud",    latitud)
-        formdata.append("Longitud",   longitud)
-        formdata.append("Rooms",      rooms)
-        formdata.append("Bathrooms",  bathrooms)
-        formdata.append("Size",       size)
-        formdata.append("Value",      Value)
-        formdata.append("IdState",    status)
+        formdata.append("SessionKey",  SessionKey)
+        formdata.append("IdDpto",      id)
+        formdata.append("Address",     address)
+        formdata.append("Latitud",     latitud)
+        formdata.append("Longitud",    longitud)
+        formdata.append("Rooms",       rooms)
+        formdata.append("Bathrooms",   bathrooms)
+        formdata.append("Size",        size)
+        formdata.append("Value",       Value)
+        formdata.append("IdState",     status)
+        formdata.append("Description", description)
         
         var requestOptions = {
             method: 'POST',
