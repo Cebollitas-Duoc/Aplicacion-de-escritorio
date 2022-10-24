@@ -31,7 +31,6 @@ class DptoImgManager{
     static async getImages(dptoId){
         var formdata = new FormData();
         var r
-        formdata.append("IdApartment", dptoId);
 
         var requestOptions = {
             method: 'POST',
@@ -39,7 +38,7 @@ class DptoImgManager{
             redirect: 'follow'
         };
 
-        await fetch(`${apidomain}/departamentos/viewfotosdpto/`, requestOptions)
+        await fetch(`${apidomain}/departamentos/viewfotosdpto/${dptoId}/`, requestOptions)
         .then(response => response.text())
         .then(result => r=result)
         .catch(error => console.log('error', error));
