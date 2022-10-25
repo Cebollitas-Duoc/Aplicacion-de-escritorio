@@ -13,6 +13,7 @@ function printGlobalErrorMessage(message){
     globalMessageCard.classList.remove("success");
     globalMessageCard.classList.remove("d-none");
     globalMessage.innerHTML = message
+    startAutoHide()
 }
 
 function printGlobalSuccessMessage(message){
@@ -20,4 +21,10 @@ function printGlobalSuccessMessage(message){
     globalMessageCard.classList.remove("error");
     globalMessageCard.classList.remove("d-none");
     globalMessage.innerHTML = message
+    startAutoHide()
+}
+
+async function startAutoHide(){
+    await new Promise(r => setTimeout(r, 1500));
+    globalMessageCard.classList.add("d-none");
 }
