@@ -152,10 +152,43 @@ class AddDptoService{
         this.dd_category = document.querySelector("#tab-departmentManager .popup.service .serviceCategory.addService");
     }
 
-    static addService(){
-        const idService = this.dd_category.value
+    static async addService(){
+        const idServiceCategory = this.dd_category.value
         const idDpto = DepartmentManager.input_id.value
-        console.log(idService, idDpto)
+        
+        const response = await this.addServiceQuery(idDpto, idServiceCategory)
+        if ("Servicio_Agregado" in response && response["Servicio_Agregado"]){
+            printGlobalSuccessMessage("Servicio agregado")
+            DptoServiceManager.setServices()
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al agregar servicio")
+    }
+
+    static async addServiceQuery(idDpto, idServiceCategory){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",         SessionKey)
+        formdata.append("IdDpto",             idDpto)
+        formdata.append("IdServiceCategory",  idServiceCategory)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/addservice/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
     }
 }
 
@@ -166,20 +199,53 @@ class EditDptoService{
     static input_cantidad;
 
     static initiate(){
-        this.dd_estado = document.querySelector("#tab-departmentManager .popup.service .cantidad");
-        this.input_cantidad = document.querySelector("#tab-departmentManager .popup.service .estado");
+        this.dd_estado = document.querySelector("#tab-departmentManager .popup.service .estado");
+        this.input_cantidad = document.querySelector("#tab-departmentManager .popup.service .cantidad");
     }
 
-    static editService(){
-        const cantidad = this.input_cantidad.value
-        const estado = this.dd_estado.value
+    static async editService(){
+        const cantidad = parseInt(this.input_cantidad.value)
+        const estado = parseInt(this.dd_estado.value)
 
         if (this.selectedSrvId == undefined){
             printGlobalErrorMessage("no hay un servicio seleccionado");
             return;
         }
 
-        console.log(this.selectedSrvId, cantidad, estado)
+        const response = await this.editServiceQuery(this.selectedSrvId, estado, cantidad)
+        if ("Servicio_Modificado" in response && response["Servicio_Modificado"]){
+            printGlobalSuccessMessage("Servicio modificado")
+            DptoServiceManager.setServices()
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al editar servicio")
+    }
+
+    static async editServiceQuery(idSrv, idEstado, cantidad){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdSrv",      idSrv)
+        formdata.append("IdEstado",   idEstado)
+        formdata.append("Cantidad",   cantidad)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/editservice/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
     }
 
     static selectSrv(dptosrvid){
