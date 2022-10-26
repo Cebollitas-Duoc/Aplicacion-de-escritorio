@@ -109,6 +109,20 @@
   margin-top: 0.5rem;
 }
 
+#tabContainer .popup.service .service-container .card {
+  width: auto;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+#tabContainer .popup.service .service-container .card.selected {
+  border-color: #0eb41c;
+}
+
+#tabContainer .popup.service .service-container .card div.card-body {
+  padding: 5px;
+}
+
 #miniProfile {
   text-align: right;
 }

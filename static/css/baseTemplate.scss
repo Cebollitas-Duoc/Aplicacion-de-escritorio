@@ -92,6 +92,18 @@ $sidebar-width: 200px;
                 margin-top: 0.5rem;
             }
         }
+
+        &.service .service-container .card{
+            width: auto;
+            padding: 0;
+            margin-top: 0.5rem;
+            &.selected{
+                border-color: #0eb41c;
+            }
+            div.card-body{
+                padding: 5px;
+            }
+        }
     }
 }
 

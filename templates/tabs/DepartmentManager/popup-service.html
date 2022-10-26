@@ -1,18 +1,36 @@
 <div class="popup service w-100 m-auto text-center d-none">
     <div class="card bigcard d-flex flex-wrap">
         <div class="service-container">
-
+            
         </div>
 
-        <div>
-            <label for="floatingInput">Permiso</label>
-            <select class="form-select serviceCategory" aria-label="Default select example">
-                <option value="0">Usuario</option>
-                <option value="1">Empleado</option>
-                <option value="2">Administrador</option>
-            </select>
-            <button onclick="" href="#" class="btn btn-success">Agregar</button>
-            <button onclick="" href="#" class="btn btn-danger">Borrar</button>
+        <div class="row">
+            <div class="col-6">
+                <label for="floatingInput">Agregar Servicio</label>
+                <select class="form-select serviceCategory addService" aria-label="Default select example">
+                </select>
+                <button onclick="" href="#" class="btn btn-success">Agregar</button>
+            </div>
+            <div class="col-6">
+                <label for="floatingInput">Editar Servicio</label>
+                <select class="form-select serviceCategory editService" aria-label="Default select example">
+                </select>
+                <div class="row">
+
+                    <div class="form-floating col-6">
+                        <input type="number" class="form-control cantidad" placeholder=" " value="1">
+                        <label for="floatingInput">Cantidad</label>
+                    </div>
+                    <div class="col-6">
+                        <label for="floatingInput">Estado</label>
+                        <select class="form-select Estado" aria-label="Default select example">
+                            <option value="0">Activo</option>
+                            <option value="1">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="" href="#" class="btn btn-success">Editar</button>
+            </div>
         </div>
         
     </div>
