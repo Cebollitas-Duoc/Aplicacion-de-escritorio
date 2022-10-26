@@ -1,27 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     DptoServiceManager.initiate();
+    AddDptoService.initiate();
+    EditDptoService.initiate();
 })
 
 class DptoServiceManager{
     static popup;
     static serviceContainer;
-    static dd_categoryAdd;
-    static dd_categoryEdit;
     static services = {}
-    static selectedSrv;
-    static selectedSrvId;
     
     static initiate(){
         this.popup = document.querySelector("#tab-departmentManager .popup.service");
         this.serviceContainer = document.querySelector("#tab-departmentManager .popup.service .service-container");
-        this.dd_categoryAdd   = document.querySelector("#tab-departmentManager .popup.service .serviceCategory.addService");
-        this.dd_categoryEdit  = document.querySelector("#tab-departmentManager .popup.service .serviceCategory.editService");
 
         DptoCategoryServiceManager.setCategorys()
     }
 
     static cardTemplate = `
-    <div id="dptosrv-<<id>>" class="card" onclick="DptoServiceManager.selectSrv(<<id>>)">
+    <div id="dptosrv-<<id>>" class="card" onclick="EditDptoService.selectSrv(<<id>>)">
         <div class="card-body">
             <div class="container text-center align-middle">
                 <div class="row">
@@ -41,6 +37,8 @@ class DptoServiceManager{
     `
 
     static async showPopup(){
+        EditDptoService.selectedSrv = undefined
+        EditDptoService.selectedSrvId = undefined
         this.setServices();
         await hideAllPopUps();
         this.popup.classList.remove("d-none");
@@ -113,27 +111,17 @@ class DptoServiceManager{
         return srv
     }
 
-    static selectSrv(dptosrvid){
-        if (this.selectedSrv != undefined)
-        this.selectedSrv.classList.remove("selected");
-
-        this.selectedSrvId = dptosrvid
-        this.selectedSrv = document.querySelector(`#dptosrv-${dptosrvid}`);
-
-        this.selectedSrv.classList.add("selected");
-    }
+    
 }
 
 class DptoCategoryServiceManager{
     static categorys = {}
     static async setCategorys(){
         this.categorys = await this.getCategorys()
-        DptoServiceManager.dd_categoryAdd.innerHTML = ""
-        DptoServiceManager.dd_categoryEdit.innerHTML = ""
+        AddDptoService.dd_category.innerHTML = ""
         this.categorys.forEach(async (category) => {
             var option = `<option value="${category.Id_Categoria}">${category.Descripcion}</option>`
-            appendStringElement(DptoServiceManager.dd_categoryAdd, option)
-            appendStringElement(DptoServiceManager.dd_categoryEdit, option)
+            appendStringElement(AddDptoService.dd_category, option)
         });
     }
 
@@ -154,5 +142,53 @@ class DptoCategoryServiceManager{
         .catch(error => console.log('error', error));
 
         return JSON.parse(r);
+    }
+}
+
+class AddDptoService{
+    static dd_category;
+
+    static initiate(){
+        this.dd_category = document.querySelector("#tab-departmentManager .popup.service .serviceCategory.addService");
+    }
+
+    static addService(){
+        const idService = this.dd_category.value
+        const idDpto = DepartmentManager.input_id.value
+        console.log(idService, idDpto)
+    }
+}
+
+class EditDptoService{
+    static selectedSrv;
+    static selectedSrvId;
+    static dd_estado;
+    static input_cantidad;
+
+    static initiate(){
+        this.dd_estado = document.querySelector("#tab-departmentManager .popup.service .cantidad");
+        this.input_cantidad = document.querySelector("#tab-departmentManager .popup.service .estado");
+    }
+
+    static editService(){
+        const cantidad = this.input_cantidad.value
+        const estado = this.dd_estado.value
+
+        if (this.selectedSrvId == undefined){
+            printGlobalErrorMessage("no hay un servicio seleccionado");
+            return;
+        }
+
+        console.log(this.selectedSrvId, cantidad, estado)
+    }
+
+    static selectSrv(dptosrvid){
+        if (this.selectedSrv != undefined)
+        this.selectedSrv.classList.remove("selected");
+
+        this.selectedSrvId = dptosrvid
+        this.selectedSrv = document.querySelector(`#dptosrv-${dptosrvid}`);
+
+        this.selectedSrv.classList.add("selected");
     }
 }

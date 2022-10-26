@@ -14,11 +14,13 @@ input.form-control{
 form img{
     $picture-size: 150px;
     width: $picture-size;
-    height: $picture-size;
-    border-radius: $picture-size;
-    border: 2px solid #cfd8dc;
-    cursor: pointer;
-    &:hover{
-        filter: grayscale(50%);
+    &.profile{
+        height: $picture-size;
+        border-radius: $picture-size;
+        border: 2px solid #cfd8dc;
+        cursor: pointer;
+        &:hover{
+            filter: grayscale(50%);
+        }
     }
 }

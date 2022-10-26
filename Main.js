@@ -6,7 +6,7 @@ const API = require('./API');
 require('./ipcManager');
 
 const paths = {
-	icon: path.join(__dirname, "static/img/Logo_v1.png"),
+	icon: path.join(__dirname, "static/img/logo_sq.png"),
 	preload: path.join(__dirname, "Preload.js"),
 }
 
