@@ -1,4 +1,4 @@
-{% extends 'templates/BaseTemplate.html' %}
+{% extends basepath + '/templates/BaseTemplate.html' %}
 
 {% block css %}
 <link href="../static/css/Form.css" rel="stylesheet">
@@ -19,13 +19,13 @@
 {% block wrapper %}
 <main class="d-flex flex-nowrap">
 
-  {% include 'templates/GlobalMessage.html' %}
-  {% include 'templates/Navbar.html' %}
+  {% include basepath + '/templates/GlobalMessage.html' %}
+  {% include basepath + '/templates/Navbar.html' %}
   <div id="tabContainer">
-    {% include 'templates/tabs/settings.html' %}
-    {% include 'templates/tabs/inicio.html' %}
-    {% include 'templates/tabs/UserManager/index.html' %}
-    {% include 'templates/tabs/DepartmentManager/index.html' %}
+    {% include basepath + '/templates/tabs/settings.html' %}
+    {% include basepath + '/templates/tabs/inicio.html' %}
+    {% include basepath + '/templates/tabs/UserManager/index.html' %}
+    {% include basepath + '/templates/tabs/DepartmentManager/index.html' %}
     
   </div>
   </main>

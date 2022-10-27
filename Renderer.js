@@ -4,7 +4,8 @@ const nunjucks = require('nunjucks')
 const API = require('./API');
 const SettingsManager = require('./SettingsManager');
 
-async function getMiniProfileData(){
+async function createUniversalContext(){
+    const basepath = app.getAppPath();
     var apiDomain = SettingsManager.getApiDomain()
     profileData = await API.getSessionProfile()
 
@@ -18,7 +19,7 @@ async function getMiniProfileData(){
         if (profileData["Picture"] != "")
             data["usrImg"] = `${apiDomain}/files/getimage/${profileData["Picture"]}`;
         else
-            data["usrImg"] = `../static/img/defaultProfileImg.png`;
+            data["usrImg"] = `${basepath}/static/img/defaultProfileImg.png`;
     }
     else{
         data = {
@@ -27,7 +28,7 @@ async function getMiniProfileData(){
             "usrImg": "",
         }
     }
-    
+    data["basepath"] = basepath
     return data
 }
 
@@ -35,15 +36,16 @@ class Renderer {
     static win;
 
     static async render(template, context = {}){
-        const cacheFile = "templates/Cache.html"
+        const basepath = app.getAppPath();
+        const cacheFile = basepath + "/templates/Cache.html"
         function writeCache(s){
             fs.writeFileSync(cacheFile, s, 'utf8', function (err) {
                if (err) return console.log(err);
             });
         }
         
-        const universalContext = await getMiniProfileData()
-        const html = nunjucks.render("templates/"+template, Object.assign({}, context, universalContext));
+        const universalContext = await createUniversalContext()
+        const html = nunjucks.render(basepath + "/templates/"+template, Object.assign({}, context, universalContext));
         
         writeCache(html)
         await this.win.loadFile(cacheFile);

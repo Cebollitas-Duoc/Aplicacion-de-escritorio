@@ -1,4 +1,4 @@
-{% extends 'templates/BaseTemplate.html' %}
+{% extends basepath + '/templates/BaseTemplate.html' %}
 
 {% block css %}
 <link href="../static/css/Form.css" rel="stylesheet">
@@ -33,7 +33,7 @@
 
     </form>
 
-    {% include 'templates/FormErrorMessage.html' %}
+    {% include basepath + '/templates/FormErrorMessage.html' %}
 
 </main>
 {% endblock wrapper %}
