@@ -161,18 +161,21 @@ class EditDptoExtraService{
     static selectedExtSrvId;
 
     static async editService(){
-        const cantidad = parseInt(this.input_cantidad.value)
-        const estado = parseInt(this.dd_estado.value)
+        const idStatus = parseInt(DptoExtraServiceManager.status.value)
+        const value    = parseInt(DptoExtraServiceManager.value.value)
+        var idWorker   = DptoExtraServiceManager.worker.value
+        if (idWorker == "null") idWorker = undefined;
+        else idWorker = parseInt(idWorker);
 
         if (this.selectedExtSrvId == undefined){
             printGlobalErrorMessage("no hay un servicio seleccionado");
             return;
         }
 
-        const response = await this.editServiceQuery(this.selectedExtSrvId, estado, cantidad)
+        const response = await this.editServiceQuery(this.selectedExtSrvId, idStatus, idWorker, value)
         if ("Servicio_Modificado" in response && response["Servicio_Modificado"]){
             printGlobalSuccessMessage("Servicio modificado")
-            DptoServiceManager.setServices()
+            DptoExtraServiceManager.setServices()
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -180,16 +183,17 @@ class EditDptoExtraService{
             printGlobalErrorMessage("Error desconocido al editar servicio")
     }
 
-    static async editServiceQuery(idSrv, idEstado, cantidad){
+    static async editServiceQuery(extSrvId, idStatus, idWorker, value){
         const SessionKey  = await window.api.getData("SessionKey")
         var formdata = new FormData();
         var r
         var apidomain = await window.api.apiDomain()
 
-        formdata.append("SessionKey", SessionKey)
-        formdata.append("IdSrv",      idSrv)
-        formdata.append("IdEstado",   idEstado)
-        formdata.append("Cantidad",   cantidad)
+        formdata.append("SessionKey",   SessionKey)
+        formdata.append("IdExtraSrv",   extSrvId)
+        formdata.append("IdState",      idStatus)
+        formdata.append("IdTrabajador", idWorker)
+        formdata.append("Valor",        value)
 
         var requestOptions = {
             method: 'POST',
@@ -197,7 +201,7 @@ class EditDptoExtraService{
             redirect: 'follow'
         };
 
-        await fetch(`${apidomain}/admin/editservice/`, requestOptions)
+        await fetch(`${apidomain}/admin/editextraservice/`, requestOptions)
         .then(response => response.text())
         .then(result => r=result)
         .catch(error => console.log('error', error));
@@ -225,5 +229,53 @@ class EditDptoExtraService{
         DptoExtraServiceManager.status.value   = extSrv.Id_Estado;
         DptoExtraServiceManager.worker.value   = extSrv.Id_Trabajador;
         DptoExtraServiceManager.value.value    = extSrv.Valor;
+    }
+}
+
+class AddDptoExtraService{
+    static async addService(){
+        const idDpto     = DepartmentManager.input_id.value
+        const idCategory = DptoExtraServiceManager.category.value
+        const idStatus   = DptoExtraServiceManager.status.value
+        const idWorker   = DptoExtraServiceManager.worker.value
+        const value      = DptoExtraServiceManager.value.value
+        
+        const response = await this.addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value)
+        if ("ServicioExtra_Agregado" in response && response["ServicioExtra_Agregado"]){
+            printGlobalSuccessMessage("Servicio extra agregado")
+            DptoExtraServiceManager.setServices()
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al agregar servicio extra")
+    }
+
+    static async addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value){
+        if (idWorker == "null") idWorker = undefined;
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",   SessionKey)
+        formdata.append("IdDpto",       idDpto)
+        formdata.append("IdCategory",   idCategory)
+        formdata.append("IdState",      idStatus)
+        formdata.append("IdTrabajador", idWorker)
+        formdata.append("Valor",        value)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/addextraservice/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
     }
 }
