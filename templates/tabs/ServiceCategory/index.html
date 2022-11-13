@@ -1,0 +1,43 @@
+<div id="tab-serviceCategory" class="tab d-none">
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Administracion de categorias de servicios</a>
+        <form class="form-inline">
+            <button class="btn-add btn btn-outline-success my-2 my-sm-0 add" type="button">Agregar</button>
+        </form>
+    </nav>
+    <div class="tabItemContainer">
+        {% include basepath + '/templates/tabs/ServiceCategory/popup.html' %}
+        <div class="cardContainer">
+            <div class="row">
+                <span class="col-6">
+                    Categorias normales
+                </span>
+                <span class="col-6">
+                    Categorias extra
+                </span>
+            </div>
+
+            <div class="row">
+                <div class="services col-6">
+                    <div class="card userRow">
+                        <div class="card-body">
+                            <div class="container text-center align-middle">
+                                categoria
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="extraservices col-6">
+                    <div class="card userRow">
+                        <div class="card-body">
+                            <div class="container text-center align-middle">
+                                categoria
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</div>

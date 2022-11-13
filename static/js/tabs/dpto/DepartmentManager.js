@@ -40,16 +40,16 @@ class DepartmentManager{
 
     static setPopUpInputs(){
 
-        this.input_id          = document.querySelector("#tab-departmentManager .popup .dptoId")
-        this.input_address     = document.querySelector("#tab-departmentManager .popup .address")
-        this.input_latitud     = document.querySelector("#tab-departmentManager .popup .latitud")
-        this.input_longitud    = document.querySelector("#tab-departmentManager .popup .longitud")
-        this.input_rooms       = document.querySelector("#tab-departmentManager .popup .rooms")
-        this.input_bathrooms   = document.querySelector("#tab-departmentManager .popup .bathrooms")
-        this.input_size        = document.querySelector("#tab-departmentManager .popup .size")
-        this.input_Value       = document.querySelector("#tab-departmentManager .popup .value")
-        this.input_status      = document.querySelector("#tab-departmentManager .popup .status")
-        this.input_description = document.querySelector("#tab-departmentManager .popup .description")
+        this.input_id          = document.querySelector("#tab-departmentManager .popup.dpto .dptoId")
+        this.input_address     = document.querySelector("#tab-departmentManager .popup.dpto .address")
+        this.input_latitud     = document.querySelector("#tab-departmentManager .popup.dpto .latitud")
+        this.input_longitud    = document.querySelector("#tab-departmentManager .popup.dpto .longitud")
+        this.input_rooms       = document.querySelector("#tab-departmentManager .popup.dpto .rooms")
+        this.input_bathrooms   = document.querySelector("#tab-departmentManager .popup.dpto .bathrooms")
+        this.input_size        = document.querySelector("#tab-departmentManager .popup.dpto .size")
+        this.input_Value       = document.querySelector("#tab-departmentManager .popup.dpto .value")
+        this.input_status      = document.querySelector("#tab-departmentManager .popup.dpto .status")
+        this.input_description = document.querySelector("#tab-departmentManager .popup.dpto .description")
     }
 
     static cardTemplate = `
