@@ -1,0 +1,38 @@
+<div class="popup extraservice w-100 m-auto text-center d-none">
+    <div class="card bigcard d-flex flex-wrap">
+        <div class="extraservice-container">
+            
+        </div>
+
+        <div class="inputs row">
+            <div class="col-3">
+                <label for="floatingInput">Categoria</label>
+                <select class="form-select category addExtraService" aria-label="Default select example">
+                </select>
+            </div>
+            
+            <div class="col-3">
+                <label for="floatingInput">Estado</label>
+                <select class="form-select status" aria-label="Default select example">
+                    <option value="0">Activo</option>
+                    <option value="1">Inactivo</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <label for="floatingInput">trabajador</label>
+                <select class="form-select worker" aria-label="Default select example">
+                    <option value="null">Sin trabajador</option>
+                </select>
+            </div>
+            <div class="form-floating col-3">
+                <input type="number" class="form-control value" placeholder=" " value="1">
+                <label for="floatingInput">Valor</label>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="AddDptoExtraService.addExtraService()" href="#" class="btn btn-success">Agregar</button>
+            <button onclick="EditDptoExtraService.editExtraService()" href="#" class="btn btn-success">Editar</button>
+        </div>
+        
+    </div>
+</div>

@@ -14,16 +14,12 @@ input.form-control {
 form img {
   width: 150px;
 }
-
 form img.profile {
   height: 150px;
   border-radius: 150px;
   border: 2px solid #cfd8dc;
   cursor: pointer;
 }
-
 form img.profile:hover {
-  -webkit-filter: grayscale(50%);
-          filter: grayscale(50%);
-}
-/*# sourceMappingURL=Form.css.map */
+  filter: grayscale(50%);
+}/*# sourceMappingURL=Form.css.map */
