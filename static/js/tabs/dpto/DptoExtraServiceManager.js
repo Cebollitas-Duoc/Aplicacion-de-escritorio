@@ -129,7 +129,7 @@ class DptoCategoryExtraServiceManager{
     static categorys = {}
     static async setCategorys(){
         this.categorys = await this.getCategorys()
-        AddDptoService.dd_category.innerHTML = ""
+        DptoExtraServiceManager.category.innerHTML = ""
         this.categorys.forEach(async (category) => {
             var option = `<option value="${category.Id_Category}">${category.Description}</option>`
             appendStringElement(DptoExtraServiceManager.category, option)
