@@ -111,7 +111,9 @@ class DptoExtraServiceManager{
         //TODO
         function getWorker(srv){
             const workerId = srv.Id_Trabajador
-            return workerId;
+            if (srv.Id_Trabajador == null)
+                return "Sin trabajador";
+            return srv.Trabajador;
         }
 
         if (DptoCategoryExtraServiceManager.categorys == {})
