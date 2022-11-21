@@ -10,11 +10,12 @@ async function createUniversalContext(){
     profileData = await API.getSessionProfile()
 
     if (profileData["ValidSession"]){
-        username = profileData["Name"]
-        lastName = profileData["LastName"]
+        username   = profileData["Name"]
+        lastName   = profileData["LastName"]
         data = {
             "isLogged": true,
             "usrName": `${username} ${lastName}`,
+            "permission": profileData["Permission"]
         }
         if (profileData["Picture"] != "")
             data["usrImg"] = `${apiDomain}/files/getimage/${profileData["Picture"]}`;

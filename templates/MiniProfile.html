@@ -1,7 +1,10 @@
-<div class="dropdown">
+<div id="miniProfile" class="dropdown">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ usrImg }}" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>{{ usrName }}</strong>
+        <img src="{{ usrImg }}" alt="" class="rounded-circle me-2">
+        <div class="nameContainer">
+            <strong>{{ usrName }}</strong>
+            <strong class="permission">{{ permission }}</strong>
+        </div>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
         <li><a class="dropdown-item" href="#" onclick="window.api.logout()">Cerrar sesion</a></li>

@@ -192,3 +192,19 @@ $sidebar-width: 200px;
         background-color: #a1fb9bc9;
     }
 }
+
+#miniProfile{
+    img{
+        $sidebar-width: 40px;
+        width: $sidebar-width;
+        height: $sidebar-width;
+    }
+    .nameContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .permission{
+            color: #ffd70087;
+        }
+    }
+}
