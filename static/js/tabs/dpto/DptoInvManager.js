@@ -83,7 +83,45 @@ class DptoInvManager{
 }
 
 class EditInventoryObject{
-    
+    static async editItem(){
+        const name    = DptoInvManager.name.value;
+        const ammount = DptoInvManager.ammount.value;
+
+        const response = await this.editItemRequest(InventorySelector.selectedObjId, name, ammount)
+        if ("ObjetoEditado" in response && response["ObjetoEditado"]){
+            printGlobalSuccessMessage("Objeto editado")
+            DptoInvManager.setInventory()
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al editar objeto")
+    }
+
+    static async editItemRequest(id, name, ammount){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",   SessionKey)
+        formdata.append("IdItem",  id)
+        formdata.append("Name",    name)
+        formdata.append("Ammount", ammount)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/edititem/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
 }
 
 class InventorySelector{
