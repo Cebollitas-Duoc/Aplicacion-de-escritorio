@@ -92,7 +92,7 @@ $sidebar-width: 200px;
                 margin-top: 0.5rem;
             }
         }
-
+        //TODO: delete
         &.service .service-container .card{
             width: auto;
             padding: 0;
@@ -105,13 +105,13 @@ $sidebar-width: 200px;
             }
         }
 
-        &.extraservice {
+        &.narrowList {
             div.buttons {
                 display: flex;
                 justify-content: space-evenly;
             }
 
-            .extraservice-container .card{
+            .item-container .card{
                 width: auto;
                 padding: 0;
                 margin-top: 0.5rem;

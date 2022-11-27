@@ -21,7 +21,7 @@ class DptoImgManager{
     </div>
     `
 
-    static async showDptoImgPopup(){
+    static async showPopup(){
         await hideAllPopUps();
         departmentImgManager_popup.classList.remove("d-none");
         

@@ -37,11 +37,11 @@ class DptoExtraServiceManager{
 
     static initiate(){
         this.popup = document.querySelector("#tab-departmentManager .popup.extraservice");
-        this.serviceContainer = document.querySelector("#tab-departmentManager .popup.extraservice .extraservice-container");
-        this.category = document.querySelector("#tab-departmentManager .popup.extraservice div.inputs .category");
-        this.status   = document.querySelector("#tab-departmentManager .popup.extraservice div.inputs .status");
-        this.worker   = document.querySelector("#tab-departmentManager .popup.extraservice div.inputs .worker");
-        this.value    = document.querySelector("#tab-departmentManager .popup.extraservice div.inputs .value");
+        this.serviceContainer = this.popup.querySelector(".item-container");
+        this.category = this.popup.querySelector("div.inputs .category");
+        this.status   = this.popup.querySelector("div.inputs .status");
+        this.worker   = this.popup.querySelector("div.inputs .worker");
+        this.value    = this.popup.querySelector("div.inputs .value");
     }
 
     static async showPopup(){

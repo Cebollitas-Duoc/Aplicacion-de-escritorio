@@ -95,19 +95,19 @@
 #tabContainer .popup.service .service-container .card div.card-body {
   padding: 5px;
 }
-#tabContainer .popup.extraservice div.buttons {
+#tabContainer .popup.narrowList div.buttons {
   display: flex;
   justify-content: space-evenly;
 }
-#tabContainer .popup.extraservice .extraservice-container .card {
+#tabContainer .popup.narrowList .item-container .card {
   width: auto;
   padding: 0;
   margin-top: 0.5rem;
 }
-#tabContainer .popup.extraservice .extraservice-container .card.selected {
+#tabContainer .popup.narrowList .item-container .card.selected {
   border-color: #0eb41c;
 }
-#tabContainer .popup.extraservice .extraservice-container .card div.card-body {
+#tabContainer .popup.narrowList .item-container .card div.card-body {
   padding: 5px;
 }
 
