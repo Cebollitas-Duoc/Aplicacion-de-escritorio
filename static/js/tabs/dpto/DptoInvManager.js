@@ -172,6 +172,51 @@ class AddInventoryObject{
         return JSON.parse(r);
     }
 }
+
+class DeleteInventoryObject{
+    static async deleteObject(){
+        const objId = InventorySelector.selectedObjId;
+        if (objId == undefined){
+            printGlobalErrorMessage("Debes seleccionar un objeto.")
+            return;
+        }
+
+        const response = await this.deleteObjectQuery(objId)
+        if ("ObjetoBorrado" in response && response["ObjetoBorrado"]){
+            printGlobalSuccessMessage("Objeto borrado");
+            InventorySelector.unselect();
+            DptoInvManager.setInventory();
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al borrar objeto")
+    }
+
+    static async deleteObjectQuery(IdItem){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdItem",     IdItem)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/deleteitem/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
+
 class InventorySelector{
     static selectedObj;
     static selectedObjId;
@@ -186,6 +231,16 @@ class InventorySelector{
         this.selectedObj.classList.add("selected");
 
         this.setObjData(id)
+    }
+
+    static unselect(){
+        if (this.selectedObj != undefined)
+        this.selectedObj.classList.remove("selected");
+
+        this.selectedObjId = undefined;
+        this.selectedObj = undefined;
+
+        DptoInvManager.resetInputs();
     }
 
     static setObjData(id){
