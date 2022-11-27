@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "chart.js": "^4.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "fs-extra": "^10.1.0",
     "nunjucks": "^3.2.3"
