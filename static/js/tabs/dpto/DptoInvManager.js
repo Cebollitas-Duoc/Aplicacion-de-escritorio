@@ -80,6 +80,11 @@ class DptoInvManager{
 
         return JSON.parse(r);
     }
+
+    static resetInputs(){
+        this.name.value = ""
+        this.ammount.value = 1
+    }
 }
 
 class EditInventoryObject{
@@ -124,6 +129,49 @@ class EditInventoryObject{
     }
 }
 
+class AddInventoryObject{
+    static async addObject(){
+        const idDpto  = DepartmentManager.input_id.value
+        const name    = DptoInvManager.name.value
+        const ammount = DptoInvManager.ammount.value
+        
+        const response = await this.addObjectQuery(idDpto, name, ammount)
+        if ("ObjetoAgregado" in response && response["ObjetoAgregado"]){
+            printGlobalSuccessMessage("Objeto agregado");
+            DptoInvManager.resetInputs();
+            DptoInvManager.setInventory();
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al agregar objeto")
+    }
+
+    static async addObjectQuery(idDpto, name, ammount){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdDpto",     idDpto)
+        formdata.append("Name",       name)
+        formdata.append("Ammount",    ammount)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/additem/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
 class InventorySelector{
     static selectedObj;
     static selectedObjId;
