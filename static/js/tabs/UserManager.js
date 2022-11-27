@@ -61,7 +61,7 @@ class UserManager{
         this.input_userId     = document.querySelector("#tab-userManager .popup .UserId")
         this.input_nombres    = document.querySelector("#tab-userManager .popup .Nombres")
         this.input_apellidos  = document.querySelector("#tab-userManager .popup .Apellidos")
-        this.input_rut        = document.querySelector("#tab-userManager .popup .Rut")
+        this.input_rut        = document.querySelector("#tab-userManager .popup .rut")
         this.input_email      = document.querySelector("#tab-userManager .popup .Email")
         this.input_direccion  = document.querySelector("#tab-userManager .popup .Direccion")
         this.input_telefono   = document.querySelector("#tab-userManager .popup .Telefono")
@@ -189,19 +189,19 @@ class UserManager{
         if (apellido2 == undefined) apellido2 = " ";
 
         
-        formdata.append("SessionKey",      SessionKey)
-        formdata.append("IdUsuario",       userId)
-        formdata.append("IdPermiso",       permiso)
-        formdata.append("IdEstado",        estado)
-        formdata.append("Email",           email)
-        formdata.append("PrimerNombre",    nombre)
-        formdata.append("SegundoNombre",   nombre2)
-        formdata.append("PrimerApellido",  apellido)
-        formdata.append("SegundoApellido", apellido2)
-        formdata.append("Rut",             rut)
-        formdata.append("Direccion",       direccion)
-        formdata.append("Telefono",        telefono)
-        formdata.append("Imagen",          imagen)
+        formdata.append("SessionKey",   SessionKey)
+        formdata.append("IdUsuario",    userId)
+        formdata.append("IdPermiso",    permiso)
+        formdata.append("IdEstado",     estado)
+        formdata.append("Email",        email)
+        formdata.append("Name",         nombre)
+        formdata.append("Name2",        nombre2)
+        formdata.append("LastName",     apellido)
+        formdata.append("LastName2",    apellido2)
+        formdata.append("Rut",          rut)
+        formdata.append("Address",      direccion)
+        formdata.append("Phone",        telefono)
+        formdata.append("Imagen",       imagen)
         
         var requestOptions = {
             method: 'POST',
