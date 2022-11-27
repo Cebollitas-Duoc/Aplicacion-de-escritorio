@@ -6,9 +6,12 @@ class DptoInvManager{
     static popup;
     static inventory;
     static invContainer;
+    static name;
+    static ammount;
+
     
     static cardTemplate = `
-        <div id="invObj-<<id>>" class="card" onclick="EditInventoryObject.selectObj(<<id>>)">
+        <div id="invObj-<<id>>" class="card" onclick="InventorySelector.selectObj(<<id>>)">
             <div class="card-body">
                 <div class="container text-center align-middle">
                     <div class="row">
@@ -27,6 +30,8 @@ class DptoInvManager{
     static initiate(){
         this.popup = document.querySelector("#tab-departmentManager .popup.inventory");
         this.invContainer = this.popup.querySelector(".item-container");
+        this.name    = this.popup.querySelector(".inputs .name");
+        this.ammount = this.popup.querySelector(".inputs .ammount");
     }
 
     static async showPopup(){
@@ -78,7 +83,30 @@ class DptoInvManager{
 }
 
 class EditInventoryObject{
-    static selectObj(id){
+    
+}
 
+class InventorySelector{
+    static selectedObj;
+    static selectedObjId;
+
+    static selectObj(id){
+        if (this.selectedObj != undefined)
+        this.selectedObj.classList.remove("selected");
+
+        this.selectedObjId = id
+        this.selectedObj = document.querySelector(`#invObj-${id}`);
+
+        this.selectedObj.classList.add("selected");
+
+        this.setObjData(id)
+    }
+
+    static setObjData(id){
+        const obj = DptoInvManager.inventory.find(
+            obj => obj.Id_Item == id);
+        if (obj == undefined) return;
+        DptoInvManager.name.value    = obj.Name;
+        DptoInvManager.ammount.value = obj.Ammount;
     }
 }

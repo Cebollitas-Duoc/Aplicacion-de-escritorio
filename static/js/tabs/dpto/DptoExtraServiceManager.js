@@ -211,16 +211,16 @@ class EditDptoExtraService{
         return JSON.parse(r);
     }
 
-    static selectSrv(dptoExtSrvid){
+    static selectSrv(id){
         if (this.selectedExtSrv != undefined)
         this.selectedExtSrv.classList.remove("selected");
 
-        this.selectedExtSrvId = dptoExtSrvid
-        this.selectedExtSrv = document.querySelector(`#dptoextsrv-${dptoExtSrvid}`);
+        this.selectedExtSrvId = id
+        this.selectedExtSrv = document.querySelector(`#dptoextsrv-${id}`);
 
         this.selectedExtSrv.classList.add("selected");
 
-        this.setServiceData(dptoExtSrvid)
+        this.setServiceData(id)
     }
 
     static setServiceData(idExtSrv){
