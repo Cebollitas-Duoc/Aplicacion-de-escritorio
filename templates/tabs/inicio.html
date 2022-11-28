@@ -1,18 +1,20 @@
-<script src="../../node_modules/chart.js/dist/chart.js"></script>
-<script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
-<script src="../../node_modules/chart.js/Scripts/Chart.js"></script>
-<script src="../../node_modules/chart.js/Scripts/bootstrap.min.js"></script>
-<script src="../../node_modules/chart.js/Scripts/Chart.min.js"></script>
+<!-- <script src="../node_modules/chart.js/dist/chart.js"></script> -->
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script>
+<script src="../node_modules/chart.js/Scripts/Chart.js"></script>
+<!-- <script src="../node_modules/chart.js/Scripts/bootstrap.min.js"></script> -->
+<script src="../node_modules/chart.js/Scripts/Chart.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+<script defer src="../static/js/tabs/Inicio.js"></script>
 
 <div id="tab-Inicio" class="tab">
     <p>Inicio</p>
 
     <div class="">
         <div class="">
-            <div class="EstiloGrafico">
+            <div class="">
                 <div class="panel panel-default">
                     <div class="panel-heading TextoGrafico"><b>Titulo Grafico 2</b><img class="LogoZener"> </div>
                     <div class="panel-body">
@@ -22,110 +24,4 @@
             </div>       
     </div>
     </div>
-
-    <script>
-
-
-    Chart.register(ChartDataLabels);
-
-    /*------------------------------------------------------ Pruebas ----------------------------------------------------*/
-    var controlBar2 = document.getElementById("myBar2Chart");
-
-    var graficoBar2 = new Chart(controlBar2, {
-        type: 'bar',
-        data: {
-            labels: ["Enero", "Febrero", "Marzo", "Abril"],
-            datasets: [
-                {
-                    label: 'Linea Flotante',
-                    type: 'line',
-                    data: [5000, 5000, 5000, 5000],
-                    borderColor: 'rgb(75, 192, 192)',
-                    fill: false,
-                    tension: 0.1,
-                    datalabels: {
-                        color: 'black',
-                        backgroundColor: "white",
-                        borderRadius: 10,
-                    }
-                },
-                {
-                    label: "ENTEL ATT",
-                    backgroundColor: "#232856",
-                    borderColor: "#000000",
-                    borderWidth: 1,
-                    data: [8346, 1958, 1170, 837],                                
-                },
-
-                {
-                    label: "PYME",
-                    backgroundColor:"#ffd600",
-                    borderColor: "#000000",
-                    borderWidth: 1,
-                    data: [12529, 848, 1837, 614],
-                },
-
-                {
-                    label: "VTR",
-                    backgroundColor: "#7095b5",
-                    borderColor: "#000000",
-                    borderWidth: 1,
-                    data: [2231, 80, 65, 47],
-                },
-
-                {
-                    label: "WOM ATC",
-                    backgroundColor: "#d6201f",
-                    borderColor: "#000000",
-                    borderWidth: 1,
-                    data: [997, 12232, 207, 203],
-                }
-
-            ],
-        },
-        options: {
-            plugins: {
-                datalabels: {
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 4,
-                    color: 'black',
-                    anchor: 'end',
-                    align: 'bottom',
-                    labels: {
-                        title: {
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    font: {
-                        size: 14
-                    }
-                }
-            },
-            responsive: true,
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    gridLines: {
-                        display: false
-                    },
-                    stacked: true,
-                    ticks: {
-                        min: 0,
-                        max: 30000,
-                        maxTicksLimit: 6,
-                    }
-
-                }
-            },
-            legend: {
-                display: true
-            }
-        }
-
-    });
-    </script>
 </div>
