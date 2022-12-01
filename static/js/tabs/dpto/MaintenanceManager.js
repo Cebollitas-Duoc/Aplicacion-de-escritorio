@@ -14,7 +14,7 @@ class MaintenanceManager{
     static endDate;
     
     static cardTemplate = `
-    <div id="maintenance-<<id>>" class="card" onclick="">
+    <div id="maintenance-<<id>>" class="card" onclick="MaintenanceSelector.select(<<id>>)">
         <div class="card-body">
             <div class="container text-center align-middle">
                 <div class="row">
@@ -154,5 +154,62 @@ class addMaintenance{
         .catch(error => console.log('error', error));
 
         return JSON.parse(r);
+    }
+}
+
+class MaintenanceSelector{
+    static selectedObj;
+    static selectedObjId;
+
+    static select(id){
+        if (this.selectedObj != undefined)
+            this.selectedObj.classList.remove("selected");
+
+        if (id == this.selectedObjId){
+            this.unselect();
+            return;
+        }
+
+        this.selectedObjId = id
+        this.selectedObj = document.querySelector(`#maintenance-${id}`);
+
+        this.selectedObj.classList.add("selected");
+
+        this.setObjData(id);
+        this.updateButtons();
+    }
+
+    static unselect(){
+        if (this.selectedObj != undefined)
+        this.selectedObj.classList.remove("selected");
+
+        this.selectedObjId = undefined;
+        this.selectedObj = undefined;
+
+        MaintenanceManager.resetInputs();
+        this.updateButtons();
+    }
+
+    static setObjData(id){
+        const obj = MaintenanceManager.maintenance.find(
+            obj => obj.Id_Maintenance == id);
+        if (obj == undefined) return;
+
+        MaintenanceManager.category.value    = obj.Id_Cat;
+        MaintenanceManager.description.value = obj.Description;
+        MaintenanceManager.value.value       = obj.Value;
+        MaintenanceManager.startDate.value   = new Date(obj.RawStartDate).toISOString().split('T')[0]
+        MaintenanceManager.endDate.value     = new Date(obj.RawEndDate).toISOString().split('T')[0]
+    }
+
+    static updateButtons(){
+        if (this.selectedObj == undefined){
+            hideAllElements("button.edit", MaintenanceManager.popup)
+            showAllElements("button.add", MaintenanceManager.popup)
+        }
+        else {
+            hideAllElements("button.add", MaintenanceManager.popup)
+            showAllElements("button.edit", MaintenanceManager.popup)
+        }
     }
 }

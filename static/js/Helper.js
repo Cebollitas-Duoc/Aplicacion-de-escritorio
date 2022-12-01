@@ -4,15 +4,15 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
 })
 
-function hideAllElements(query){
-    elements = document.querySelectorAll(query)
+function hideAllElements(query, parent=document){
+    elements = parent.querySelectorAll(query)
     elements.forEach(element => {
         element.classList.add("d-none");
     });
 }
 
-function showAllElements(query){
-    elements = document.querySelectorAll(query)
+function showAllElements(query, parent=document){
+    elements = parent.querySelectorAll(query)
     elements.forEach(element => {
         element.classList.remove("d-none");
     });

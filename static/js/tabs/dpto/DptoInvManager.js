@@ -223,7 +223,7 @@ class InventorySelector{
 
     static selectObj(id){
         if (this.selectedObj != undefined)
-        this.selectedObj.classList.remove("selected");
+            this.selectedObj.classList.remove("selected");
 
         this.selectedObjId = id
         this.selectedObj = document.querySelector(`#invObj-${id}`);
