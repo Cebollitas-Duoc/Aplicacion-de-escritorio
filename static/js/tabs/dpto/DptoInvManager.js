@@ -38,10 +38,10 @@ class DptoInvManager{
         await hideAllPopUps();
         this.popup.classList.remove("d-none");
 
-        this.setInventory();
+        this.setList();
     }
 
-    static async setInventory(){
+    static async setList(){
         this.invContainer.innerHTML = ""
         this.inventory = await this.getDptoInventory(DepartmentManager.input_id.value)
         this.inventory.forEach(async (obj) => {
@@ -95,7 +95,7 @@ class EditInventoryObject{
         const response = await this.editItemRequest(InventorySelector.selectedObjId, name, ammount)
         if ("ObjetoEditado" in response && response["ObjetoEditado"]){
             printGlobalSuccessMessage("Objeto editado")
-            DptoInvManager.setInventory()
+            DptoInvManager.setList()
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -139,7 +139,7 @@ class AddInventoryObject{
         if ("ObjetoAgregado" in response && response["ObjetoAgregado"]){
             printGlobalSuccessMessage("Objeto agregado");
             DptoInvManager.resetInputs();
-            DptoInvManager.setInventory();
+            DptoInvManager.setList();
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -185,7 +185,7 @@ class DeleteInventoryObject{
         if ("ObjetoBorrado" in response && response["ObjetoBorrado"]){
             printGlobalSuccessMessage("Objeto borrado");
             InventorySelector.unselect();
-            DptoInvManager.setInventory();
+            DptoInvManager.setList();
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
