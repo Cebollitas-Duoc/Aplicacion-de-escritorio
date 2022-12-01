@@ -157,6 +157,53 @@ class addMaintenance{
     }
 }
 
+class EditMaintenance{
+    static async edit(){
+        const description = MaintenanceManager.description.value
+        const value       = MaintenanceManager.value.value
+        const startDate   = new Date(MaintenanceManager.startDate.value).getTime();
+        const endDate     = new Date(MaintenanceManager.endDate.value).getTime();
+
+        const response = await this.editMaintenanceRequest(MaintenanceSelector.selectedObjId, description, value, startDate, endDate)
+        if ("MantencionEditada" in response && response["MantencionEditada"]){
+            printGlobalSuccessMessage("Mantencion editada")
+            MaintenanceManager.setList()
+            MaintenanceSelector.unselect()
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al editar mantencion")
+    }
+
+    static async editMaintenanceRequest(id, description, value, startDate, endDate){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",    SessionKey)
+        formdata.append("IdMaintenance", id)
+        formdata.append("Value",         value)
+        formdata.append("Description",   description)
+        formdata.append("StartDate",     startDate)
+        formdata.append("EndDate",       endDate)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/editmaintenance/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
+
 class MaintenanceSelector{
     static selectedObj;
     static selectedObjId;

@@ -91,6 +91,7 @@
 }
 #tabContainer .popup.service .service-container .card.selected {
   border-color: #0eb41c;
+  background-color: #98e798;
 }
 #tabContainer .popup.service .service-container .card div.card-body {
   padding: 5px;
@@ -106,6 +107,7 @@
 }
 #tabContainer .popup.narrowList .item-container .card.selected {
   border-color: #0eb41c;
+  background-color: #98e798;
 }
 #tabContainer .popup.narrowList .item-container .card div.card-body {
   padding: 5px;
