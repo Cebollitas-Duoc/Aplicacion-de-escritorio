@@ -204,6 +204,50 @@ class EditMaintenance{
     }
 }
 
+class DeleteMaintenance{
+    static async delete(){
+        const maintenanceId = MaintenanceSelector.selectedObjId;
+        if (maintenanceId == undefined){
+            printGlobalErrorMessage("Debes seleccionar una mantencion.")
+            return;
+        }
+
+        const response = await this.deleteMaintenanceQuery(maintenanceId)
+        if ("MantencionBorrada" in response && response["MantencionBorrada"]){
+            printGlobalSuccessMessage("Mantencion borrada");
+            MaintenanceSelector.unselect();
+            MaintenanceManager.setList();
+        }
+        else if ("Error" in response) 
+            printGlobalErrorMessage(response["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido al borrar objeto")
+    }
+
+    static async deleteMaintenanceQuery(id){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var r
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdMaintenance", id)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        await fetch(`${apidomain}/admin/deletemaintenance/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
+
 class MaintenanceSelector{
     static selectedObj;
     static selectedObjId;
