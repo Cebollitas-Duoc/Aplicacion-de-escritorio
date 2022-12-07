@@ -20,6 +20,8 @@
 <script defer src="../static/js/tabs/dpto/DptoServiceManager.js"></script>
 <script defer src="../static/js/tabs/dpto/DptoExtraServiceManager.js"></script>
 <script defer src="../static/js/tabs/dpto/MaintenanceManager.js"></script>
+
+<script defer src="../static/js/tabs/reserves/ReserveManager.js"></script>
 {% endblock js %}
 
 {% block wrapper %}
@@ -32,6 +34,7 @@
     {% include basepath + '/templates/tabs/inicio.html' %}
     {% include basepath + '/templates/tabs/UserManager/index.html' %}
     {% include basepath + '/templates/tabs/DepartmentManager/index.html' %}
+    {% include basepath + '/templates/tabs/reserves/index.html' %}
     {% include basepath + '/templates/tabs/ServiceCategory/index.html' %}
     
   </div>
