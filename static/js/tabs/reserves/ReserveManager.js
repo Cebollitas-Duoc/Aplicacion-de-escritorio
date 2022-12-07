@@ -115,6 +115,7 @@ class reservePopUpManager{
     static createDate;
     static startDate;
     static endDate;
+    static reserveId;
 
     static reserveDataContainer;
 
@@ -141,10 +142,10 @@ class reservePopUpManager{
         this.createDate.innerHTML = dpto.CreateDate
         this.startDate.innerHTML  = dpto.StartDate
         this.endDate.innerHTML    = dpto.EndDate
-
+        this.reserveId            = dpto.Id_Reserve
+        
+        await ReserveExtraServicesManager.setExtraServices()
         await hideAllPopUps();
         ReserveManager.popup.classList.remove("d-none");
     }
-
-
 }
