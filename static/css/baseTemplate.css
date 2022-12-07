@@ -191,4 +191,8 @@
 }
 #miniProfile .nameContainer .permission {
   color: rgba(255, 215, 0, 0.5294117647);
+}
+
+#tab-reserves .popup.reserve .reserveData {
+  text-align: left;
 }/*# sourceMappingURL=baseTemplate.css.map */

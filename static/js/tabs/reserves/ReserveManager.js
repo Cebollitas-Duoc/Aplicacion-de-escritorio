@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     ReserveManager.initiate();
+    reservePopUpManager.initiate();
 })
 
 class ReserveManager{
     static cardContainer;
+    static popup;
 
     static reserves;
 
@@ -27,7 +29,7 @@ class ReserveManager{
                         <div class="col-2">
                             <<estatus>>
                         </div>
-                        <div class="col-1 editIcon" onclick="ReserveManager.showPopup(<<id>>)">
+                        <div class="col-1 editIcon" onclick="reservePopUpManager.show(<<id>>)">
                             <img src="../static/img/eye.png" alt="">
                         </div>
                     </div>
@@ -38,11 +40,8 @@ class ReserveManager{
 
     static initiate(){
         this.cardContainer = document.querySelector("#tab-reserves .cardContainer");
+        this.popup = document.querySelector("#tab-reserves .popup.reserve");
         this.setReserves();
-    }
-
-    static showPopup(){
-
     }
 
     static async setReserves(){
@@ -79,7 +78,7 @@ class ReserveManager{
         var card = this.cardTemplate;
         rsv = await this.getReserveFormattedData(rsv)
         card = card.replaceAll("<<id>>",   rsv.Id_Reserve)
-        card = card.replace("<<address>>", rsv.Address)
+        card = card.replace("<<address>>", rsv.ShortAddress)
         card = card.replace("<<user>>",    rsv.UserName)
         card = card.replace("<<date>>",    rsv.CreateDate)
         card = card.replace("<<value>>",   rsv.Value)
@@ -94,8 +93,58 @@ class ReserveManager{
                 return rsv.Address.substring(0,22) + "..."
             return rsv.Address;
         }
-        rsv.Address = formatAddress(rsv)
+        rsv.ShortAddress = formatAddress(rsv)
 
         return rsv
     }
+
+    static findReserve(id){
+        const rsv = this.reserves.filter(function (r){
+            return r.Id_Reserve==id;
+        });
+
+        return rsv[0]
+    }
+}
+
+class reservePopUpManager{
+    static address;
+    static username;
+    static estate;
+    static value;
+    static createDate;
+    static startDate;
+    static endDate;
+
+    static reserveDataContainer;
+
+    static initiate(){
+        this.reserveDataContainer = ReserveManager.popup.querySelector(".reserveData");
+
+        this.address    = this.reserveDataContainer.querySelector(".address");
+        this.username   = this.reserveDataContainer.querySelector(".username");
+        this.estate     = this.reserveDataContainer.querySelector(".estate");
+        this.value      = this.reserveDataContainer.querySelector(".value");
+        this.createDate = this.reserveDataContainer.querySelector(".createDate");
+        this.startDate  = this.reserveDataContainer.querySelector(".startDate");
+        this.endDate    = this.reserveDataContainer.querySelector(".endDate");
+    }
+
+    static async show(id){
+        var dpto = ReserveManager.findReserve(id)
+        if (dpto == undefined) return;
+
+        this.address.innerHTML    = dpto.Address
+        this.username.innerHTML   = dpto.UserName
+        this.estate.innerHTML     = dpto.Estado
+        this.value.innerHTML      = dpto.Value
+        this.createDate.innerHTML = dpto.CreateDate
+        this.startDate.innerHTML  = dpto.StartDate
+        this.endDate.innerHTML    = dpto.EndDate
+
+        await hideAllPopUps();
+        ReserveManager.popup.classList.remove("d-none");
+    }
+
+
 }
