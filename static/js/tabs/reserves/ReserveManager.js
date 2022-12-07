@@ -144,8 +144,11 @@ class reservePopUpManager{
         this.endDate.innerHTML    = dpto.EndDate
         this.reserveId            = dpto.Id_Reserve
         
-        await ReserveExtraServicesManager.setExtraServices()
-        await hideAllPopUps();
+        await Promise.all([ 
+            ReserveExtraServicesManager.setExtraServices(),
+            ReserveDocumentsManager.setDocuments()
+        ])
+        await hideAllPopUps()
         ReserveManager.popup.classList.remove("d-none");
     }
 }

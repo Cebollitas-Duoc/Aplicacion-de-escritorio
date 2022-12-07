@@ -1,4 +1,4 @@
-const { app, ipcMain, session} = require('electron')
+const { app, ipcMain, session, shell} = require('electron')
 const ProfileManager = require('./ProfileManager');
 const SettingsManager = require('./SettingsManager');
 const Renderer = require('./Renderer');
@@ -39,4 +39,8 @@ ipcMain.handle("redirect", async (event, template) => {
 ipcMain.handle("logout", async (event, args) => {
 	ProfileManager.delete()
 	Renderer.render("Login.html")
+})
+
+ipcMain.handle("openBrowser", (event, url) => {
+	shell.openExternal(url)
 })

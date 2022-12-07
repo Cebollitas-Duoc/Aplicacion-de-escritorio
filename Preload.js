@@ -10,6 +10,7 @@ const WINDOW_API = {
         deleteSettingsData: () => ipcRenderer.invoke('deleteSettingsData'),
         redirect: (template) => ipcRenderer.invoke('redirect', template),
         logout: () => ipcRenderer.invoke('logout'),
+        openBrowser: (url) => ipcRenderer.invoke('openBrowser', url),
 }
 
 contextBridge.exposeInMainWorld('api', WINDOW_API)
