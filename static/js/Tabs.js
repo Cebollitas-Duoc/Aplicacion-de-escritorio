@@ -36,6 +36,24 @@ async function hideAllPopUps(element){
     popupContainers.forEach (popup => {
         popup.classList.add("d-none");
     });
+}
 
+document.addEventListener("keydown", async (e) => {
+    if (e.key == "F5"){
+        console.log("Updating")
+        UserManager.updateUserList();
+        ServiceCategoryManager.listCategorys();
+        ServiceCategoryManager.listExtraCategorys();
+        ReserveManager.setReserves();
+        DepartmentManager.updateDptoList();
+    }
+}, false);
 
+function keyDownTextField(e) {
+var keyCode = e.keyCode;
+  if(keyCode==13) {
+  alert("You hit the enter key.");
+  } else {
+  alert("Oh no you didn't.");
+  }
 }

@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', async () =>{
     DepartmentManager.setPopUpInputs()
 
     DepartmentManager.updateDptoList()
-    departmentManager_button_updateList.addEventListener('click', async () =>{
-        DepartmentManager.updateDptoList()
-    })
     departmentManager_button_addDpto.addEventListener('click', async () =>{
         DepartmentAdder.showAddDptoMenu()
     })

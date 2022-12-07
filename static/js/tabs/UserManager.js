@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', async () =>{
     document.querySelector("#tab-userManager .popup form .btn").addEventListener('click', async () =>{
         UserManager.updateUser();
     })
-
-    usermanager_button_updateList.addEventListener('click', async () =>{
-        UserManager.updateUserList();
-    })
 })
 
 class UserManager{
