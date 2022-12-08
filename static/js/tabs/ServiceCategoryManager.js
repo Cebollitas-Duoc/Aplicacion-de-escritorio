@@ -119,6 +119,8 @@ class AddServiceCategory{
             printGlobalSuccessMessage("Categoria agregada")
             ServiceCategoryManager.listCategorys();
             ServiceCategoryManager.listExtraCategorys();
+            DptoCategoryExtraServiceManager.setCategorys();
+            DptoCategoryServiceManager.setCategorys();
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
