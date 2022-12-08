@@ -148,7 +148,7 @@ class reservePopUpManager{
         this.reserveId                = dpto.Id_Reserve
         
         await Promise.all([ 
-            ReserveExtraServicesManager.setExtraServices(),
+            ReserveHiredServicesManager.setExtraServices(),
             ReserveDocumentsManager.setDocuments()
         ])
         await hideAllPopUps()
