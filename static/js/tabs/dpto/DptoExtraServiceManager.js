@@ -12,6 +12,7 @@ class DptoExtraServiceManager{
     static status;
     static worker;
     static value;
+    static description;
 
     static cardTemplate = `
         <div id="dptoextsrv-<<id>>" class="card" onclick="EditDptoExtraService.selectSrv(<<id>>)">
@@ -39,10 +40,11 @@ class DptoExtraServiceManager{
     static initiate(){
         this.popup = document.querySelector("#tab-departmentManager .popup.extraservice");
         this.serviceContainer = this.popup.querySelector(".item-container");
-        this.category = this.popup.querySelector("div.inputs .category");
-        this.status   = this.popup.querySelector("div.inputs .status");
-        this.worker   = this.popup.querySelector("div.inputs .worker");
-        this.value    = this.popup.querySelector("div.inputs .value");
+        this.category    = this.popup.querySelector("div.inputs .category");
+        this.status      = this.popup.querySelector("div.inputs .status");
+        this.worker      = this.popup.querySelector("div.inputs .worker");
+        this.value       = this.popup.querySelector("div.inputs .value");
+        this.description = this.popup.querySelector("div.inputs .description");
     }
 
     static async showPopup(){
@@ -164,8 +166,9 @@ class EditDptoExtraService{
     static selectedExtSrvId;
 
     static async editService(){
-        const idStatus = parseInt(DptoExtraServiceManager.status.value)
-        const value    = parseInt(DptoExtraServiceManager.value.value)
+        const idStatus    = parseInt(DptoExtraServiceManager.status.value)
+        const value       = parseInt(DptoExtraServiceManager.value.value)
+        const description = DptoExtraServiceManager.description.value
         var idWorker   = DptoExtraServiceManager.worker.value
         if (idWorker == "null") idWorker = undefined;
         else idWorker = parseInt(idWorker);
@@ -175,7 +178,7 @@ class EditDptoExtraService{
             return;
         }
 
-        const response = await this.editServiceQuery(this.selectedExtSrvId, idStatus, idWorker, value)
+        const response = await this.editServiceQuery(this.selectedExtSrvId, idStatus, idWorker, value, description)
         if ("Servicio_Modificado" in response && response["Servicio_Modificado"]){
             printGlobalSuccessMessage("Servicio modificado")
             DptoExtraServiceManager.setServices()
@@ -186,7 +189,7 @@ class EditDptoExtraService{
             printGlobalErrorMessage("Error desconocido al editar servicio")
     }
 
-    static async editServiceQuery(extSrvId, idStatus, idWorker, value){
+    static async editServiceQuery(extSrvId, idStatus, idWorker, value, description){
         const SessionKey  = await window.api.getData("SessionKey")
         var formdata = new FormData();
         var r
@@ -197,6 +200,7 @@ class EditDptoExtraService{
         formdata.append("IdState",      idStatus)
         formdata.append("IdTrabajador", idWorker)
         formdata.append("Valor",        value)
+        formdata.append("Description",  description)
 
         var requestOptions = {
             method: 'POST',
@@ -228,22 +232,24 @@ class EditDptoExtraService{
         const extSrv = DptoExtraServiceManager.services.find(
             srv => srv.Id_ExtraService == idExtSrv);
         if (extSrv == undefined) return;
-        DptoExtraServiceManager.category.value = extSrv.Id_Category;
-        DptoExtraServiceManager.status.value   = extSrv.Id_Estado;
-        DptoExtraServiceManager.worker.value   = extSrv.Id_Trabajador;
-        DptoExtraServiceManager.value.value    = extSrv.Valor;
+        DptoExtraServiceManager.category.value    = extSrv.Id_Category;
+        DptoExtraServiceManager.status.value      = extSrv.Id_Estado;
+        DptoExtraServiceManager.worker.value      = extSrv.Id_Trabajador;
+        DptoExtraServiceManager.value.value       = extSrv.Valor;
+        DptoExtraServiceManager.description.value = extSrv.Description;
     }
 }
 
 class AddDptoExtraService{
     static async addService(){
-        const idDpto     = DepartmentManager.input_id.value
-        const idCategory = DptoExtraServiceManager.category.value
-        const idStatus   = DptoExtraServiceManager.status.value
-        const idWorker   = DptoExtraServiceManager.worker.value
-        const value      = DptoExtraServiceManager.value.value
+        const idDpto      = DepartmentManager.input_id.value
+        const idCategory  = DptoExtraServiceManager.category.value
+        const idStatus    = DptoExtraServiceManager.status.value
+        const idWorker    = DptoExtraServiceManager.worker.value
+        const value       = DptoExtraServiceManager.value.value
+        const description = DptoExtraServiceManager.description.value
         
-        const response = await this.addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value)
+        const response = await this.addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value, description)
         if ("ServicioExtra_Agregado" in response && response["ServicioExtra_Agregado"]){
             printGlobalSuccessMessage("Servicio extra agregado")
             DptoExtraServiceManager.setServices()
@@ -254,7 +260,7 @@ class AddDptoExtraService{
             printGlobalErrorMessage("Error desconocido al agregar servicio extra")
     }
 
-    static async addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value){
+    static async addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value, description){
         if (idWorker == "null") idWorker = undefined;
         const SessionKey  = await window.api.getData("SessionKey")
         var formdata = new FormData();
@@ -267,6 +273,7 @@ class AddDptoExtraService{
         formdata.append("IdState",      idStatus)
         formdata.append("IdTrabajador", idWorker)
         formdata.append("Valor",        value)
+        formdata.append("Description",  description)
 
         var requestOptions = {
             method: 'POST',
