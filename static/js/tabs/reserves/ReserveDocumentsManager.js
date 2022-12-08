@@ -96,10 +96,14 @@ class ReserveDocumentAdder{
 
     static async uploadDocument(){
         
-        if (this.input.files.length > 0) 
+        if (this.input.files.length == 0){
             printGlobalErrorMessage("Debes seleccionar un documento");
-        if (this.categorySelector.value != "") 
+            return;
+        }
+        if (this.categorySelector.value == ""){
             printGlobalErrorMessage("Debes seleccionar un tipo de documento");
+            return;
+        } 
 
         const document = this.input.files[0];
         const idCategory = this.categorySelector.value;
