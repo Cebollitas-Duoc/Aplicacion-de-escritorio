@@ -22,6 +22,11 @@ class ReserveHiredServicesManager{
                             <<estatus>>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <<description>>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,6 +72,7 @@ class ReserveHiredServicesManager{
         card = card.replace("<<category>>", srv.Category)
         card = card.replace("<<value>>",    srv.Value)
         card = card.replace("<<estatus>>",  srv.Estate)
+        card = card.replace("<<description>>",  srv.Description)
 
         return card.toString()
     }
