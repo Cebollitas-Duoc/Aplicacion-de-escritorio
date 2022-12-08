@@ -29,7 +29,8 @@ ipcMain.handle("getSettingsData", async (event, key) => {
 
 ipcMain.handle("deleteSettingsData", async (event, args) => {
 	SettingsManager.delete()
-	app.quit()
+	app.relaunch()
+	app.exit()
 })
 
 ipcMain.handle("redirect", async (event, template) => {
@@ -43,4 +44,12 @@ ipcMain.handle("logout", async (event, args) => {
 
 ipcMain.handle("openBrowser", (event, url) => {
 	shell.openExternal(url)
+})
+
+ipcMain.handle("useLocalServer", (event, url) => {
+	SettingsManager.save("apidomain", "http://localhost:8081")
+	SettingsManager.save("webdomain", "http://localhost:8080")
+
+	app.relaunch()
+	app.exit()
 })

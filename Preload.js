@@ -11,6 +11,7 @@ const WINDOW_API = {
         redirect: (template) => ipcRenderer.invoke('redirect', template),
         logout: () => ipcRenderer.invoke('logout'),
         openBrowser: (url) => ipcRenderer.invoke('openBrowser', url),
+        useLocalServer: () => ipcRenderer.invoke('useLocalServer'),
 }
 
 contextBridge.exposeInMainWorld('api', WINDOW_API)
