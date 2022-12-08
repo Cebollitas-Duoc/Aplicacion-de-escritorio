@@ -218,3 +218,40 @@ $sidebar-width: 200px;
         }
     }
 }
+.PruebaGrafico {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: auto;
+    padding-top: 20px;
+}
+.EstiloGrafico {
+    margin: auto;
+    margin-bottom: 20px !important;
+    max-width: 50%;
+    max-height: 50%;
+    height: 50%;
+    width: 50%;
+    min-width: 350px;
+    min-height: 350px;
+    border: 2px solid black;
+    padding: auto;
+
+}
+.TextoGrafico {
+    padding-bottom: 10px;
+    font-size: medium;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.Grafico_dona {
+    margin: auto;
+    margin-bottom: 20px !important;
+    height: 30%;
+    width: 26.5%;
+    border: 2px solid black;
+    padding: 10px;
+    min-width: 350px;
+    min-height: 350px;
+}
