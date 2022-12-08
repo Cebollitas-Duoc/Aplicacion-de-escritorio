@@ -46,5 +46,6 @@ document.addEventListener("keydown", async (e) => {
         ServiceCategoryManager.listExtraCategorys();
         ReserveManager.setReserves();
         DepartmentManager.updateDptoList();
+        ExtraServiceWorker.listWorkers();
     }
 }, false);

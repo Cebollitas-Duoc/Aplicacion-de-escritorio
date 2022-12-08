@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     DptoExtraServiceManager.initiate();
-    DptoCategoryExtraServiceManager.setCategorys()
+    DptoCategoryExtraServiceManager.setCategorys();
+    ExtraServiceWorker.listWorkers();
 })
 
 class DptoExtraServiceManager{
@@ -108,7 +109,7 @@ class DptoExtraServiceManager{
             if (category == undefined) return undefined;
             return category.Description;
         }
-        //TODO
+
         function getWorker(srv){
             const workerId = srv.Id_Trabajador
             if (srv.Id_Trabajador == null)
@@ -274,6 +275,35 @@ class AddDptoExtraService{
         };
 
         await fetch(`${apidomain}/admin/addextraservice/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
+
+class ExtraServiceWorker{
+    static workers;
+
+    static async listWorkers(){
+        this.workers = await this.getWorkers()
+        DptoExtraServiceManager.worker.innerHTML = '<option value="null">Sin trabajador</option>';
+        this.workers.forEach(async (worker) => {
+            var option = `<option value="${worker.Id_Worker}">${worker.FullName}</option>`
+            appendStringElement(DptoExtraServiceManager.worker, option)
+        });
+    }
+
+    static async getWorkers(){
+        var apidomain = await window.api.apiDomain()
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        
+        var r
+        await fetch(`${apidomain}/departamentos/listWorkers/`, requestOptions)
         .then(response => response.text())
         .then(result => r=result)
         .catch(error => console.log('error', error));
