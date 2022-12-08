@@ -115,6 +115,7 @@ class reservePopUpManager{
     static createDate;
     static startDate;
     static endDate;
+    static reserveNumber;
     static reserveId;
 
     static reserveDataContainer;
@@ -122,27 +123,29 @@ class reservePopUpManager{
     static initiate(){
         this.reserveDataContainer = ReserveManager.popup.querySelector(".reserveData");
 
-        this.address    = this.reserveDataContainer.querySelector(".address");
-        this.username   = this.reserveDataContainer.querySelector(".username");
-        this.estate     = this.reserveDataContainer.querySelector(".estate");
-        this.value      = this.reserveDataContainer.querySelector(".value");
-        this.createDate = this.reserveDataContainer.querySelector(".createDate");
-        this.startDate  = this.reserveDataContainer.querySelector(".startDate");
-        this.endDate    = this.reserveDataContainer.querySelector(".endDate");
+        this.address       = this.reserveDataContainer.querySelector(".address");
+        this.username      = this.reserveDataContainer.querySelector(".username");
+        this.estate        = this.reserveDataContainer.querySelector(".estate");
+        this.value         = this.reserveDataContainer.querySelector(".value");
+        this.createDate    = this.reserveDataContainer.querySelector(".createDate");
+        this.startDate     = this.reserveDataContainer.querySelector(".startDate");
+        this.endDate       = this.reserveDataContainer.querySelector(".endDate");
+        this.reserveNumber = ReserveManager.popup.querySelector(".reserveId");
     }
 
     static async show(id){
         var dpto = ReserveManager.findReserve(id)
         if (dpto == undefined) return;
 
-        this.address.innerHTML    = dpto.Address
-        this.username.innerHTML   = dpto.UserName
-        this.estate.innerHTML     = dpto.Estado
-        this.value.innerHTML      = dpto.Value
-        this.createDate.innerHTML = dpto.CreateDate
-        this.startDate.innerHTML  = dpto.StartDate
-        this.endDate.innerHTML    = dpto.EndDate
-        this.reserveId            = dpto.Id_Reserve
+        this.address.innerHTML        = dpto.Address
+        this.username.innerHTML       = dpto.UserName
+        this.estate.innerHTML         = dpto.Estado
+        this.value.innerHTML          = dpto.Value
+        this.createDate.innerHTML     = dpto.CreateDate
+        this.startDate.innerHTML      = dpto.StartDate
+        this.endDate.innerHTML        = dpto.EndDate
+        this.reserveNumber.innerHTML  = dpto.Id_Reserve
+        this.reserveId                = dpto.Id_Reserve
         
         await Promise.all([ 
             ReserveExtraServicesManager.setExtraServices(),

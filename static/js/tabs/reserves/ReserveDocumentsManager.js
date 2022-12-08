@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     ReserveDocumentsManager.initiate();
+    ReserveDocumentAdder.initiate()
 })
 
 class ReserveDocumentsManager{
     static cardContainer;
     static documents;
-    static popup;
 
     static cardTemplate = `
         <div class="card userRow" onclick="ReserveDocumentsManager.showDocument('<<id>>')">
@@ -23,7 +23,6 @@ class ReserveDocumentsManager{
 
     static initiate(){
         this.cardContainer = ReserveManager.popup.querySelector(".reserveFiles");
-        this.popup = document.querySelector("#tab-reserves .popup.document");
     }
 
     static async setDocuments(){
@@ -67,5 +66,78 @@ class ReserveDocumentsManager{
     static async showDocument(id){
         const url = `${apidomain}/files/getdoc/${id}`
         window.api.openBrowser(url)
+    }
+}
+
+class ReserveDocumentAdder{
+    static input;
+    static popup;
+    static categorySelector;
+    
+    static initiate(){
+        this.input = ReserveManager.popup.querySelector("input.documentInput");
+        this.popup = document.querySelector("#tab-reserves .popup.upload");
+        this.categorySelector  = this.popup.querySelector("select.category");
+
+        this.input.addEventListener("change", function () {
+            if (ReserveDocumentAdder.input.files.length > 0) {
+                ReserveDocumentAdder.popup.classList.remove("d-none");
+            }
+        });
+    }
+
+    static selectDocument(){
+        this.input.click();
+    }
+
+    static closePopup(){
+        this.popup.classList.add("d-none");
+    }
+
+    static async uploadDocument(){
+        
+        if (this.input.files.length > 0) 
+            printGlobalErrorMessage("Debes seleccionar un documento");
+        if (this.categorySelector.value != "") 
+            printGlobalErrorMessage("Debes seleccionar un tipo de documento");
+
+        const document = this.input.files[0];
+        const idCategory = this.categorySelector.value;
+        const idReserve = reservePopUpManager.reserveId;
+
+        const uploadDocumentResponse = await this.uploadDocumentRequest(document, idCategory, idReserve);
+        if ("FileSaved" in uploadDocumentResponse && uploadDocumentResponse["FileSaved"]){
+            printGlobalSuccessMessage("Documento subido")
+            this.closePopup()
+            await ReserveDocumentsManager.setDocuments()
+        }
+        else if ("Error" in uploadDocumentResponse) 
+            printGlobalErrorMessage(uploadDocumentResponse["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido")
+    }
+
+    static async uploadDocumentRequest(document, idCategory, idReserve){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",  SessionKey)
+        formdata.append("Document",    document)
+        formdata.append("Id_Category", idCategory)
+        formdata.append("Id_Reserve",  idReserve)
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        
+        var r
+        await fetch(`${apidomain}/files/savedoc/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
     }
 }

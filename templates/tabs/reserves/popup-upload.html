@@ -1,0 +1,17 @@
+<div class="popup upload w-100 m-auto text-center d-none">
+    <div class="card">
+        <label for="floatingInput">Tipo de documento</label>
+        <select class="form-select category" aria-label="Default select example">
+            <option value="">Seleccionar tipo</option>
+            <option value="0">Documento generico</option>
+            <option value="1">Check In</option>
+            <option value="2">Check Out</option>
+            <option value="3">Boleta</option>
+            <option value="4">Factura</option>
+        </select>
+        <div class="row justify-content-around">
+            <button onclick="ReserveDocumentAdder.uploadDocument()" class="btn btn-outline-success add col-5" type="button">Agregar</button>
+            <button onclick="ReserveDocumentAdder.closePopup()" class="btn btn-outline-danger add col-5" type="button">Cancelar</button>
+        </div>
+    </div>
+</div>

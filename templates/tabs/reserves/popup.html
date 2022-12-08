@@ -1,5 +1,12 @@
 <div class="popup reserve narrowList w-100 m-auto text-center d-none">
     <div class="card bigcard">
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a class="navbar-brand">Administracion de reserva N° <span class="reserveId"></span></a>
+            <form class="form-inline">
+                <button onclick="ReserveDocumentAdder.selectDocument()" class="btn-add btn btn-outline-success my-2 my-sm-0 add" type="button">Agregar documento</button>
+                <input type="file" class="documentInput d-none">
+            </form>
+        </nav>
         <div class="row reserveData">
             <p>Direccion: <span class="address"></span></p>
             <p>Usuario: <span class="username"></span></p>
