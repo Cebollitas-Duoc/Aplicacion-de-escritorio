@@ -88,7 +88,7 @@ class DptoExtraServiceManager{
         card = card.replace("<<category>>", srv.category)
         card = card.replace("<<state>>",    srv.status)
         card = card.replace("<<worker>>", srv.worker)
-        card = card.replace("<<value>>", srv.Valor)
+        card = card.replace("<<value>>", formatterPeso.format(parseInt(srv.Valor)))
 
         return card.toString()
     }
@@ -166,8 +166,8 @@ class EditDptoExtraService{
     static selectedExtSrvId;
 
     static async editService(){
-        const idStatus    = parseInt(DptoExtraServiceManager.status.value)
-        const value       = parseInt(DptoExtraServiceManager.value.value)
+        const idStatus = parseInt(DptoExtraServiceManager.status.value)
+        const value = currencyParseInt(DptoExtraServiceManager.value.value)
         const description = DptoExtraServiceManager.description.value
         var idWorker   = DptoExtraServiceManager.worker.value
         if (idWorker == "null") idWorker = undefined;
@@ -235,7 +235,7 @@ class EditDptoExtraService{
         DptoExtraServiceManager.category.value    = extSrv.Id_Category;
         DptoExtraServiceManager.status.value      = extSrv.Id_Estado;
         DptoExtraServiceManager.worker.value      = extSrv.Id_Trabajador;
-        DptoExtraServiceManager.value.value       = extSrv.Valor;
+        DptoExtraServiceManager.value.value       = formatterPeso.format(parseInt(extSrv.Valor));
         DptoExtraServiceManager.description.value = extSrv.Description;
     }
 }
@@ -246,7 +246,7 @@ class AddDptoExtraService{
         const idCategory  = DptoExtraServiceManager.category.value
         const idStatus    = DptoExtraServiceManager.status.value
         const idWorker    = DptoExtraServiceManager.worker.value
-        const value       = DptoExtraServiceManager.value.value
+        const value       = currencyParseInt(DptoExtraServiceManager.value.value)
         const description = DptoExtraServiceManager.description.value
         
         const response = await this.addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value, description)

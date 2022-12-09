@@ -81,8 +81,8 @@ class ReserveManager{
         card = card.replace("<<address>>", rsv.ShortAddress)
         card = card.replace("<<user>>",    rsv.UserName)
         card = card.replace("<<date>>",    rsv.CreateDate)
-        card = card.replace("<<value>>",   rsv.Value)
         card = card.replace("<<estatus>>", rsv.Estado)
+        card = card.replace("<<value>>",   formatterPeso.format(parseInt(rsv.Value)))
 
         return card.toString()
     }
@@ -134,18 +134,18 @@ class reservePopUpManager{
     }
 
     static async show(id){
-        var dpto = ReserveManager.findReserve(id)
-        if (dpto == undefined) return;
+        var reserve = ReserveManager.findReserve(id)
+        if (reserve == undefined) return;
 
-        this.address.innerHTML        = dpto.Address
-        this.username.innerHTML       = dpto.UserName
-        this.estate.innerHTML         = dpto.Estado
-        this.value.innerHTML          = dpto.Value
-        this.createDate.innerHTML     = dpto.CreateDate
-        this.startDate.innerHTML      = dpto.StartDate
-        this.endDate.innerHTML        = dpto.EndDate
-        this.reserveNumber.innerHTML  = dpto.Id_Reserve
-        this.reserveId                = dpto.Id_Reserve
+        this.address.innerHTML        = reserve.Address
+        this.username.innerHTML       = reserve.UserName
+        this.estate.innerHTML         = reserve.Estado
+        this.createDate.innerHTML     = reserve.CreateDate
+        this.startDate.innerHTML      = reserve.StartDate
+        this.endDate.innerHTML        = reserve.EndDate
+        this.reserveNumber.innerHTML  = reserve.Id_Reserve
+        this.reserveId                = reserve.Id_Reserve
+        this.value.innerHTML          = formatterPeso.format(parseInt(reserve.Value))
         
         await Promise.all([ 
             ReserveHiredServicesManager.setExtraServices(),

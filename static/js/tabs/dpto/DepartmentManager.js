@@ -111,7 +111,7 @@ class DepartmentManager{
         card = card.replace("<<imagen>>",  dpto.ImageUrl)
         card = card.replace("<<address>>", dpto.Address)
         card = card.replace("<<estado>>",  dpto.Status)
-        card = card.replace("<<valor>>",   dpto.Value)
+        card = card.replace("<<valor>>",   formatterPeso.format(dpto.Value))
         card = card.replace("<<id>>",      dpto.Id_Dpto)
 
         return card.toString()
@@ -192,7 +192,7 @@ class DepartmentAdder{
         const rooms       = DepartmentManager.input_rooms.value
         const bathrooms   = DepartmentManager.input_bathrooms.value
         const size        = DepartmentManager.input_size.value
-        const Value       = DepartmentManager.input_Value.value
+        const Value       = currencyParseInt(DepartmentManager.input_Value.value)
         const status      = DepartmentManager.input_status.value
         const description = DepartmentManager.input_description.value
 
@@ -237,7 +237,7 @@ class DepartmentUpdater{
         DepartmentManager.input_rooms.value       = dpto.Rooms
         DepartmentManager.input_bathrooms.value   = dpto.Bathrooms
         DepartmentManager.input_size.value        = dpto.Size
-        DepartmentManager.input_Value.value       = dpto.Value
+        DepartmentManager.input_Value.value       = formatterPeso.format(parseInt(dpto.Value))
         DepartmentManager.input_status.value      = dpto.Id_State
         DepartmentManager.input_description.value = dpto.Description
 
@@ -271,7 +271,7 @@ class DepartmentUpdater{
         const rooms       = DepartmentManager.input_rooms.value
         const bathrooms   = DepartmentManager.input_bathrooms.value
         const size        = DepartmentManager.input_size.value
-        const Value       = DepartmentManager.input_Value.value
+        const Value       = currencyParseInt(DepartmentManager.input_Value.value)
         const status      = DepartmentManager.input_status.value
         const description = DepartmentManager.input_description.value
 

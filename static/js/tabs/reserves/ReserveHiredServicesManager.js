@@ -69,10 +69,10 @@ class ReserveHiredServicesManager{
     static async createExtSrvCard(srv){
         var card = this.cardTemplate;
         card = card.replaceAll("<<id>>", srv.Id_HiredExtSrv)
-        card = card.replace("<<category>>", srv.Category)
-        card = card.replace("<<value>>",    srv.Value)
-        card = card.replace("<<estatus>>",  srv.Estate)
-        card = card.replace("<<description>>",  srv.Description)
+        card = card.replace("<<category>>",    srv.Category)
+        card = card.replace("<<estatus>>",     srv.Estate)
+        card = card.replace("<<description>>", srv.Description)
+        card = card.replace("<<value>>", formatterPeso.format(parseInt(srv.Value)))
 
         return card.toString()
     }
