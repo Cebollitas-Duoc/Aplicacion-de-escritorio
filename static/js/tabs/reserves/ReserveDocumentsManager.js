@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 class ReserveDocumentsManager{
     static cardContainer;
     static documents;
+    static checkoutButton;
 
     static cardTemplate = `
         <div class="card userRow" onclick="ReserveDocumentsManager.showDocument('<<id>>')">
@@ -23,14 +24,17 @@ class ReserveDocumentsManager{
 
     static initiate(){
         this.cardContainer = ReserveManager.popup.querySelector(".reserveFiles");
+        this.checkoutButton = ReserveManager.popup.querySelector(".checkout");
     }
 
     static async setDocuments(){
         this.cardContainer.innerHTML = ""
+        this.checkoutButton.classList.remove("d-none");
         this.documents = await this.getDocuments()
         this.documents.forEach(async (doc) => {
-            var card = await this.createDocumentCard(doc)
-            appendStringElement(this.cardContainer, card)
+            var card = await this.createDocumentCard(doc);
+            appendStringElement(this.cardContainer, card);
+            if (doc.Id_Category == 2) this.checkoutButton.classList.add("d-none");
         });
     }
 
@@ -138,6 +142,43 @@ class ReserveDocumentAdder{
         
         var r
         await fetch(`${apidomain}/files/savedoc/`, requestOptions)
+        .then(response => response.text())
+        .then(result => r=result)
+        .catch(error => console.log('error', error));
+
+        return JSON.parse(r);
+    }
+}
+
+class DocumentCheckOut{
+    static async crearCheckOut(){
+        const idReserve = reservePopUpManager.reserveId;
+
+        const crearCheckOutResponse = await this.crearCheckOutRequest(idReserve);
+        if ("FileSaved" in crearCheckOutResponse && crearCheckOutResponse["FileSaved"]){
+            printGlobalSuccessMessage("Documento subido")
+            await ReserveDocumentsManager.setDocuments()
+        }
+        else if ("Error" in uploadDocumentResponse) 
+            printGlobalErrorMessage(uploadDocumentResponse["Error"])
+        else
+            printGlobalErrorMessage("Error desconocido")
+    }
+
+    static async crearCheckOutRequest(idRsv){
+        const SessionKey  = await window.api.getData("SessionKey")
+        var formdata = new FormData();
+        var apidomain = await window.api.apiDomain()
+
+        formdata.append("SessionKey",  SessionKey)
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        
+        var r
+        await fetch(`${apidomain}/files/createcheckout/${idRsv}/`, requestOptions)
         .then(response => response.text())
         .then(result => r=result)
         .catch(error => console.log('error', error));
