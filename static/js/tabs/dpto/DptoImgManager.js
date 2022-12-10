@@ -13,6 +13,12 @@ class DptoImgManager{
     static initiate(){
         this.imageContainer = document.querySelector("#tab-departmentManager .popup.image .image-container");
         this.input_imagen   = document.querySelector("#tab-departmentManager .popup.image  input.ImagenInput");
+
+        this.input_imagen.addEventListener("change", function () {
+            if (DptoImgManager.input_imagen.files.length > 0) {
+                DptoImgManager.addImage();
+            }
+        });
     }
 
     static cardTemplate = `
@@ -23,9 +29,12 @@ class DptoImgManager{
 
     static async showPopup(){
         await hideAllPopUps();
-        departmentImgManager_popup.classList.remove("d-none");
         
-        this.fillImages()
+        this.fillImages();
+        this.unSelect();
+        this.updateButtons();
+
+        departmentImgManager_popup.classList.remove("d-none");
     }
 
     static async getImages(dptoId){
@@ -71,14 +80,33 @@ class DptoImgManager{
         return card.toString()
     }
     
-    static selectImg(dptoimgid){
+    static selectImg(id){
         if (this.selectedImg != undefined)
-        this.selectedImg.classList.remove("selected");
+            this.selectedImg.classList.remove("selected");
 
-        this.selectedImgId = dptoimgid
-        this.selectedImg = document.querySelector(`#dptoimg-${dptoimgid}`);
+        if (id == this.selectedImgId){
+            this.unSelect();
+            return;
+        }
+
+        this.selectedImgId = id
+        this.selectedImg = document.querySelector(`#dptoimg-${id}`);
 
         this.selectedImg.classList.add("selected");
+        this.updateButtons();
+    }
+
+    static unSelect(){
+        if (this.selectedImg != undefined)
+            this.selectedImg.classList.remove("selected");
+
+        this.selectedImgId = undefined;
+        this.selectedImg   = undefined;
+        this.updateButtons();
+    }
+
+    static openFilePicker(){
+        this.input_imagen.click();
     }
 
     static async addImage(){
@@ -94,6 +122,7 @@ class DptoImgManager{
         else
             printGlobalErrorMessage("Error desconocido")
     }
+
     static async makeMainImage(){
         if (this.selectedImgId == undefined) return;
 
@@ -108,6 +137,7 @@ class DptoImgManager{
         else
             printGlobalErrorMessage("Error desconocido")
     }
+
     static async deleteImage(){
         if (this.selectedImgId == undefined) return;
 
@@ -117,6 +147,7 @@ class DptoImgManager{
         else if ("Imagen borrada" in response && response["Imagen borrada"]){
             printGlobalSuccessMessage("Imagen borrada")
             this.fillImages();
+            this.unSelect();
             DepartmentManager.updateDptoList()
         }
         else
@@ -196,6 +227,17 @@ class DptoImgManager{
         
         var r
         return JSON.parse(r)
+    }
+
+    static updateButtons(){
+        if (this.selectedImgId == undefined){
+            hideAllElements("button.edit", departmentImgManager_popup)
+            showAllElements("button.add", departmentImgManager_popup)
+        }
+        else {
+            hideAllElements("button.add", departmentImgManager_popup)
+            showAllElements("button.edit", departmentImgManager_popup)
+        }
     }
 
 }

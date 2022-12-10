@@ -5,11 +5,12 @@
         </div>
 
         <div>
-            <input class="form-control ImagenInput" type="file">
+            <input class="form-control ImagenInput d-none" type="file">
             
-            <button onclick="DptoImgManager.addImage()" href="#" class="btn btn-success">Agregar</button>
-            <button onclick="DptoImgManager.makeMainImage()" href="#" class="btn btn-danger">Hacer principal</button>
-            <button onclick="DptoImgManager.deleteImage()" href="#" class="btn btn-danger">Borrar</button>
+            <button onclick="DptoImgManager.openFilePicker()" href="#" class="btn btn-success add">Agregar</button>
+            <button onclick="DptoImgManager.makeMainImage()" href="#" class="btn btn-danger edit">Hacer principal</button>
+            <button onclick="DptoImgManager.deleteImage()" href="#" class="btn btn-danger edit">Borrar</button>
+            <button onclick="DptoImgManager.unSelect()" href="#" class="btn btn-danger edit">Cancelar</button>
         </div>
         
     </div>
