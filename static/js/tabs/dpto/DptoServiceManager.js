@@ -45,6 +45,8 @@ class DptoServiceManager{
         EditDptoService.selectedSrvId = undefined
         this.setServices();
         await hideAllPopUps();
+        EditDptoService.unSelect();
+        EditDptoService.updateButtons();
         this.popup.classList.remove("d-none");
     }
 

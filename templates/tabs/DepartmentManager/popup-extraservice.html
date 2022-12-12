@@ -24,21 +24,22 @@
                     <option value="null">Sin trabajador</option>
                 </select>
             </div>
-            <div class="form-floating col-3">
-                <input type="text" class="form-control value money" placeholder=" " value="1">
+            <div class="col-3">
                 <label for="floatingInput">Valor</label>
+                <input type="text" class="form-control value money" placeholder=" " value="1">
             </div>
         </div>
         <div class="inputs row">
             <div class="col-12">
                 <label for="floatingInput">Descripcion</label>
-                <textarea class="form-control description" rows="6"></textarea>
+                <input type="text" class="form-control description"></input>
                 </select>
             </div>
         </div>
         <div class="buttons">
-            <button onclick="AddDptoExtraService.addService()" href="#" class="btn btn-success">Agregar</button>
-            <button onclick="EditDptoExtraService.editService()" href="#" class="btn btn-success">Editar</button>
+            <button onclick="AddDptoExtraService.addService()" href="#" class="btn btn-success add">Agregar</button>
+            <button onclick="EditDptoExtraService.editService()" href="#" class="btn btn-success edit d-none">Editar</button>
+            <button onclick="EditDptoExtraService.unSelect()" href="#" class="btn btn-danger edit d-none">Cancelar</button>
         </div>
         
     </div>

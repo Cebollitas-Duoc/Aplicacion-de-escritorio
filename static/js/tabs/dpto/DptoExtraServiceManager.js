@@ -50,7 +50,18 @@ class DptoExtraServiceManager{
     static async showPopup(){
         this.setServices();
         await hideAllPopUps();
+        EditDptoService.unSelect();
+        EditDptoService.updateButtons();
+        this.cleanValues();
         this.popup.classList.remove("d-none");
+    }
+
+    static async cleanValues(){
+        this.category.value    = 0
+        this.status.value      = 0
+        this.worker.value      = null
+        this.value.value       = "$ 1"
+        this.description.value = ""
     }
 
     static async setServices(){
@@ -134,7 +145,7 @@ class DptoCategoryExtraServiceManager{
     static categorys = {}
     static async setCategorys(){
         this.categorys = await this.getCategorys()
-        DptoExtraServiceManager.category.innerHTML = ""
+        DptoExtraServiceManager.category.innerHTML = "<option value='0'>Categoria de servicio</option>"
         this.categorys.forEach(async (category) => {
             var option = `<option value="${category.Id_Category}">${category.Description}</option>`
             appendStringElement(DptoExtraServiceManager.category, option)
@@ -169,6 +180,8 @@ class EditDptoExtraService{
         const idStatus = parseInt(DptoExtraServiceManager.status.value)
         const value = currencyParseInt(DptoExtraServiceManager.value.value)
         const description = DptoExtraServiceManager.description.value
+        const idService = this.selectedExtSrvId
+
         var idWorker   = DptoExtraServiceManager.worker.value
         if (idWorker == "null") idWorker = undefined;
         else idWorker = parseInt(idWorker);
@@ -178,29 +191,33 @@ class EditDptoExtraService{
             return;
         }
 
-        const response = await this.editServiceQuery(this.selectedExtSrvId, idStatus, idWorker, value, description)
+        const response = await this.editServiceQuery(idService, idStatus, idWorker, value, description);
         if ("Servicio_Modificado" in response && response["Servicio_Modificado"]){
-            printGlobalSuccessMessage("Servicio modificado")
-            DptoExtraServiceManager.setServices()
+            printGlobalSuccessMessage("Servicio modificado");
+            await Promise.all([ 
+                DptoExtraServiceManager.setServices(),
+                this.unSelect()
+            ])
+            this.selectSrv(idService);
         }
         else if ("Error" in response) 
-            printGlobalErrorMessage(response["Error"])
+            printGlobalErrorMessage(response["Error"]);
         else
-            printGlobalErrorMessage("Error desconocido al editar servicio")
+            printGlobalErrorMessage("Error desconocido al editar servicio");
     }
 
     static async editServiceQuery(extSrvId, idStatus, idWorker, value, description){
-        const SessionKey  = await window.api.getData("SessionKey")
+        const SessionKey  = await window.api.getData("SessionKey");
         var formdata = new FormData();
-        var r
-        var apidomain = await window.api.apiDomain()
+        var r;
+        var apidomain = await window.api.apiDomain();
 
-        formdata.append("SessionKey",   SessionKey)
-        formdata.append("IdExtraSrv",   extSrvId)
-        formdata.append("IdState",      idStatus)
-        formdata.append("IdTrabajador", idWorker)
-        formdata.append("Valor",        value)
-        formdata.append("Description",  description)
+        formdata.append("SessionKey",   SessionKey);
+        formdata.append("IdExtraSrv",   extSrvId);
+        formdata.append("IdState",      idStatus);
+        formdata.append("IdTrabajador", idWorker);
+        formdata.append("Valor",        value);
+        formdata.append("Description",  description);
 
         var requestOptions = {
             method: 'POST',
@@ -220,12 +237,40 @@ class EditDptoExtraService{
         if (this.selectedExtSrv != undefined)
         this.selectedExtSrv.classList.remove("selected");
 
+        if (id == this.selectedExtSrvId){
+            this.unSelect();
+            return;
+        }
+
         this.selectedExtSrvId = id
         this.selectedExtSrv = document.querySelector(`#dptoextsrv-${id}`);
 
         this.selectedExtSrv.classList.add("selected");
 
-        this.setServiceData(id)
+        this.setServiceData(id);
+        this.updateButtons();
+    }
+
+    static unSelect(){
+        if (this.selectedExtSrv != undefined)
+            this.selectedExtSrv.classList.remove("selected");
+
+        this.selectedExtSrvId = undefined;
+        this.selectedExtSrv   = undefined;
+
+        DptoExtraServiceManager.cleanValues();
+        this.updateButtons();
+    }
+
+    static updateButtons(){
+        if (this.selectedExtSrvId == undefined){
+            hideAllElements("button.edit", DptoExtraServiceManager.popup)
+            showAllElements("button.add", DptoExtraServiceManager.popup)
+        }
+        else {
+            hideAllElements("button.add", DptoExtraServiceManager.popup)
+            showAllElements("button.edit", DptoExtraServiceManager.popup)
+        }
     }
 
     static setServiceData(idExtSrv){
@@ -248,6 +293,11 @@ class AddDptoExtraService{
         const idWorker    = DptoExtraServiceManager.worker.value
         const value       = currencyParseInt(DptoExtraServiceManager.value.value)
         const description = DptoExtraServiceManager.description.value
+
+        if (idCategory == 0){
+            printGlobalErrorMessage("Debe seleccionar una categoria");
+            return;
+        }
         
         const response = await this.addExtraServiceQuery(idDpto, idCategory, idStatus, idWorker, value, description)
         if ("ServicioExtra_Agregado" in response && response["ServicioExtra_Agregado"]){
