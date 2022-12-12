@@ -1,17 +1,21 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     DptoServiceManager.initiate();
-    AddDptoService.initiate();
-    EditDptoService.initiate();
 })
 
 class DptoServiceManager{
     static popup;
     static serviceContainer;
     static services = {}
+    static dd_category;
+    static dd_estado;
+    static input_cantidad;
     
     static initiate(){
         this.popup = document.querySelector("#tab-departmentManager .popup.service");
         this.serviceContainer = document.querySelector("#tab-departmentManager .popup.service .service-container");
+        this.dd_category = document.querySelector("#tab-departmentManager .popup.service .serviceCategory");
+        this.dd_estado = document.querySelector("#tab-departmentManager .popup.service .estado");
+        this.input_cantidad = document.querySelector("#tab-departmentManager .popup.service .cantidad");
 
         DptoCategoryServiceManager.setCategorys()
     }
@@ -118,10 +122,10 @@ class DptoCategoryServiceManager{
     static categorys = {}
     static async setCategorys(){
         this.categorys = await this.getCategorys()
-        AddDptoService.dd_category.innerHTML = ""
+        DptoServiceManager.dd_category.innerHTML = "<option value='0'>Categoria de servicio</option>"
         this.categorys.forEach(async (category) => {
             var option = `<option value="${category.Id_Categoria}">${category.Descripcion}</option>`
-            appendStringElement(AddDptoService.dd_category, option)
+            appendStringElement(DptoServiceManager.dd_category, option)
         });
     }
 
@@ -146,20 +150,23 @@ class DptoCategoryServiceManager{
 }
 
 class AddDptoService{
-    static dd_category;
-
-    static initiate(){
-        this.dd_category = document.querySelector("#tab-departmentManager .popup.service .serviceCategory.addService");
-    }
-
+    
     static async addService(){
-        const idServiceCategory = this.dd_category.value
+        const idCategory = DptoServiceManager.dd_category.value
+        const idEstado   = DptoServiceManager.dd_estado.value
+        const cantidad   = DptoServiceManager.input_cantidad.value
         const idDpto = DepartmentManager.input_id.value
         
-        const response = await this.addServiceQuery(idDpto, idServiceCategory)
+        if (idCategory == 0){
+            printGlobalErrorMessage("Debe seleccionar una categoria");
+            return;
+        }
+
+        const response = await this.addServiceQuery(idDpto, idCategory, idEstado, cantidad)
         if ("Servicio_Agregado" in response && response["Servicio_Agregado"]){
             printGlobalSuccessMessage("Servicio agregado")
-            DptoServiceManager.setServices()
+            DptoServiceManager.setServices();
+            EditDptoService.cleanValues();
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -167,15 +174,17 @@ class AddDptoService{
             printGlobalErrorMessage("Error desconocido al agregar servicio")
     }
 
-    static async addServiceQuery(idDpto, idServiceCategory){
+    static async addServiceQuery(idDpto, idCategory, idEstado, cantidad){
         const SessionKey  = await window.api.getData("SessionKey")
         var formdata = new FormData();
         var r
         var apidomain = await window.api.apiDomain()
 
-        formdata.append("SessionKey",         SessionKey)
-        formdata.append("IdDpto",             idDpto)
-        formdata.append("IdServiceCategory",  idServiceCategory)
+        formdata.append("SessionKey", SessionKey)
+        formdata.append("IdDpto",     idDpto)
+        formdata.append("IdCategory", idCategory)
+        formdata.append("IdState",    idEstado)
+        formdata.append("Ammount",    cantidad)
 
         var requestOptions = {
             method: 'POST',
@@ -195,27 +204,24 @@ class AddDptoService{
 class EditDptoService{
     static selectedSrv;
     static selectedSrvId;
-    static dd_estado;
-    static input_cantidad;
-
-    static initiate(){
-        this.dd_estado = document.querySelector("#tab-departmentManager .popup.service .estado");
-        this.input_cantidad = document.querySelector("#tab-departmentManager .popup.service .cantidad");
-    }
 
     static async editService(){
-        const cantidad = parseInt(this.input_cantidad.value)
-        const estado = parseInt(this.dd_estado.value)
-
-        if (this.selectedSrvId == undefined){
+        const cantidad = parseInt(DptoServiceManager.input_cantidad.value)
+        const estado = parseInt(DptoServiceManager.dd_estado.value)
+        const idService = this.selectedSrvId
+        if (idService == undefined){
             printGlobalErrorMessage("no hay un servicio seleccionado");
             return;
         }
 
-        const response = await this.editServiceQuery(this.selectedSrvId, estado, cantidad)
+        const response = await this.editServiceQuery(idService, estado, cantidad)
         if ("Servicio_Modificado" in response && response["Servicio_Modificado"]){
             printGlobalSuccessMessage("Servicio modificado")
-            DptoServiceManager.setServices()
+            await Promise.all([ 
+                DptoServiceManager.setServices(),
+                this.unSelect()
+            ])
+            this.selectSrv(idService);
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -248,13 +254,59 @@ class EditDptoService{
         return JSON.parse(r);
     }
 
-    static selectSrv(dptosrvid){
+    static selectSrv(id){
         if (this.selectedSrv != undefined)
         this.selectedSrv.classList.remove("selected");
 
-        this.selectedSrvId = dptosrvid
-        this.selectedSrv = document.querySelector(`#dptosrv-${dptosrvid}`);
+        if (id == this.selectedSrvId){
+            this.unSelect();
+            return;
+        }
+
+        this.setServiceData(id);
+
+        this.selectedSrvId = id
+        this.selectedSrv = document.querySelector(`#dptosrv-${id}`);
 
         this.selectedSrv.classList.add("selected");
+        this.updateButtons();
+    }
+
+    static unSelect(changeCat=true){
+        if (this.selectedSrv != undefined)
+            this.selectedSrv.classList.remove("selected");
+
+        this.selectedSrvId = undefined;
+        this.selectedSrv   = undefined;
+
+        this.cleanValues(changeCat);
+        this.updateButtons();
+    }
+
+    static cleanValues(changeCat=true){
+        if (changeCat)
+            DptoServiceManager.dd_category.value = 0;
+        DptoServiceManager.dd_estado.value       = 0;
+        DptoServiceManager.input_cantidad.value  = 1;
+    }
+
+    static updateButtons(){
+        if (this.selectedSrvId == undefined){
+            hideAllElements("button.edit", DptoServiceManager.popup)
+            showAllElements("button.add", DptoServiceManager.popup)
+        }
+        else {
+            hideAllElements("button.add", DptoServiceManager.popup)
+            showAllElements("button.edit", DptoServiceManager.popup)
+        }
+    }
+
+    static setServiceData(id){
+        const srv = DptoServiceManager.services.find(
+            srv => srv.Id_Service == id);
+        if (srv == undefined) return;
+        DptoServiceManager.dd_category.value    = srv.Id_ServiceCategory;
+        DptoServiceManager.dd_estado.value      = srv.Id_Estado;
+        DptoServiceManager.input_cantidad.value = srv.Cantidad;
     }
 }
