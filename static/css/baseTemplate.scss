@@ -255,3 +255,10 @@ $sidebar-width: 200px;
     min-width: 350px;
     min-height: 350px;
 }
+
+.closeButton{
+    position: absolute;
+    right: 0.5rem;
+    top: 0;
+    cursor: pointer;
+}

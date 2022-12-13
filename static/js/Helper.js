@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', async () =>{
     username = await window.api.getUsername()
     sessionKey  = await window.api.getData("SessionKey");
 
+    closeButtons = document.querySelectorAll(".closeButton")
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', async () =>{
+            hideAllElements(".popup")
+        })
+    });
 })
 
 function hideAllElements(query, parent=document){
