@@ -56,8 +56,9 @@ class DptoExtraServiceManager{
         this.popup.classList.remove("d-none");
     }
 
-    static async cleanValues(){
-        this.category.value    = 0
+    static async cleanValues(changeCat=true){
+        if (changeCat)
+            this.category.value    = 0
         this.status.value      = 0
         this.worker.value      = null
         this.value.value       = "$ 1"
@@ -251,14 +252,14 @@ class EditDptoExtraService{
         this.updateButtons();
     }
 
-    static unSelect(){
+    static unSelect(changeCat=tru){
         if (this.selectedExtSrv != undefined)
             this.selectedExtSrv.classList.remove("selected");
 
         this.selectedExtSrvId = undefined;
         this.selectedExtSrv   = undefined;
 
-        DptoExtraServiceManager.cleanValues();
+        DptoExtraServiceManager.cleanValues(changeCat);
         this.updateButtons();
     }
 

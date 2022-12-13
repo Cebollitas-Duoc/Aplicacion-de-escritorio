@@ -92,9 +92,10 @@ class MaintenanceManager{
         return JSON.parse(r);
     }
 
-    static resetInputs(){
+    static resetInputs(changeCat=true){
         const today = new Date().toISOString().slice(0, 10);
-        this.category.value    = 0
+        if (changeCat)
+            this.category.value    = 0
         this.value.value       = 1
         this.description.value = ""
         this.startDate.value   = today
@@ -270,14 +271,15 @@ class MaintenanceSelector{
         this.updateButtons();
     }
 
-    static unselect(){
+    static unselect(changeCat=true){
         if (this.selectedObj != undefined)
-        this.selectedObj.classList.remove("selected");
+            this.selectedObj.classList.remove("selected");
+        
 
         this.selectedObjId = undefined;
         this.selectedObj = undefined;
 
-        MaintenanceManager.resetInputs();
+        MaintenanceManager.resetInputs(changeCat);
         this.updateButtons();
     }
 
