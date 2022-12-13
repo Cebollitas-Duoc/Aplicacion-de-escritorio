@@ -1,0 +1,29 @@
+#tab-reserves .popup.chat .card.msg {
+  margin-top: 1rem;
+  padding: 0px 0.5rem;
+}
+#tab-reserves .popup.chat .card.msg.send {
+  background-color: #9edb9e;
+  margin-right: 0 !important;
+  text-align: right;
+}
+#tab-reserves .popup.chat .card.msg.recieved {
+  margin-left: 0 !important;
+  text-align: left;
+}
+#tab-reserves .popup.chat .card.msg .card-body {
+  padding: 0;
+}
+#tab-reserves .popup.chat .card.msg .card-body .username {
+  font-size: small;
+  margin: 0;
+  color: rgb(59, 59, 59);
+}
+#tab-reserves .popup.chat .card.msg .card-body .msg {
+  font-size: large;
+  margin: 0;
+}
+#tab-reserves .popup.chat .inputs {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}/*# sourceMappingURL=chat.css.map */

@@ -12,6 +12,7 @@ const WINDOW_API = {
         logout: () => ipcRenderer.invoke('logout'),
         openBrowser: (url) => ipcRenderer.invoke('openBrowser', url),
         useLocalServer: () => ipcRenderer.invoke('useLocalServer'),
+        getUsername: () => ipcRenderer.invoke('getUsername'),
 }
 
 contextBridge.exposeInMainWorld('api', WINDOW_API)

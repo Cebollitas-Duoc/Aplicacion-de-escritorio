@@ -2,6 +2,7 @@ const { app, ipcMain, session, shell} = require('electron')
 const ProfileManager = require('./ProfileManager');
 const SettingsManager = require('./SettingsManager');
 const Renderer = require('./Renderer');
+const API = require('./API');
 
 ipcMain.handle("apiDomain", async (event, args) => {
 	return SettingsManager.getApiDomain();
@@ -52,4 +53,11 @@ ipcMain.handle("useLocalServer", (event, url) => {
 
 	app.relaunch()
 	app.exit()
+})
+
+ipcMain.handle("getUsername", async (event, args) => {
+	profileData = await API.getSessionProfile()
+	username = profileData["Name"]
+    lastName = profileData["LastName"]
+	return `${username} ${lastName}`;
 })

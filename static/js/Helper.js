@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () =>{
     apidomain = await window.api.apiDomain()
     webdomain = await window.api.webDomain()
+    username = await window.api.getUsername()
+    sessionKey  = await window.api.getData("SessionKey");
 
 })
 

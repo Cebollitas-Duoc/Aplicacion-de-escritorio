@@ -1,0 +1,32 @@
+#tab-reserves .popup.chat{
+    .card.msg{
+        margin-top: 1rem;
+        padding: 0px 0.5rem;
+        &.send{
+            background-color: #9edb9e;
+            margin-right: 0 !important;
+            text-align: right;
+        }
+        &.recieved{
+            margin-left: 0 !important;
+            text-align: left;
+        }
+        .card-body{
+            padding: 0;
+            .username{
+                font-size: small;
+                margin: 0;
+                color: rgb(59, 59, 59);
+            }
+            .msg{
+                font-size: large;
+                margin: 0;
+            }
+        }
+    }
+    
+    .inputs{
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
