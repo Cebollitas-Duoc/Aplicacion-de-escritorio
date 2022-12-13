@@ -7,10 +7,15 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
-<script defer src="../static/js/tabs/Inicio.js"></script>
+<script defer src="../static/js/tabs/home/Graficos.js"></script>
+<script defer src="../static/js/tabs/home/ExportData.js"></script>
 
 <div id="tab-Inicio" class="tab">
-
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <form class="form-inline">
+            <button class="btn-add btn btn-outline-success my-2 my-sm-0" type="button" onclick="ExportData.createCSV()">Exportar datos de reservas</button>
+        </form>
+    </nav>
     <div class="">
         <div class="PruebaGrafico">
             <div class="EstiloGrafico">
