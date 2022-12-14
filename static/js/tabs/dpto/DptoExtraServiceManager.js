@@ -252,7 +252,7 @@ class EditDptoExtraService{
         this.updateButtons();
     }
 
-    static unSelect(changeCat=tru){
+    static unSelect(changeCat=true){
         if (this.selectedExtSrv != undefined)
             this.selectedExtSrv.classList.remove("selected");
 
