@@ -7,7 +7,7 @@
 
         <div class="inputs row">
             <div class="form-floating col-9">
-                <select class="form-select name" placeholder=" ">
+                <select class="form-select name" placeholder=" " onchange="InventorySelector.unSelect(changeCat=false)">
                     <option value="">Objeto</option>
                     <option value="Mesas">Mesas</option>
                     <option value="Sillas">Sillas</option>
@@ -33,9 +33,10 @@
             </div>
         </div>
         <div class="buttons">
-            <button onclick="AddInventoryObject.addObject()" href="#" class="btn btn-success">Agregar</button>
-            <button onclick="EditInventoryObject.editItem()" href="#" class="btn btn-success">Editar</button>
-            <button onclick="DeleteInventoryObject.deleteObject()" href="#" class="btn btn-success">Borrar</button>
+            <button onclick="AddInventoryObject.addObject()" href="#" class="btn btn-success add">Agregar</button>
+            <button onclick="EditInventoryObject.editItem()" href="#" class="btn btn-success edit d-none">Editar</button>
+            <button onclick="DeleteInventoryObject.deleteObject()" href="#" class="btn btn-success edit d-none">Borrar</button>
+            <button onclick="InventorySelector.unselect()" href="#" class="btn btn-success edit d-none">Cancelar</button>
         </div>
         
     </div>

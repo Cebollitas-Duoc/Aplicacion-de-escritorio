@@ -8,7 +8,6 @@ class DptoInvManager{
     static invContainer;
     static name;
     static ammount;
-
     
     static cardTemplate = `
         <div id="invObj-<<id>>" class="card" onclick="InventorySelector.selectObj(<<id>>)">
@@ -81,8 +80,9 @@ class DptoInvManager{
         return JSON.parse(r);
     }
 
-    static resetInputs(){
-        this.name.value = ""
+    static resetInputs(changeCat=true){
+        if (changeCat)
+            this.name.value = ""
         this.ammount.value = 1
     }
 }
@@ -91,11 +91,16 @@ class EditInventoryObject{
     static async editItem(){
         const name    = DptoInvManager.name.value;
         const ammount = DptoInvManager.ammount.value;
+        const idService = InventorySelector.selectedObjId
 
-        const response = await this.editItemRequest(InventorySelector.selectedObjId, name, ammount)
+        const response = await this.editItemRequest(idService, name, ammount)
         if ("ObjetoEditado" in response && response["ObjetoEditado"]){
-            printGlobalSuccessMessage("Objeto editado")
-            DptoInvManager.setList()
+            await Promise.all([ 
+                printGlobalSuccessMessage("Objeto editado"),
+                DptoInvManager.setList(),
+                InventorySelector.unSelect()
+            ])
+            InventorySelector.selectObj(idService);
         }
         else if ("Error" in response) 
             printGlobalErrorMessage(response["Error"])
@@ -184,7 +189,7 @@ class DeleteInventoryObject{
         const response = await this.deleteObjectQuery(objId)
         if ("ObjetoBorrado" in response && response["ObjetoBorrado"]){
             printGlobalSuccessMessage("Objeto borrado");
-            InventorySelector.unselect();
+            InventorySelector.unSelect();
             DptoInvManager.setList();
         }
         else if ("Error" in response) 
@@ -224,6 +229,11 @@ class InventorySelector{
     static selectObj(id){
         if (this.selectedObj != undefined)
             this.selectedObj.classList.remove("selected");
+        
+        if (id == this.selectedObjId){
+            this.unSelect();
+            return;
+        }
 
         this.selectedObjId = id
         this.selectedObj = document.querySelector(`#invObj-${id}`);
@@ -231,16 +241,18 @@ class InventorySelector{
         this.selectedObj.classList.add("selected");
 
         this.setObjData(id)
+        this.updateButtons();
     }
 
-    static unselect(){
+    static unSelect(changeCat=true){
         if (this.selectedObj != undefined)
         this.selectedObj.classList.remove("selected");
 
         this.selectedObjId = undefined;
         this.selectedObj = undefined;
 
-        DptoInvManager.resetInputs();
+        DptoInvManager.resetInputs(changeCat);
+        this.updateButtons();
     }
 
     static setObjData(id){
@@ -249,5 +261,16 @@ class InventorySelector{
         if (obj == undefined) return;
         DptoInvManager.name.value    = obj.Name;
         DptoInvManager.ammount.value = obj.Ammount;
+    }
+
+    static updateButtons(){
+        if (this.selectedObjId == undefined){
+            hideAllElements("button.edit", DptoInvManager.popup)
+            showAllElements("button.add", DptoInvManager.popup)
+        }
+        else {
+            hideAllElements("button.add", DptoInvManager.popup)
+            showAllElements("button.edit", DptoInvManager.popup)
+        }
     }
 }
